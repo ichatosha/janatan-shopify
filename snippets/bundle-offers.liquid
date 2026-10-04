@@ -255,6 +255,11 @@
         if (!finder || !picker) return;
         if (active) this.piecesEl.after(finder);
         else picker.after(finder);
+        const chart = parent.querySelector('jb-size-chart') || this.querySelector('jb-size-chart');
+        const quantity = parent.querySelector(':scope > [data-type="quantity_selector"]');
+        if (!chart || !quantity) return;
+        if (active) finder.querySelector('.jb-finder__row').after(chart);
+        else quantity.appendChild(chart);
       }
 
       setCount(count) {

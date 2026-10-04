@@ -1,0 +1,106 @@
+{%- comment -%}
+  Outputs the three centimetre measurements of one size as "a|b|c".
+  DRAFT VALUES: estimated from the store's weight ranges, to be checked against the
+  real garments before the theme is published.
+  Columns per category:
+  - pants / jeans: waist (relaxed - stretched) | hips | length
+  - shirt: chest | length | shoulder
+  - dress: chest | waist | length
+  Accepts:
+  - category: {String} pants, jeans, shirt or dress.
+  - size: {String} XS, S, M, L, XL, XXL or FREE.
+  - max: {Number} top weight of the size in kg, used for one-size garments.
+
+  Usage:
+  {%- capture row -%}{%- render 'jb-size-chart-row', category: 'pants', size: 'M', max: 80 -%}{%- endcapture -%}
+{%- endcomment -%}
+{%- liquid
+  assign row = ''
+  case category
+    when 'pants'
+      case size
+        when 'XS'
+          assign row = '60 - 72|96|100'
+        when 'S'
+          assign row = '64 - 78|100|101'
+        when 'M'
+          assign row = '70 - 84|106|102'
+        when 'L'
+          assign row = '76 - 92|112|103'
+        when 'XL'
+          assign row = '84 - 102|120|104'
+        when 'XXL'
+          assign row = '94 - 114|130|105'
+        when 'FREE'
+          if max <= 70
+            assign row = '64 - 78|100|101'
+          elsif max <= 85
+            assign row = '68 - 90|110|102'
+          else
+            assign row = '70 - 104|120|104'
+          endif
+      endcase
+    when 'jeans'
+      case size
+        when 'XS'
+          assign row = '62 - 72|96|102'
+        when 'S'
+          assign row = '66 - 76|100|103'
+        when 'M'
+          assign row = '72 - 88|110|104'
+        when 'L'
+          assign row = '78 - 92|114|104'
+        when 'XL'
+          assign row = '86 - 102|122|105'
+        when 'XXL'
+          assign row = '96 - 114|132|106'
+        when 'FREE'
+          assign row = '74 - 104|122|105'
+      endcase
+    when 'shirt'
+      case size
+        when 'XS'
+          assign row = '106|68|46'
+        when 'S'
+          assign row = '112|70|48'
+        when 'M'
+          assign row = '120|72|50'
+        when 'L'
+          assign row = '128|74|52'
+        when 'XL'
+          assign row = '136|76|54'
+        when 'XXL'
+          assign row = '144|78|56'
+        when 'FREE'
+          if max <= 85
+            assign row = '124|72|50'
+          else
+            assign row = '134|75|54'
+          endif
+      endcase
+    when 'dress'
+      case size
+        when 'XS'
+          assign row = '90|74|134'
+        when 'S'
+          assign row = '96|80|135'
+        when 'M'
+          assign row = '106|90|137'
+        when 'L'
+          assign row = '114|98|138'
+        when 'XL'
+          assign row = '122|106|139'
+        when 'XXL'
+          assign row = '130|114|140'
+        when 'FREE'
+          if max <= 70
+            assign row = '100|84|135'
+          elsif max <= 85
+            assign row = '110|94|137'
+          else
+            assign row = '120|104|138'
+          endif
+      endcase
+  endcase
+-%}
+{{- row -}}

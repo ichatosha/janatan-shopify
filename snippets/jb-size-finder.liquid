@@ -3,6 +3,7 @@
   size option values, so it only shows when a size carries a weight.
   Accepts:
   - product: {Object} product object.
+  - with_chart: {Boolean} also renders the size chart button in the row (optional).
 
   Usage:
   {% render 'jb-size-finder', product: product %}
@@ -33,6 +34,7 @@
       <input class="jb-finder__input" id="jb-finder-weight-{{ product.id }}" type="number" inputmode="numeric" min="30" max="200" placeholder="الوزن بالكيلو" autocomplete="off">
       <button type="button" class="jb-finder__button">احسبي</button>
     </div>
+    {%- if with_chart -%}{%- render 'jb-size-chart', product: product -%}{%- endif -%}
     <p class="jb-finder__result" role="status" hidden></p>
     <script type="application/json">
       {

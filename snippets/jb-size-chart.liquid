@@ -1,0 +1,156 @@
+{%- comment -%}
+  Renders a "size chart" button that opens the product's size table in centimetres.
+  Sizes and weights come from the product's own size option; the centimetre values
+  come from jb-size-chart-row for the product's garment category.
+  Accepts:
+  - product: {Object} product object.
+
+  Usage:
+  {% render 'jb-size-chart', product: product %}
+{%- endcomment -%}
+
+{%- liquid
+  comment
+    Turn off once the centimetre values in jb-size-chart-row are checked on the real garments.
+  endcomment
+  assign chart_draft = true
+
+  assign chart_type = product.type | downcase | strip
+  assign chart_categories = ''
+  case chart_type
+    when 'pants'
+      if product.title contains 'جينز'
+        assign chart_categories = 'jeans'
+      else
+        assign chart_categories = 'pants'
+      endif
+    when 'shirt'
+      assign chart_categories = 'shirt'
+    when 'dress'
+      assign chart_categories = 'dress'
+    else
+      if product.title contains 'بنطلون' and product.title contains 'شميز'
+        assign chart_categories = 'pants,shirt'
+      elsif product.title contains 'بنطلون'
+        assign chart_categories = 'pants'
+      elsif product.title contains 'شميز' or product.title contains 'قميص'
+        assign chart_categories = 'shirt'
+      elsif product.title contains 'فستان'
+        assign chart_categories = 'dress'
+      endif
+  endcase
+  assign chart_categories = chart_categories | split: ','
+-%}
+
+{%- if chart_categories.size > 0 -%}
+<jb-size-chart class="jb-chart">
+  <button type="button" class="jb-chart__open">جدول المقاسات</button>
+
+  <dialog class="jb-chart__dialog" aria-label="جدول المقاسات">
+    <div class="jb-chart__head">
+      <h2 class="jb-chart__title">جدول المقاسات{% if chart_draft %} <span class="jb-chart__draft">مسودة للمراجعة</span>{% endif %}</h2>
+      <button type="button" class="jb-chart__close" aria-label="إغلاق">×</button>
+    </div>
+
+    {%- for chart_category in chart_categories -%}
+      {%- liquid
+        case chart_category
+          when 'pants'
+            assign chart_name = 'البنطلون'
+            assign chart_columns = 'الوسط (مطاط)|الأرداف|الطول' | split: '|'
+          when 'jeans'
+            assign chart_name = 'البنطلون الجينز'
+            assign chart_columns = 'الوسط (مطاط)|الأرداف|الطول' | split: '|'
+          when 'shirt'
+            assign chart_name = 'الشميز'
+            assign chart_columns = 'محيط الصدر|الطول|عرض الكتف' | split: '|'
+          when 'dress'
+            assign chart_name = 'الفستان'
+            assign chart_columns = 'محيط الصدر|محيط الوسط|الطول' | split: '|'
+        endcase
+      -%}
+      {%- if chart_categories.size > 1 -%}<h3 class="jb-chart__subtitle">{{ chart_name }}</h3>{%- endif -%}
+      <div class="jb-chart__scroll">
+        <table class="jb-chart__table">
+          <thead>
+            <tr>
+              <th scope="col">المقاس</th>
+              <th scope="col">الوزن</th>
+              {%- for chart_column in chart_columns -%}<th scope="col">{{ chart_column }}</th>{%- endfor -%}
+            </tr>
+          </thead>
+          <tbody>
+            {%- for option in product.options_with_values -%}
+              {%- for value in option.values -%}
+                {%- capture chart_size -%}{%- render 'jb-size-label', option_name: option.name, value: value -%}{%- endcapture -%}
+                {%- assign chart_parts = chart_size | strip | split: '|' -%}
+                {%- if chart_parts.size != 4 -%}{%- continue -%}{%- endif -%}
+                {%- liquid
+                  assign chart_key = chart_parts[0] | upcase
+                  assign chart_max = chart_parts[2] | plus: 0
+                  case chart_key
+                    when 'سمول'
+                      assign chart_key = 'S'
+                    when 'ميديم'
+                      assign chart_key = 'M'
+                    when 'لارج'
+                      assign chart_key = 'L'
+                    when 'فري سايز', 'وان سايز', 'مقاس واحد'
+                      assign chart_key = 'FREE'
+                    when '2XL'
+                      assign chart_key = 'XXL'
+                  endcase
+                -%}
+                {%- capture chart_row -%}{%- render 'jb-size-chart-row', category: chart_category, size: chart_key, max: chart_max -%}{%- endcapture -%}
+                {%- assign chart_cells = chart_row | strip | split: '|' -%}
+                {%- if chart_cells.size != 3 -%}{%- continue -%}{%- endif -%}
+                <tr>
+                  <th scope="row">{{ chart_parts[0] }}</th>
+                  <td>{{ chart_parts[3] }}</td>
+                  {%- for chart_cell in chart_cells -%}<td dir="ltr">{{ chart_cell }}</td>{%- endfor -%}
+                </tr>
+              {%- endfor -%}
+            {%- endfor -%}
+          </tbody>
+        </table>
+      </div>
+    {%- endfor -%}
+
+    <p class="jb-chart__note">كل القياسات بالسنتيمتر، وقد تختلف 1 إلى 2 سم حسب الخامة.</p>
+  </dialog>
+</jb-size-chart>
+
+<style>
+  .jb-qty-row { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 8px 16px; }
+  .jb-chart { display: inline-block; }
+  .jb-chart__open { min-height: 44px; padding: 4px 14px; border: 1px solid rgba(58, 59, 61, .35); border-radius: 5px; background: #fff; color: #3a3b3d; font: inherit; font-size: 13px; font-weight: 600; cursor: pointer; }
+  .jb-chart__open:focus-visible, .jb-chart__close:focus-visible { outline: 2px solid #3a3b3d; outline-offset: 2px; }
+  .jb-chart__dialog { width: min(94vw, 560px); max-height: 88vh; padding: 16px; border: 0; border-radius: 8px; background: #fff; color: #000; overflow: auto; text-align: start; }
+  .jb-chart__dialog::backdrop { background: rgba(0, 0, 0, .6); }
+  .jb-chart__head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
+  .jb-chart__title { margin: 0; font-size: 18px; font-weight: 700; line-height: 1.4; }
+  .jb-chart__draft { display: inline-block; margin-inline-start: 6px; padding: 1px 8px; border-radius: 40px; background: #3a3b3d; color: #fff; font-size: 11px; font-weight: 400; vertical-align: middle; }
+  .jb-chart__close { flex: 0 0 40px; width: 40px; height: 40px; border: 0; border-radius: 50%; background: #f2f2f2; color: #000; font-size: 24px; line-height: 1; cursor: pointer; }
+  .jb-chart__subtitle { margin: 14px 0 8px; font-size: 15px; font-weight: 700; }
+  .jb-chart__scroll { overflow-x: auto; }
+  .jb-chart__table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .jb-chart__table th, .jb-chart__table td { padding: 9px 5px; border: 1px solid rgba(58, 59, 61, .2); text-align: center; white-space: nowrap; }
+  .jb-chart__table thead th { background: #3a3b3d; color: #fff; font-weight: 600; }
+  .jb-chart__table tbody th { background: #f2f2f2; font-weight: 700; }
+  .jb-chart__note { margin: 12px 0 0; font-size: 12px; color: #545454; }
+</style>
+
+<script>
+  if (!customElements.get('jb-size-chart')) {
+    customElements.define('jb-size-chart', class extends HTMLElement {
+      connectedCallback() {
+        const dialog = this.querySelector('.jb-chart__dialog');
+        this.querySelector('.jb-chart__open').addEventListener('click', () => dialog.showModal());
+        dialog.addEventListener('click', (event) => {
+          if (event.target === dialog || event.target.closest('.jb-chart__close')) dialog.close();
+        });
+      }
+    });
+  }
+</script>
+{%- endif -%}
