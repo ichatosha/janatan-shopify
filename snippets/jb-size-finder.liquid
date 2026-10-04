@@ -1,0 +1,118 @@
+{%- comment -%}
+  Renders a weight based size finder. The weight ranges come from the product's own
+  size option values, so it only shows when at least two sizes carry a weight.
+  Accepts:
+  - product: {Object} product object.
+
+  Usage:
+  {% render 'jb-size-finder', product: product %}
+{%- endcomment -%}
+
+{%- liquid
+  assign finder_count = 0
+  assign finder_position = 0
+  for option in product.options_with_values
+    for value in option.values
+      capture finder_size
+        render 'jb-size-label', option_name: option.name, value: value
+      endcapture
+      assign finder_size = finder_size | strip
+      if finder_size != blank
+        assign finder_count = finder_count | plus: 1
+        assign finder_position = option.position
+      endif
+    endfor
+  endfor
+-%}
+
+{%- if finder_count > 1 and product.available -%}
+<div class="hdt-product-info__item jb-finder-item" data-type="size_finder">
+  <jb-size-finder class="jb-finder">
+    <label class="jb-finder__label" for="jb-finder-weight-{{ product.id }}">اعرفي مقاسك من وزنك</label>
+    <div class="jb-finder__row">
+      <input class="jb-finder__input" id="jb-finder-weight-{{ product.id }}" type="number" inputmode="numeric" min="30" max="200" placeholder="وزنك بالكيلو" autocomplete="off">
+      <button type="button" class="jb-finder__button">اعرفي مقاسك</button>
+    </div>
+    <p class="jb-finder__result" role="status" hidden></p>
+    <script type="application/json">
+      {
+        "position": {{ finder_position }},
+        "sizes": [
+          {%- assign finder_first = true -%}
+          {%- for option in product.options_with_values -%}
+            {%- if option.position == finder_position -%}
+              {%- for value in option.values -%}
+                {%- capture finder_size -%}{%- render 'jb-size-label', option_name: option.name, value: value -%}{%- endcapture -%}
+                {%- assign finder_parts = finder_size | strip | split: '|' -%}
+                {%- if finder_parts.size == 4 -%}
+                  {%- unless finder_first -%},{%- endunless -%}
+                  {%- assign finder_first = false -%}
+                  { "value": {{ value | append: '' | json }}, "name": {{ finder_parts[0] | json }}, "min": {{ finder_parts[1] }}, "max": {{ finder_parts[2] }}, "label": {{ finder_parts[3] | json }} }
+                {%- endif -%}
+              {%- endfor -%}
+            {%- endif -%}
+          {%- endfor -%}
+        ]
+      }
+    </script>
+  </jb-size-finder>
+</div>
+
+<style>
+  .jb-finder { display: block; padding: 12px 14px; border: 1px dashed rgba(58, 59, 61, .35); border-radius: 6px; color: #000; }
+  .jb-finder__label { display: block; margin: 0 0 8px; font-weight: 700; font-size: 14px; }
+  .jb-finder__row { display: flex; gap: 8px; }
+  .jb-finder__input { flex: 1 1 auto; min-width: 0; min-height: 44px; padding: 6px 12px; border: 1px solid rgba(58, 59, 61, .35); border-radius: 5px; background: #fff; color: #000; font: inherit; font-size: 16px; }
+  .jb-finder__input:focus-visible, .jb-finder__button:focus-visible { outline: 2px solid #3a3b3d; outline-offset: 2px; }
+  .jb-finder__button { flex: 0 0 auto; min-height: 44px; padding: 6px 16px; border: 1px solid #3a3b3d; border-radius: 5px; background: #3a3b3d; color: #fff; font: inherit; font-size: 14px; font-weight: 600; cursor: pointer; }
+  .jb-finder__result { margin: 10px 0 0; font-size: 14px; }
+  .jb-finder__result b { color: #7a0908; }
+</style>
+
+<script>
+  if (!customElements.get('jb-size-finder')) {
+    customElements.define('jb-size-finder', class extends HTMLElement {
+      connectedCallback() {
+        this.data = JSON.parse(this.querySelector('script[type="application/json"]').textContent);
+        this.data.sizes.sort((a, b) => a.max - b.max);
+        this.input = this.querySelector('.jb-finder__input');
+        this.result = this.querySelector('.jb-finder__result');
+        this.querySelector('.jb-finder__button').addEventListener('click', () => this.find());
+        this.input.addEventListener('keydown', (event) => {
+          if (event.key !== 'Enter') return;
+          event.preventDefault();
+          this.find();
+        });
+      }
+
+      find() {
+        const weight = parseFloat(this.input.value);
+        this.result.hidden = false;
+        this.result.textContent = '';
+        if (!weight || weight < 30 || weight > 200) {
+          this.result.textContent = 'اكتبي وزنك بالكيلو، مثلاً 65.';
+          return;
+        }
+        const size = this.data.sizes.find((item) => weight <= item.max);
+        if (!size) {
+          const largest = this.data.sizes[this.data.sizes.length - 1];
+          this.result.textContent = 'أكبر مقاس متاح (' + largest.name + ') مناسب حتى ' + largest.max + ' كجم.';
+          return;
+        }
+        const name = document.createElement('b');
+        name.textContent = size.name;
+        this.result.append('مقاسك المناسب: ', name, ' (' + size.label + ')');
+        this.select(size.value);
+      }
+
+      /* Picks the size in the theme picker and tells the bundle picker about it. */
+      select(value) {
+        const scope = this.closest('.shopify-section') || document;
+        const input = Array.from(scope.querySelectorAll('.hdt-product__variant-picker input[type="radio"]')).find((radio) => radio.value === value);
+        if (input && !input.checked) input.click();
+        document.dispatchEvent(new CustomEvent('jb:size', { detail: { position: this.data.position, value } }));
+      }
+    });
+  }
+</script>
+{%- endif -%}

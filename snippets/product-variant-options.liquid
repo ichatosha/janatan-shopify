@@ -138,7 +138,13 @@
         {%- capture jb_swatch -%}{%- render 'jb-color-swatch', option_name: option.name, option_position: option.position, value: value, product: product -%}{%- endcapture -%}
         {%- assign jb_swatch = jb_swatch | strip -%}
         {%- if jb_swatch != blank -%}<span style="display:inline-block;width:20px;height:20px;margin-inline-end:8px;vertical-align:middle;border-radius:4px;border:1px solid #fff;box-shadow:0 0 0 1px rgba(0,0,0,.25);background:{{ jb_swatch }}"></span>{%- endif -%}
-        {{- value | escape -}}
+        {%- capture jb_size -%}{%- render 'jb-size-label', option_name: option.name, value: value -%}{%- endcapture -%}
+        {%- assign jb_size = jb_size | strip | split: '|' -%}
+        {%- if jb_size.size == 4 -%}
+          <span style="display:inline-grid;justify-items:center;line-height:1.25;vertical-align:middle"><span style="font-weight:600">{{ jb_size[0] | escape }}</span><span style="font-size:11px;opacity:.8">{{ jb_size[3] | escape }}</span></span>
+        {%- else -%}
+          {{- value | escape -}}
+        {%- endif -%}
       </label>
     {%- endif -%}
 
