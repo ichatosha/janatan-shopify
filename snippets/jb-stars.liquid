@@ -1,0 +1,14 @@
+{%- comment -%}
+  Renders a five star rating with a partial fill.
+  Accepts:
+  - rating: {Number} rating from 0 to 5.
+  - size: {Number} font size in px (optional, default 16).
+
+  Usage:
+  {% render 'jb-stars', rating: 4.5, size: 18 %}
+{%- endcomment -%}
+{%- liquid
+  assign stars_size = size | default: 16
+  assign stars_fill = rating | times: 20.0 | round
+-%}
+<span role="img" aria-label="{{ rating }} من 5" style="position:relative;display:inline-block;font-size:{{ stars_size }}px;line-height:1;letter-spacing:1px;white-space:nowrap;color:#d4d4d4;vertical-align:middle"><span aria-hidden="true">★★★★★</span><span aria-hidden="true" style="position:absolute;top:0;inset-inline-start:0;width:{{ stars_fill }}%;overflow:hidden;color:#e6a100">★★★★★</span></span>
