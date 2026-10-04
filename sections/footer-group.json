@@ -75,7 +75,7 @@
         "text_size": "hdt-text-base",
         "padding-t-main": 40,
         "padding-bt-main": 40,
-        "text_copR": "<p><span>© [year]جنتان تم تطويره بواسطة </span><a href=\"https://zdify.com/\" title=\"Zdify Agency\" aria-describedby=\"a11y-external-message\" data-mce-href=\"https://zdify.com/\"><span><strong><span class=\"t4s-cp\">زيديفاي أيجنسي</span></strong></span></a></p>",
+        "text_copR": "<p>© [year] جنتان</p>",
         "svg": "",
         "height": 30,
         "image-svg_list": "shopify://shop_images/payment-214.png",

@@ -122,6 +122,16 @@
                 <div class="hdt-coppy-right"> 
                     {{- section.settings.text_copR | replace: "[year]", now_y -}}
                 </div>
+                <p dir="ltr" class="jb-credit">
+                  Developed by
+                  <a href="https://coden-eg.pages.dev" target="_blank" rel="noopener noreferrer" aria-label="Developed by CodeN (H∑) — opens in a new tab">CodeN (H∑)</a>
+                </p>
+                <style>
+                  .jb-credit { margin: 6px 0 0; font: inherit; font-size: .85em; color: inherit; opacity: .7; unicode-bidi: isolate; }
+                  .jb-credit a { color: inherit; text-decoration: none; }
+                  .jb-credit a:hover { text-decoration: underline; }
+                  .jb-credit a:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; border-radius: 2px; }
+                </style>
                 {%- if section.settings.show_policy == true -%}
                   <ul class="hdt-policies hdt-row-flex md:hdt-justify-start hdt-justify-center">
                     {%- for policy in shop.policies -%}
