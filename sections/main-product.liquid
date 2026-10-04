@@ -331,8 +331,18 @@
                 {{ status_ask_mirror }}
               </div>
             {%- when 'delivery_return' -%}
-              <div class="hdt-product__delivery-return">
-                <div class="hdt-row-grid hdt-grid-cols-1 lg:hdt-grid-cols-2 hdt-inline-block hdt-s-text hdt-text-center">
+              <div class="hdt-product__delivery-return jb-delivery-compact">
+                <style>
+                  .jb-delivery-compact { --spacing-x: .8rem; }
+                  .jb-delivery-compact .hdt-row-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .8rem; }
+                  .jb-delivery-compact .hdt-product__delivery,
+                  .jb-delivery-compact .hdt-product__return { display: flex; align-items: center; gap: .8rem; padding: .8rem 1rem; text-align: start; }
+                  .jb-delivery-compact svg { flex: 0 0 2rem; width: 2rem; margin-bottom: 0; }
+                  .jb-delivery-compact .hdt-product__delivery-icon { flex: 0 0 auto; line-height: 0; }
+                  .jb-delivery-compact .hdt-product__delivery-content { font-size: 1.2rem; line-height: 1.5; }
+                  .jb-delivery-compact p { margin: 0; }
+                </style>
+                <div class="hdt-row-grid hdt-s-text">
                   {%- if block.settings.content_devivery != blank -%}
                     <div class="hdt-product__delivery">
                       {%- if block.settings.icon_delivery != 'none' -%}
