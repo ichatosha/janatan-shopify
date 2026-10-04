@@ -1,7 +1,8 @@
 {%- comment -%}
   Splits a size option value like "S (60 :70 KG)" or "ميديم لـ 80 كيلو" into its parts.
   Outputs "name|min|max|label" (weights in kg, 0 when missing), or nothing when the
-  option is not a size or the value carries no weight.
+  option is not a size or no weight is known. Plain letter sizes (S, M, L...) without a
+  weight use the store's standard chart.
   Accepts:
   - option_name: {String} option name.
   - value: {String} option value.
@@ -32,6 +33,29 @@
     endfor
     if jb_name == blank
       assign jb_name = 'مقاس واحد'
+    endif
+    if jb_max == 0
+      assign jb_letter = jb_name | upcase
+      case jb_letter
+        when 'XS'
+          assign jb_min = 50
+          assign jb_max = 55
+        when 'S'
+          assign jb_min = 60
+          assign jb_max = 70
+        when 'M'
+          assign jb_min = 70
+          assign jb_max = 80
+        when 'L'
+          assign jb_min = 80
+          assign jb_max = 90
+        when 'XL'
+          assign jb_min = 90
+          assign jb_max = 105
+        when 'XXL', '2XL'
+          assign jb_min = 105
+          assign jb_max = 120
+      endcase
     endif
   endif
 -%}

@@ -1,6 +1,6 @@
 {%- comment -%}
   Renders a weight based size finder. The weight ranges come from the product's own
-  size option values, so it only shows when at least two sizes carry a weight.
+  size option values, so it only shows when a size carries a weight.
   Accepts:
   - product: {Object} product object.
 
@@ -25,7 +25,7 @@
   endfor
 -%}
 
-{%- if finder_count > 1 and product.available -%}
+{%- if finder_count > 0 and product.available -%}
 <div class="hdt-product-info__item jb-finder-item" data-type="size_finder">
   <jb-size-finder class="jb-finder">
     <label class="jb-finder__label" for="jb-finder-weight-{{ product.id }}">اعرفي مقاسك من وزنك</label>
@@ -102,6 +102,11 @@
         if (!size) {
           const largest = this.data.sizes[this.data.sizes.length - 1];
           this.result.textContent = 'أكبر مقاس متاح (' + largest.name + ') مناسب حتى ' + largest.max + ' كجم.';
+          return;
+        }
+        const smallest = this.data.sizes[0];
+        if (size === smallest && smallest.min && weight < smallest.min) {
+          this.result.textContent = 'أصغر مقاس متاح (' + smallest.name + ') مناسب من ' + smallest.min + ' كجم.';
           return;
         }
         const name = document.createElement('b');
