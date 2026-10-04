@@ -1,0 +1,334 @@
+{%- comment -%}
+  Renders quantity bundle offers (1 / 2 / 3 pieces) for the current product only.
+  Each piece gets its own option picker; pieces are added to the cart as separate lines.
+  Accepts:
+  - product: {Object} product object.
+  - block: {Object} passing the block information.
+
+  Usage:
+  {% render 'bundle-offers', product: product, block: block %}
+{%- endcomment -%}
+
+{%- liquid
+  assign bundle_show = false
+  assign bundle_type = product.type | downcase | strip
+  assign bundle_types = block.settings.product_types | downcase | split: ','
+  for bundle_t in bundle_types
+    assign bundle_t_clean = bundle_t | strip
+    if bundle_t_clean != blank and bundle_t_clean == bundle_type
+      assign bundle_show = true
+    endif
+  endfor
+  unless product.available
+    assign bundle_show = false
+  endunless
+
+  assign off_2 = block.settings.off_2 | times: 100
+  assign off_3 = block.settings.off_3 | times: 100
+  assign code_2 = block.settings.code_2
+  assign code_3 = block.settings.code_3
+  assign alt_collection = block.settings.alt_collection
+  if alt_collection != blank
+    for bundle_c in product.collections
+      if bundle_c.handle == alt_collection.handle
+        assign off_2 = block.settings.alt_off_2 | times: 100
+        assign off_3 = block.settings.alt_off_3 | times: 100
+        assign code_2 = block.settings.alt_code_2
+        assign code_3 = block.settings.alt_code_3
+      endif
+    endfor
+  endif
+
+  assign unit_price = product.price
+  assign full_2 = unit_price | times: 2
+  assign full_3 = unit_price | times: 3
+  assign total_2 = full_2 | minus: off_2
+  assign total_3 = full_3 | minus: off_3
+  assign each_2 = total_2 | divided_by: 2
+  assign each_3 = total_3 | divided_by: 3
+  assign rest_2 = total_2 | modulo: 200
+  assign rest_3 = total_3 | modulo: 300
+-%}
+
+{%- if bundle_show -%}
+<div class="hdt-product-info__item jb-bundle-item" data-type="{{ block.type }}" {{ block.shopify_attributes }}>
+  <jb-bundle-offers class="jb-bundle" data-cart-url="{{ routes.cart_url }}" data-add-url="{{ routes.cart_add_url }}" data-update-url="{{ routes.cart_update_url }}">
+    {%- if block.settings.heading != blank -%}
+      <p class="jb-bundle__heading">{{ block.settings.heading }}</p>
+    {%- endif -%}
+
+    <div class="jb-bundle__cards" role="radiogroup">
+      <label class="jb-bundle__card">
+        <input type="radio" name="jb-bundle-{{ block.id }}" value="1" checked>
+        <span class="jb-bundle__radio"></span>
+        <span class="jb-bundle__info">
+          <span class="jb-bundle__title">قطعة واحدة</span>
+        </span>
+        <span class="jb-bundle__prices">
+          <span class="jb-bundle__total">{{ unit_price | money_without_trailing_zeros }}</span>
+          {%- if product.compare_at_price > unit_price -%}
+            <s class="jb-bundle__compare">{{ product.compare_at_price | money_without_trailing_zeros }}</s>
+          {%- endif -%}
+        </span>
+      </label>
+
+      <label class="jb-bundle__card">
+        <input type="radio" name="jb-bundle-{{ block.id }}" value="2">
+        <span class="jb-bundle__radio"></span>
+        <span class="jb-bundle__info">
+          <span class="jb-bundle__title">قطعتين</span>
+          <span class="jb-bundle__each">{%- if rest_2 == 0 -%}{{ each_2 | money_without_trailing_zeros }} للقطعة{%- endif -%}{%- if off_2 > 0 %} <b class="jb-bundle__save">وفّري {{ off_2 | money_without_trailing_zeros }}</b>{% endif -%}</span>
+        </span>
+        <span class="jb-bundle__prices">
+          <span class="jb-bundle__total">{{ total_2 | money_without_trailing_zeros }}</span>
+          {%- if off_2 > 0 -%}<s class="jb-bundle__compare">{{ full_2 | money_without_trailing_zeros }}</s>{%- endif -%}
+        </span>
+      </label>
+
+      <label class="jb-bundle__card">
+        {%- if block.settings.badge != blank and off_3 > 0 -%}<span class="jb-bundle__badge">{{ block.settings.badge }}</span>{%- endif -%}
+        <input type="radio" name="jb-bundle-{{ block.id }}" value="3">
+        <span class="jb-bundle__radio"></span>
+        <span class="jb-bundle__info">
+          <span class="jb-bundle__title">3 قطع</span>
+          <span class="jb-bundle__each">{%- if rest_3 == 0 -%}{{ each_3 | money_without_trailing_zeros }} للقطعة{%- endif -%}{%- if off_3 > 0 %} <b class="jb-bundle__save">وفّري {{ off_3 | money_without_trailing_zeros }}</b>{% endif -%}</span>
+        </span>
+        <span class="jb-bundle__prices">
+          <span class="jb-bundle__total">{{ total_3 | money_without_trailing_zeros }}</span>
+          {%- if off_3 > 0 -%}<s class="jb-bundle__compare">{{ full_3 | money_without_trailing_zeros }}</s>{%- endif -%}
+        </span>
+      </label>
+    </div>
+
+    <div class="jb-bundle__panel" hidden>
+      <div class="jb-bundle__pieces"></div>
+      <p class="jb-bundle__error" role="alert" hidden></p>
+      <button type="button" class="jb-bundle__submit hdt-btn hdt-btn-solid hdt-font-semibold">
+        <span class="jb-bundle__submit-text"></span>
+        <span class="jb-bundle__submit-total"></span>
+      </button>
+    </div>
+
+    <script type="application/json">
+      {
+        "moneyFormat": {{ shop.money_format | json }},
+        "off": { "2": {{ off_2 }}, "3": {{ off_3 }} },
+        "codes": { "2": {{ code_2 | json }}, "3": {{ code_3 | json }} },
+        "options": [{%- unless product.has_only_default_variant -%}{%- for option in product.options_with_values -%}{ "name": {{ option.name | json }}, "values": {{ option.values | json }} }{%- unless forloop.last -%},{%- endunless -%}{%- endfor -%}{%- endunless -%}],
+        "variants": [{%- for variant in product.variants -%}{ "id": {{ variant.id }}, "o": {{ variant.options | json }}, "a": {{ variant.available | json }}, "p": {{ variant.price }} }{%- unless forloop.last -%},{%- endunless -%}{%- endfor -%}]
+      }
+    </script>
+  </jb-bundle-offers>
+</div>
+
+<style>
+  .jb-bundle { --jb-ink: #3a3b3d; --jb-brand: #7a0908; --jb-soft: #f2f2f2; --jb-line: rgba(58, 59, 61, .22); display: block; color: #000; }
+  .jb-bundle__heading { font-weight: 700; margin: 0 0 12px; }
+  .jb-bundle__cards { display: grid; gap: 10px; }
+  .jb-bundle__card { position: relative; margin: 0; color: #000; display: flex; align-items: center; gap: 12px; min-height: 64px; padding: 12px 16px; border: 1px solid var(--jb-line); border-radius: 6px; cursor: pointer; transition: border-color .18s ease, background-color .18s ease; }
+  .jb-bundle__card::before { content: ""; position: absolute; inset-block: -1px; inset-inline-start: -1px; width: 5px; border-start-start-radius: 6px; border-end-start-radius: 6px; background: var(--jb-brand); opacity: 0; transition: opacity .18s ease; }
+  .jb-bundle__card:has(input:checked) { border-color: var(--jb-ink); background: var(--jb-soft); }
+  .jb-bundle__card:has(input:checked)::before { opacity: 1; }
+  .jb-bundle__card:has(input:focus-visible) { outline: 2px solid var(--jb-ink); outline-offset: 2px; }
+  .jb-bundle__card input { position: absolute; opacity: 0; pointer-events: none; }
+  .jb-bundle__radio { flex: 0 0 20px; width: 20px; height: 20px; border: 1.5px solid var(--jb-ink); border-radius: 50%; display: grid; place-items: center; background: #fff; }
+  .jb-bundle__card input:checked + .jb-bundle__radio::after { content: ""; width: 10px; height: 10px; border-radius: 50%; background: var(--jb-brand); }
+  .jb-bundle__info { flex: 1 1 auto; display: grid; gap: 2px; min-width: 0; }
+  .jb-bundle__title { font-weight: 700; font-size: 16px; line-height: 1.4; }
+  .jb-bundle__each { display: flex; flex-wrap: wrap; column-gap: 8px; font-size: 13px; line-height: 1.5; color: #545454; }
+  .jb-bundle__save { font-weight: 700; color: var(--jb-brand); white-space: nowrap; }
+  .jb-bundle__prices { display: grid; justify-items: end; gap: 0; white-space: nowrap; }
+  .jb-bundle__total { font-weight: 700; font-size: 17px; line-height: 1.4; }
+  .jb-bundle__compare { font-size: 13px; color: #545454; }
+  .jb-bundle__badge { position: absolute; top: -11px; inset-inline-end: 12px; padding: 1px 10px; border-radius: 40px; background: var(--jb-brand); color: #fff; font-size: 12px; font-weight: 600; line-height: 1.7; }
+  .jb-bundle__panel { margin-top: 16px; }
+  .jb-bundle__panel:not([hidden]) { animation: jb-bundle-in .22s ease-out; }
+  @keyframes jb-bundle-in { from { opacity: 0; transform: translateY(-6px); } }
+  .jb-bundle__piece { padding: 14px 0 6px; border-top: 1px solid var(--jb-line); }
+  .jb-bundle__piece-title { display: flex; align-items: center; gap: 8px; font-weight: 700; margin: 0 0 10px; }
+  .jb-bundle__piece-num { display: inline-grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; background: var(--jb-ink); color: #fff; font-size: 13px; }
+  .jb-bundle__option { margin-bottom: 10px; }
+  .jb-bundle__option-name { font-size: 13px; color: #545454; margin-bottom: 6px; }
+  .jb-bundle__option-name b { color: #000; }
+  .jb-bundle__values { display: flex; flex-wrap: wrap; gap: 8px; }
+  .jb-bundle__value { min-height: 44px; min-width: 48px; padding: 6px 14px; border: 1px solid var(--jb-line); border-radius: 5px; background: #fff; color: #000; font: inherit; font-size: 14px; cursor: pointer; transition: border-color .15s ease, background-color .15s ease, color .15s ease; }
+  .jb-bundle__value[aria-pressed="true"] { border-color: var(--jb-ink); background: var(--jb-ink); color: #fff; }
+  .jb-bundle__value:focus-visible { outline: 2px solid var(--jb-ink); outline-offset: 2px; }
+  .jb-bundle__value:disabled { color: #8a8a8a; background: var(--jb-soft); text-decoration: line-through; cursor: not-allowed; }
+  .jb-bundle__error { color: var(--jb-brand); font-size: 14px; margin: 8px 0; }
+  .jb-bundle__submit { width: 100%; min-height: 50px; margin-top: 10px; display: flex; align-items: center; justify-content: center; gap: 8px; }
+  .jb-bundle__submit[disabled] { opacity: .6; pointer-events: none; }
+  .jb-bundle-active > [data-type="variant_picker"],
+  .jb-bundle-active > [data-type="quantity_selector"],
+  .jb-bundle-active > [data-type="inventory"],
+  .jb-bundle-active > [data-type="buy_buttons"],
+  .jb-bundle-active > [data-type="back_instock"] { display: none !important; }
+  html.jb-bundle-on hdt-height-observer[prefix="hdt-sticky-atc"] { display: none !important; }
+  @media (prefers-reduced-motion: reduce) {
+    .jb-bundle__card, .jb-bundle__card::before, .jb-bundle__value { transition: none; }
+    .jb-bundle__panel:not([hidden]) { animation: none; }
+  }
+</style>
+
+<script>
+  if (!customElements.get('jb-bundle-offers')) {
+    customElements.define('jb-bundle-offers', class extends HTMLElement {
+      connectedCallback() {
+        this.data = JSON.parse(this.querySelector('script[type="application/json"]').textContent);
+        this.panel = this.querySelector('.jb-bundle__panel');
+        this.piecesEl = this.querySelector('.jb-bundle__pieces');
+        this.errorEl = this.querySelector('.jb-bundle__error');
+        this.submitBtn = this.querySelector('.jb-bundle__submit');
+        this.totalEl = this.querySelector('.jb-bundle__submit-total');
+        this.pieces = [];
+        this.count = 1;
+
+        this.addEventListener('change', (event) => {
+          if (event.target.matches('input[type="radio"]')) this.setCount(parseInt(event.target.value, 10));
+        });
+        this.piecesEl.addEventListener('click', (event) => {
+          const button = event.target.closest('.jb-bundle__value');
+          if (!button || button.disabled) return;
+          this.pieces[+button.dataset.piece][+button.dataset.option] = button.dataset.value;
+          this.fixPiece(+button.dataset.piece, +button.dataset.option);
+          this.render();
+        });
+        this.submitBtn.addEventListener('click', () => this.addToCart());
+      }
+
+      firstAvailable() {
+        return (this.data.variants.find((variant) => variant.a) || this.data.variants[0]).o.slice();
+      }
+
+      findVariant(options) {
+        return this.data.variants.find((variant) => variant.o.every((value, index) => value === options[index]));
+      }
+
+      isValueAvailable(piece, optionIndex, value) {
+        return this.data.variants.some((variant) => variant.a && variant.o[optionIndex] === value &&
+          variant.o.every((other, index) => index >= optionIndex || other === piece[index]));
+      }
+
+      /* Keeps a piece on an available variant after one of its options changed. */
+      fixPiece(pieceIndex, changedIndex) {
+        const piece = this.pieces[pieceIndex];
+        const current = this.findVariant(piece);
+        if (current && current.a) return;
+        const match = this.data.variants.find((variant) => variant.a &&
+          variant.o.every((value, index) => index > changedIndex || value === piece[index]));
+        if (match) this.pieces[pieceIndex] = match.o.slice();
+      }
+
+      setCount(count) {
+        this.count = count;
+        const active = count > 1;
+        this.closest('.jb-bundle-item').parentElement.classList.toggle('jb-bundle-active', active);
+        document.documentElement.classList.toggle('jb-bundle-on', active);
+        this.panel.hidden = !active;
+        while (this.pieces.length < count) this.pieces.push(this.firstAvailable());
+        this.errorEl.hidden = true;
+        if (active) this.render();
+      }
+
+      render() {
+        this.piecesEl.textContent = '';
+        if (this.data.options.length) {
+          this.pieces.slice(0, this.count).forEach((piece, pieceIndex) => {
+            const wrap = document.createElement('div');
+            wrap.className = 'jb-bundle__piece';
+            const title = document.createElement('p');
+            title.className = 'jb-bundle__piece-title';
+            const number = document.createElement('span');
+            number.className = 'jb-bundle__piece-num';
+            number.textContent = pieceIndex + 1;
+            title.append(number, 'اختاري القطعة ' + ['الأولى', 'الثانية', 'الثالثة'][pieceIndex]);
+            wrap.appendChild(title);
+            this.data.options.forEach((option, optionIndex) => {
+              const group = document.createElement('div');
+              group.className = 'jb-bundle__option';
+              const name = document.createElement('div');
+              name.className = 'jb-bundle__option-name';
+              const chosen = document.createElement('b');
+              chosen.textContent = piece[optionIndex];
+              name.append(option.name + ': ', chosen);
+              const values = document.createElement('div');
+              values.className = 'jb-bundle__values';
+              option.values.forEach((value) => {
+                const button = document.createElement('button');
+                button.type = 'button';
+                button.className = 'jb-bundle__value';
+                button.textContent = value;
+                button.dataset.piece = pieceIndex;
+                button.dataset.option = optionIndex;
+                button.dataset.value = value;
+                button.setAttribute('aria-pressed', piece[optionIndex] === value);
+                button.disabled = !this.isValueAvailable(piece, optionIndex, value);
+                values.appendChild(button);
+              });
+              group.append(name, values);
+              wrap.appendChild(group);
+            });
+            this.piecesEl.appendChild(wrap);
+          });
+        }
+        const sum = this.pieces.slice(0, this.count).reduce((total, piece) => total + (this.findVariant(piece) || this.data.variants[0]).p, 0);
+        this.querySelector('.jb-bundle__submit-text').textContent = this.count === 2 ? 'أضيفي القطعتين للسلة' : 'أضيفي الـ 3 قطع للسلة';
+        this.totalEl.innerHTML = '· ' + this.formatMoney(sum - (this.data.off[this.count] || 0));
+      }
+
+      formatMoney(cents) {
+        const withDecimals = (cents / 100).toFixed(2);
+        const noDecimals = Math.round(cents / 100).toString();
+        const group = (amount, separator) => amount.replace(/\B(?=(\d{3})+(?!\d))/g, separator);
+        return this.data.moneyFormat.replace(/\{\{\s*(\w+)\s*\}\}/, (match, key) => {
+          switch (key) {
+            case 'amount_no_decimals': return group(noDecimals, ',');
+            case 'amount_with_comma_separator': return group(withDecimals.replace('.', ','), '.');
+            case 'amount_no_decimals_with_comma_separator': return group(noDecimals, '.');
+            default: return group(withDecimals, ',');
+          }
+        }).replace(/[.,]00(?!d)/, '');
+      }
+
+      /* The cart price follows the discount code of the chosen offer. */
+      async applyCode() {
+        const code = this.data.codes[this.count];
+        if (!code) return;
+        try {
+          await fetch(this.dataset.updateUrl + '.js', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+            body: JSON.stringify({ discount: code })
+          });
+        } catch (error) {}
+      }
+
+      async addToCart() {
+        const quantities = {};
+        this.pieces.slice(0, this.count).forEach((piece) => {
+          const variant = this.findVariant(piece) || this.data.variants[0];
+          quantities[variant.id] = (quantities[variant.id] || 0) + 1;
+        });
+        const items = Object.keys(quantities).map((id) => ({ id: Number(id), quantity: quantities[id] }));
+        this.submitBtn.disabled = true;
+        this.errorEl.hidden = true;
+        try {
+          const response = await fetch(this.dataset.addUrl + '.js', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+            body: JSON.stringify({ items })
+          });
+          const result = await response.json();
+          if (!response.ok) throw new Error(result.description || result.message);
+          await this.applyCode();
+          window.location.href = this.dataset.cartUrl;
+        } catch (error) {
+          this.errorEl.textContent = error.message || 'تعذّرت الإضافة للسلة، حاولي مرة أخرى.';
+          this.errorEl.hidden = false;
+          this.submitBtn.disabled = false;
+        }
+      }
+    });
+  }
+</script>
+{%- endif -%}

@@ -126,6 +126,12 @@
             "svg": "visa,paypal,master,american_express,amazon_payments",
             "height": 30
           }
+        },
+        "bundle_offers": {
+          "type": "bundle_offers",
+          "settings": {
+            "alt_collection": "denim"
+          }
         }
       },
       "block_order": [
@@ -134,6 +140,7 @@
         "edac686e-a845-4ed7-9b50-51639a11cf56",
         "699d63d0-b857-4b21-9e61-9cfacc232e56",
         "d1c8d030-e7b5-4c90-b03a-12ada38b02cc",
+        "bundle_offers",
         "1248e930-5734-45b4-a1d6-a814910fdb63",
         "4fd6bfca-d3a3-432c-8392-a2d3cab423c4",
         "ad820e37-dee5-41f3-9692-bf46d9664103",
