@@ -48,10 +48,6 @@
   assign full_3 = unit_price | times: 3
   assign total_2 = full_2 | minus: off_2
   assign total_3 = full_3 | minus: off_3
-  assign each_2 = total_2 | divided_by: 2
-  assign each_3 = total_3 | divided_by: 3
-  assign rest_2 = total_2 | modulo: 200
-  assign rest_3 = total_3 | modulo: 300
 -%}
 
 {%- if bundle_show -%}
@@ -84,7 +80,7 @@
         <span class="jb-bundle__radio"></span>
         <span class="jb-bundle__info">
           <span class="jb-bundle__title">قطعتين</span>
-          <span class="jb-bundle__each">{%- if rest_2 == 0 -%}{{ each_2 | money_without_trailing_zeros }} للقطعة{%- endif -%}{%- if off_2 > 0 %} <b class="jb-bundle__save">وفّري {{ off_2 | money_without_trailing_zeros }}</b>{% endif -%}</span>
+          <span class="jb-bundle__each">{%- if off_2 > 0 %} <b class="jb-bundle__save">وفّري {{ off_2 | money_without_trailing_zeros }}</b>{% endif -%}</span>
         </span>
         <span class="jb-bundle__prices">
           <span class="jb-bundle__total">{{ total_2 | money_without_trailing_zeros }}</span>
@@ -98,7 +94,7 @@
         <span class="jb-bundle__radio"></span>
         <span class="jb-bundle__info">
           <span class="jb-bundle__title">3 قطع</span>
-          <span class="jb-bundle__each">{%- if rest_3 == 0 -%}{{ each_3 | money_without_trailing_zeros }} للقطعة{%- endif -%}{%- if off_3 > 0 %} <b class="jb-bundle__save">وفّري {{ off_3 | money_without_trailing_zeros }}</b>{% endif -%}</span>
+          <span class="jb-bundle__each">{%- if off_3 > 0 %} <b class="jb-bundle__save">وفّري {{ off_3 | money_without_trailing_zeros }}</b>{% endif -%}</span>
         </span>
         <span class="jb-bundle__prices">
           <span class="jb-bundle__total">{{ total_3 | money_without_trailing_zeros }}</span>
