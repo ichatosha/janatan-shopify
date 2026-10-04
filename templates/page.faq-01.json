@@ -1,0 +1,221 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "heading": {
+      "type": "main-heading",
+      "blocks": {
+        "5ecb9555-19e4-433b-8817-1ccaa3a41384": {
+          "type": "1",
+          "settings": {
+            "heading": "{{ page.title }}",
+            "heading_size": "h3"
+          }
+        }
+      },
+      "block_order": [
+        "5ecb9555-19e4-433b-8817-1ccaa3a41384"
+      ],
+      "settings": {
+        "color_scheme": "scheme-1",
+        "spacing_hd": 0,
+        "padding_top": 45,
+        "padding_bottom": 45,
+        "padding_rate": 75
+      }
+    },
+    "08421e50-b348-46a3-bbb7-5b26be196b6c": {
+      "type": "accordion",
+      "blocks": {
+        "template--20718015545618__08421e50-b348-46a3-bbb7-5b26be196b6c-title-1": {
+          "type": "title",
+          "settings": {
+            "title": "نبذة عن جنتان"
+          }
+        },
+        "template--20718015545618__08421e50-b348-46a3-bbb7-5b26be196b6c-accordion_item-2": {
+          "type": "accordion_item",
+          "settings": {
+            "title": "س: ما هي جنتان؟",
+            "content": "",
+            "content_richtext": "<p>جنتان علامة تجارية تقدم اختيارات تجمع بين الذوق العصري والاحتشام.</p>"
+          }
+        },
+        "accordion_item_n6MYmz": {
+          "type": "accordion_item",
+          "settings": {
+            "title": "س: هل جنتان متخصّصة في الملابس الإسلامية بالكامل؟",
+            "content": "",
+            "content_richtext": "<p>لسنا نقدّم ملابس إسلامية بنسبة 100% حاليًا، لكننا نسعى إلى ذلك بخطوات ثابتة.</p>"
+          }
+        },
+        "title_JLrRqj": {
+          "type": "title",
+          "settings": {
+            "title": "المنتجات والمقاسات"
+          }
+        },
+        "accordion_item_yVBDdk": {
+          "type": "accordion_item",
+          "settings": {
+            "title": "س: ما فئات المنتجات المتوفرة؟",
+            "content": "",
+            "content_richtext": "<p>تتضمن التشكيلة الجيب البنطلون، الجينز، الكتان، القمصان والشيميز، بالإضافة إلى الفساتين.</p>"
+          }
+        },
+        "accordion_item_7TAfXQ": {
+          "type": "accordion_item",
+          "settings": {
+            "title": "س: هل يمكنني معاينة المنتج وقياسه عند الاستلام؟",
+            "content": "",
+            "content_richtext": "<p>نعم، يحق لكِ المعاينة والقياس عند الاستلام وفق سياسة الاستبدال والاسترجاع، <a href=\"/policies/refund-policy\" target=\"_blank\">تعرف على المزيد</a>.</p>"
+          }
+        },
+        "accordion_item_RxkgiE": {
+          "type": "accordion_item",
+          "settings": {
+            "title": "س: كيف أختار المقاس المناسب؟",
+            "content": "",
+            "content_richtext": "<p>إن احتجتِ مساعدة سريعة لاختيار المقاس، تواصلي معنا عبر <a href=\"/pages/contact\" target=\"_blank\">اتصل بنا</a>.</p>"
+          }
+        },
+        "title_zxcbzq": {
+          "type": "title",
+          "settings": {
+            "title": "الاستبدال والاسترجاع"
+          }
+        },
+        "accordion_item_hhx6EP": {
+          "type": "accordion_item",
+          "settings": {
+            "title": "س: ما مدة الاستبدال المتاحة؟",
+            "content": "",
+            "content_richtext": "<p>يمكن الاستبدال خلال 30 يومًا، تعرفي على المزيد: <a href=\"/policies/refund-policy\" target=\"_blank\">تعرف على المزيد</a>.</p>"
+          }
+        },
+        "accordion_item_DQw3EG": {
+          "type": "accordion_item",
+          "settings": {
+            "title": "س:هل يمكنني الاسترجاع بعد الاستلام؟",
+            "content": "",
+            "content_richtext": "<p>يتم ذلك وفق سياسة الاستبدال والاسترجاع، تعرفي على المزيد: <a href=\"/policies/refund-policy\" target=\"_blank\">تعرف على المزيد</a>.</p>"
+          }
+        },
+        "accordion_item_z7TPAg": {
+          "type": "accordion_item",
+          "settings": {
+            "title": "س: كيف أتواصل بخصوص استبدال أو استرجاع؟",
+            "content": "",
+            "content_richtext": "<p>تواصلي معنا عبر <a href=\"/pages/contact\" target=\"_blank\">اتصل بنا</a>، وتفاصيل السياسة هنا: <a href=\"/policies/refund-policy\" target=\"_blank\">تعرف على المزيد</a>.</p>"
+          }
+        },
+        "title_nYkqCb": {
+          "type": "title",
+          "settings": {
+            "title": "الشحن والتسليم"
+          }
+        },
+        "accordion_item_MzAGmT": {
+          "type": "accordion_item",
+          "settings": {
+            "title": "س: خلال كم يوم يصل طلبي؟",
+            "content": "",
+            "content_richtext": "<p>يتم التوصيل عادة خلال 7 أيام عمل.</p>"
+          }
+        },
+        "accordion_item_fV4PRe": {
+          "type": "accordion_item",
+          "settings": {
+            "title": "س: هل يوجد شحن لكل محافظات مصر؟",
+            "content": "",
+            "content_richtext": "<p>يتم التوصيل إلى أغلب محافظات مصر.</p>"
+          }
+        },
+        "accordion_item_V3FGdR": {
+          "type": "accordion_item",
+          "settings": {
+            "title": "س: كيف يتم احتساب رسوم الشحن؟",
+            "content": "",
+            "content_richtext": "<p>يتم احتساب رسوم الشحن حسب المحافظة، تعرفي على المزيد: <a href=\"/policies/shipping-policy\" target=\"_blank\">تعرف على المزيد</a>.</p>"
+          }
+        },
+        "title_aEWX9P": {
+          "type": "title",
+          "settings": {
+            "title": "الدفع"
+          }
+        },
+        "accordion_item_PQzWPb": {
+          "type": "accordion_item",
+          "settings": {
+            "title": "س: ما طرق الدفع المتاحة؟",
+            "content": "",
+            "content_richtext": "<p>ستظهر لكِ طرق الدفع المتاحة عند إتمام الطلب، ولأي مشكلة تواصلي عبر <a href=\"/pages/contact\" target=\"_blank\">اتصل بنا</a>.</p>"
+          }
+        },
+        "accordion_item_9G3UMq": {
+          "type": "accordion_item",
+          "settings": {
+            "title": "س: هل الدفع عند الاستلام متاح؟",
+            "content": "",
+            "content_richtext": "<p>يعتمد ذلك على خيارات الدفع المتاحة عند إتمام الطلب، ويمكنكِ التأكد عبر <a href=\"/pages/contact\" target=\"_blank\">اتصل بنا</a></p>"
+          }
+        },
+        "other_content_93Uqj6": {
+          "type": "other_content",
+          "settings": {
+            "heading": "نحن هنا لمساعدتكِ",
+            "content_richtext": "<p>إذا كانت لديكِ مشكلة أو استفسار يتطلب مساعدة فورية، يمكنكِ النقر على الزر أدناه للدردشة مباشرةً مع أحد ممثلي خدمة العملاء.</p>",
+            "solid_btn_label": "أتصل بنا",
+            "solid_btn_link": "shopify://pages/contact",
+            "underline_btn_label": "تسوق الأن",
+            "underline_btn_link": "/"
+          }
+        }
+      },
+      "block_order": [
+        "template--20718015545618__08421e50-b348-46a3-bbb7-5b26be196b6c-title-1",
+        "template--20718015545618__08421e50-b348-46a3-bbb7-5b26be196b6c-accordion_item-2",
+        "accordion_item_n6MYmz",
+        "title_JLrRqj",
+        "accordion_item_yVBDdk",
+        "accordion_item_7TAfXQ",
+        "accordion_item_RxkgiE",
+        "title_zxcbzq",
+        "accordion_item_hhx6EP",
+        "accordion_item_DQw3EG",
+        "accordion_item_z7TPAg",
+        "title_nYkqCb",
+        "accordion_item_MzAGmT",
+        "accordion_item_fV4PRe",
+        "accordion_item_V3FGdR",
+        "title_aEWX9P",
+        "accordion_item_PQzWPb",
+        "accordion_item_9G3UMq",
+        "other_content_93Uqj6"
+      ],
+      "settings": {
+        "accordion_position": "start",
+        "accordion_icon": "2",
+        "open_first": true,
+        "enable_link_list": false,
+        "section_fullwidth": false,
+        "color_scheme": "scheme-1",
+        "padding_top": 25,
+        "padding_bottom": 45,
+        "padding_rate": 75
+      }
+    }
+  },
+  "order": [
+    "heading",
+    "08421e50-b348-46a3-bbb7-5b26be196b6c"
+  ]
+}

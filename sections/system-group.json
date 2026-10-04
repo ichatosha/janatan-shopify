@@ -1,0 +1,126 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "name": "t:sections.name_group.system",
+  "type": "custom.system",
+  "sections": {
+    "cart-drawer": {
+      "type": "cart-drawer",
+      "blocks": {
+        "ca4a9586-08fd-471b-a5a7-11e1ffc068a4": {
+          "type": "subtotal",
+          "settings": {}
+        },
+        "f932f430-a2c4-4a2f-a3d6-d2f099407d44": {
+          "type": "line",
+          "settings": {}
+        },
+        "54f7a627-75c8-4b50-8c43-45e4be386afb": {
+          "type": "bnt_cart_checkout",
+          "settings": {
+            "enable_btn_cart": true,
+            "btn_style_cart": "outline",
+            "btn_fw_cart": "semibold",
+            "btn_icon_cart": "none",
+            "enable_btn_checkout": true,
+            "btn_style_checkout": "solid",
+            "btn_fw_checkout": "semibold",
+            "btn_icon_checkout": "none"
+          }
+        },
+        "img_trust_VL8RMQ": {
+          "type": "img_trust",
+          "settings": {
+            "mess": "",
+            "source": "1",
+            "wimg": 300,
+            "svg": "visa,paypal,master,american_express,amazon_payments",
+            "height": 25
+          }
+        }
+      },
+      "block_order": [
+        "ca4a9586-08fd-471b-a5a7-11e1ffc068a4",
+        "f932f430-a2c4-4a2f-a3d6-d2f099407d44",
+        "54f7a627-75c8-4b50-8c43-45e4be386afb",
+        "img_trust_VL8RMQ"
+      ],
+      "settings": {
+        "color_scheme": "scheme-1",
+        "show_free_shipping_bar": true,
+        "show_cart_note": true,
+        "show_gift_wrap": false,
+        "show_shipping_estimator": true,
+        "heading": "Customers also bought",
+        "product_list": [],
+        "replaces_products_selected": true
+      }
+    },
+    "toolbar-mobile": {
+      "type": "toolbar-mobile",
+      "blocks": {
+        "7992c70e-320b-4406-9d5a-ca387c85cfa8": {
+          "type": "shop",
+          "settings": {
+            "title": "تسوق",
+            "collection_list": [
+              "all-products"
+            ],
+            "menu_categories": "",
+            "link": ""
+          }
+        },
+        "278a2b3b-9b25-4e46-bfeb-c2515ac171fd": {
+          "type": "account",
+          "settings": {
+            "title": "حسابي"
+          }
+        },
+        "d7521907-d76e-490e-accf-d0e6504fc515": {
+          "type": "wishlist",
+          "settings": {
+            "title": "الأمنيات"
+          }
+        },
+        "45c18f86-eb94-46bf-a2fb-83315d49e16a": {
+          "type": "cart",
+          "settings": {
+            "title": "السلة"
+          }
+        }
+      },
+      "block_order": [
+        "7992c70e-320b-4406-9d5a-ca387c85cfa8",
+        "278a2b3b-9b25-4e46-bfeb-c2515ac171fd",
+        "d7521907-d76e-490e-accf-d0e6504fc515",
+        "45c18f86-eb94-46bf-a2fb-83315d49e16a"
+      ],
+      "settings": {
+        "color_scheme": "scheme-2",
+        "show_txt": true
+      }
+    },
+    "065b2487-37b3-4771-810e-b88870b5b74f": {
+      "type": "back_top",
+      "settings": {
+        "enable_hidden_mobile": false,
+        "backtop_des": "2",
+        "enable_progress_bar": true,
+        "border_cl": "#ffffff",
+        "border_cl_active": "#868686"
+      }
+    }
+  },
+  "order": [
+    "cart-drawer",
+    "toolbar-mobile",
+    "065b2487-37b3-4771-810e-b88870b5b74f"
+  ]
+}

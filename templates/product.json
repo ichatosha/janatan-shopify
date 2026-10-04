@@ -1,0 +1,281 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "breacrumb": {
+      "type": "brc-nav-product",
+      "disabled": true,
+      "settings": {
+        "back_next_pr": true,
+        "color_scheme": "scheme-1",
+        "padding_top": 30,
+        "padding_bottom": 30,
+        "padding_rate": 75
+      }
+    },
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "3a222052-35a9-4684-a336-6a32a56eb638": {
+          "type": "title",
+          "settings": {}
+        },
+        "83296f29-170d-4d7b-9291-c9b59bb98b32": {
+          "type": "badges",
+          "settings": {
+            "special": "",
+            "min": 10,
+            "max": 64,
+            "content": "Selling fast! [count] people have  this in their carts.",
+            "icon_svg": "flash",
+            "ani": "hdt-ani-flash"
+          }
+        },
+        "edac686e-a845-4ed7-9b50-51639a11cf56": {
+          "type": "price",
+          "settings": {}
+        },
+        "custom_liquid_pJVgiR": {
+          "type": "custom_liquid",
+          "settings": {
+            "custom_liquid": "{% if product.metafields.custom.short_description != blank %}\n  <div class=\"short-description\">\n    {{ product.metafields.custom.short_description | metafield_tag }}\n  </div>\n{% endif %}"
+          }
+        },
+        "1248e930-5734-45b4-a1d6-a814910fdb63": {
+          "type": "variant_picker",
+          "settings": {
+            "pick_mode": "first_available",
+            "enable_historystate": true,
+            "hide_sold_out": false,
+            "color_picker_type": "color_rounded",
+            "color_size": "small",
+            "picker_type": "block",
+            "size_chart_source": "page",
+            "size_chart_page": "{{ product.metafields.custom.size_chart_page.value }}",
+            "title": "Variant picker"
+          }
+        },
+        "4fd6bfca-d3a3-432c-8392-a2d3cab423c4": {
+          "type": "quantity_selector",
+          "disabled": true,
+          "settings": {}
+        },
+        "inventory_L9ntLY": {
+          "type": "inventory",
+          "settings": {
+            "inventory_threshold": 5,
+            "show_inventory_quantity": false,
+            "show_progress_bar": true,
+            "progress_bar_max": 10
+          }
+        },
+        "ad820e37-dee5-41f3-9692-bf46d9664103": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": true,
+            "show_gift_card_recipient": true,
+            "show_price_variant": false,
+            "show_wishlist": true,
+            "show_compare": false
+          }
+        },
+        "8253e974-5acb-4076-9230-03b0f804dcdf": {
+          "type": "back_instock",
+          "settings": {
+            "only_show_soldout": true
+          }
+        },
+        "e2b976ce-0ce6-460a-bc64-cea3ec87cb4b": {
+          "type": "img_trust",
+          "settings": {
+            "show_icon": true,
+            "mess": "إتمام شراء آمن 100%",
+            "source": "1",
+            "image": "shopify://shop_images/payment-212.svg",
+            "wimg": 300,
+            "svg": "visa,master,apple_pay,meeza",
+            "height": 30
+          }
+        },
+        "delivery_return_Kfz74T": {
+          "type": "delivery_return",
+          "settings": {
+            "icon_delivery": "box",
+            "content_devivery": "<p>توصيل موثوق إلى جميع أنحاء مصر خلال 24–72 ساعة</p>",
+            "icon_return": "return2",
+            "content_return": "<p>يمكن معاينة المنتج و أسترجاعة قبل استلامه من المندوب، كما يمكن الاستبدال خلال 48 ساعة </p>"
+          }
+        }
+      },
+      "block_order": [
+        "3a222052-35a9-4684-a336-6a32a56eb638",
+        "83296f29-170d-4d7b-9291-c9b59bb98b32",
+        "edac686e-a845-4ed7-9b50-51639a11cf56",
+        "custom_liquid_pJVgiR",
+        "1248e930-5734-45b4-a1d6-a814910fdb63",
+        "4fd6bfca-d3a3-432c-8392-a2d3cab423c4",
+        "inventory_L9ntLY",
+        "ad820e37-dee5-41f3-9692-bf46d9664103",
+        "8253e974-5acb-4076-9230-03b0f804dcdf",
+        "e2b976ce-0ce6-460a-bc64-cea3ec87cb4b",
+        "delivery_return_Kfz74T"
+      ],
+      "custom_css": [
+        ".hdt-sticky-atc__variant-price {display: none !important;}"
+      ],
+      "settings": {
+        "space_content_media": true,
+        "media_width": 50,
+        "desktop_media_layout": "thumbnail_left",
+        "desktop_media_position": "left",
+        "mobile_media_layout": "thumbnails",
+        "show_first_media": false,
+        "use_select_varaint_change_media": true,
+        "enable_media_autoplay": true,
+        "enable_video_looping": true,
+        "enable_thumb_efect": true,
+        "image_ratio": "adapt_image",
+        "image_size": true,
+        "image_zoom": "zoom",
+        "image_zoom_type": "external",
+        "zoom_level": 2,
+        "max_zoom_lightbox": 3,
+        "tabs_design": "tab",
+        "enable_first_tab": false,
+        "sticky_atc": true,
+        "navUI": true,
+        "nav_des": "default",
+        "color_scheme": "scheme-1",
+        "padding_top": 0,
+        "padding_bottom": 44,
+        "padding_rate": 50
+      }
+    },
+    "tabs": {
+      "type": "main-product-tabs",
+      "blocks": {
+        "76effdab-2914-4a34-a303-417cde99ff0a": {
+          "type": "tab_des",
+          "settings": {
+            "title": "الوصف"
+          }
+        },
+        "tab_html_dXVmPy": {
+          "type": "tab_html",
+          "settings": {
+            "title": "Size Chart",
+            "content": "",
+            "page": "{{ product.metafields.custom.size_chart_page.value }}"
+          }
+        },
+        "tab_liquid_DyAeHn": {
+          "type": "tab_liquid",
+          "disabled": true,
+          "settings": {
+            "title": "أراء العملاء",
+            "custom_liquid": "<div class=\"custom-vstar-review-widget\" style=\"width:100%\"></div>",
+            "content_richtext": ""
+          }
+        }
+      },
+      "block_order": [
+        "76effdab-2914-4a34-a303-417cde99ff0a",
+        "tab_html_dXVmPy",
+        "tab_liquid_DyAeHn"
+      ],
+      "settings": {
+        "tabs_design": "accordion",
+        "enable_first_tab": false,
+        "color_scheme": "scheme-1",
+        "padding_top": 0,
+        "padding_bottom": 45,
+        "padding_rate": 50
+      }
+    },
+    "sidebar": {
+      "type": "sidebar-product",
+      "disabled": true,
+      "settings": {
+        "color_scheme": "scheme-1",
+        "space": 60
+      }
+    },
+    "related": {
+      "type": "related-products",
+      "settings": {
+        "heading_align": "center",
+        "sec_heading": "اشترى العملاء أيضًا",
+        "heading_tag": "h3",
+        "heading_size": "h4",
+        "sec_subheading": "",
+        "subheading_size": "lg",
+        "heading_reverse": false,
+        "heading_gap": 18,
+        "sec_heading_spacing": 50,
+        "limit": 10,
+        "product_des": "7",
+        "image_ratio": "custom-pr",
+        "image_size": true,
+        "show_vendor": false,
+        "col_dk": "4",
+        "col_tb": "3",
+        "col_mb": "2",
+        "navUI": true,
+        "nav_des": "default",
+        "nav_pos": "middle_in",
+        "dotUI": false,
+        "section_fullwidth": false,
+        "color_scheme": "scheme-1",
+        "padding_top": 0,
+        "padding_bottom": 36,
+        "padding_rate": 75
+      }
+    },
+    "recently": {
+      "type": "recently-products",
+      "settings": {
+        "heading_align": "center",
+        "sec_heading": "تمت مشاهدتها مؤخرًا",
+        "heading_tag": "h3",
+        "heading_size": "h4",
+        "sec_subheading": "",
+        "subheading_size": "lg",
+        "heading_reverse": false,
+        "heading_gap": 18,
+        "sec_heading_spacing": 50,
+        "limit": 10,
+        "product_des": "7",
+        "image_ratio": "custom-pr",
+        "image_size": true,
+        "show_vendor": false,
+        "col_dk": "4",
+        "col_tb": "3",
+        "col_mb": "2",
+        "navUI": true,
+        "nav_des": "default",
+        "nav_pos": "middle_in",
+        "dotUI": false,
+        "section_fullwidth": false,
+        "color_scheme": "scheme-1",
+        "padding_top": 0,
+        "padding_bottom": 24,
+        "padding_rate": 75
+      }
+    }
+  },
+  "order": [
+    "breacrumb",
+    "main",
+    "tabs",
+    "sidebar",
+    "related",
+    "recently"
+  ]
+}

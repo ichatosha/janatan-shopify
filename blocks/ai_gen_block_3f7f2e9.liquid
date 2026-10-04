@@ -1,0 +1,161 @@
+{% doc %}
+  @prompt
+    أنشئ بلوك باندل عربي متجاوب لصفحة منتج "جيب بنطلون روزالين-وايد ليج جميع الألوان" فقط. يعرض للعميلة اختيار باقة من 2 أو 3 أو 4 قطع. بعد اختيار عدد القطع، اعرض صفًا واضحًا لكل قطعة بعنوان "القطعة 1" وهكذا، وفي كل صف قائمتان لاختيار اللون والمقاس من خيارات ومتغيرات المنتج الحالية. يجب أن تتغير الاختيارات حسب المتغيرات الفعلية المتاحة، وألا يمكن اختيار أو إضافة تركيبة غير متاحة. أضف زرًا عربيًا واضحًا "أضيفي الباندل للسلة" يضيف كل المتغيرات المختارة إلى السلة دفعة واحدة، مع دعم اختيار نفس اللون أو المقاس لأكثر من قطعة. اعرض رسالة مفهومة إذا لم تكتمل الاختيارات أو تعذر إضافة أي قطعة، وحالة تحميل أثناء الإضافة، ثم افتح أو حدّث السلة بالطريقة المتوافقة مع الثيم. اجعل التصميم من اليمين لليسار، مناسبًا للموبايل، ومتناسقًا مع ألوان وخطوط الثيم. اعرض السعر الإجمالي للباندل بناءً على سعر كل متغير بدون تطبيق خصم تلقائي. اجعل العناوين والنصوص قابلة للتعديل من إعدادات البلوك، ولا تعرض البلوك على أي منتج آخر.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+{% assign target_product_title = 'جيب بنطلون روزالين-وايد ليج جميع الألوان' %}
+
+{% if product and product.title == target_product_title %}
+  {% style %}
+    .ai-bundle-{{ ai_gen_id }} {
+      display: block;
+      width: {{ block.settings.desktop_width_percent }}%;
+      max-width: 100%;
+      direction: rtl;
+      color: {{ block.settings.text_color }};
+      background: {{ block.settings.background_color }};
+      border: 1px solid {{ block.settings.border_color }};
+      border-radius: {{ block.settings.border_radius }}px;
+      padding: 20px;
+      font-family: {{ block.settings.body_font.family }}, sans-serif;
+      box-sizing: border-box;
+    }
+    .ai-bundle-{{ ai_gen_id }}__title { margin: 0 0 6px; font-size: 22px; line-height: 1.4; font-weight: 600; }
+    .ai-bundle-{{ ai_gen_id }}__description { margin: 0 0 16px; color: {{ block.settings.muted_text_color }}; font-size: 14px; }
+    .ai-bundle-{{ ai_gen_id }}__sizes { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+    .ai-bundle-{{ ai_gen_id }}__size { border: 1px solid {{ block.settings.border_color }}; background: {{ block.settings.input_background }}; color: {{ block.settings.text_color }}; border-radius: {{ block.settings.input_radius }}px; padding: 9px 16px; cursor: pointer; font: inherit; }
+    .ai-bundle-{{ ai_gen_id }}__size[aria-pressed='true'] { background: {{ block.settings.button_color }}; color: {{ block.settings.button_text_color }}; border-color: {{ block.settings.button_color }}; }
+    .ai-bundle-{{ ai_gen_id }}__rows { display: grid; gap: 10px; }
+    .ai-bundle-{{ ai_gen_id }}__row { display: grid; grid-template-columns: 85px 1fr 1fr; gap: 8px; align-items: center; }
+    .ai-bundle-{{ ai_gen_id }}__label { font-weight: 600; font-size: 14px; }
+    .ai-bundle-{{ ai_gen_id }} select { width: 100%; min-height: 44px; padding: 8px 10px; border: 1px solid {{ block.settings.border_color }}; border-radius: {{ block.settings.input_radius }}px; background: {{ block.settings.input_background }}; color: {{ block.settings.text_color }}; font: inherit; }
+    .ai-bundle-{{ ai_gen_id }}__summary { display: flex; justify-content: space-between; gap: 12px; margin-top: 18px; padding-top: 14px; border-top: 1px solid {{ block.settings.border_color }}; font-weight: 600; }
+    .ai-bundle-{{ ai_gen_id }}__button { width: 100%; margin-top: 16px; min-height: 48px; border: 1px solid {{ block.settings.button_color }}; border-radius: {{ block.settings.button_radius }}px; background: {{ block.settings.button_color }}; color: {{ block.settings.button_text_color }}; cursor: pointer; font: inherit; font-weight: 600; }
+    .ai-bundle-{{ ai_gen_id }}__button:disabled { opacity: .55; cursor: not-allowed; }
+    .ai-bundle-{{ ai_gen_id }}__message { margin-top: 12px; font-size: 14px; min-height: 20px; }
+    .ai-bundle-{{ ai_gen_id }}__message[data-state='error'] { color: {{ block.settings.error_color }}; }
+    .ai-bundle-{{ ai_gen_id }}__message[data-state='success'] { color: {{ block.settings.success_color }}; }
+    @media screen and (max-width: 749px) { .ai-bundle-{{ ai_gen_id }} { width: 100%; padding: 16px; } .ai-bundle-{{ ai_gen_id }}__row { grid-template-columns: 68px 1fr 1fr; } .ai-bundle-{{ ai_gen_id }}__title { font-size: 19px; } }
+  {% endstyle %}
+
+  <bundle-picker-{{ ai_gen_id }} class="ai-bundle-{{ ai_gen_id }}" {{ block.shopify_attributes }} data-product-id="{{ product.id }}" data-currency="{{ cart.currency.iso_code }}">
+    <h2 class="ai-bundle-{{ ai_gen_id }}__title">{{ block.settings.heading }}</h2>
+    <p class="ai-bundle-{{ ai_gen_id }}__description">{{ block.settings.description }}</p>
+    <div class="ai-bundle-{{ ai_gen_id }}__sizes" role="group" aria-label="{{ block.settings.bundle_label }}">
+      {% for size in (2..4) %}<button type="button" class="ai-bundle-{{ ai_gen_id }}__size" data-count="{{ size }}" aria-pressed="{% if size == 2 %}true{% else %}false{% endif %}">{{ size }} {{ block.settings.piece_word }}</button>{% endfor %}
+    </div>
+    <div class="ai-bundle-{{ ai_gen_id }}__rows"></div>
+    <div class="ai-bundle-{{ ai_gen_id }}__summary"><span>{{ block.settings.total_label }}</span><span data-total>—</span></div>
+    <button type="button" class="ai-bundle-{{ ai_gen_id }}__button" data-submit>{{ block.settings.button_label }}</button>
+    <div class="ai-bundle-{{ ai_gen_id }}__message" role="status" aria-live="polite"></div>
+    <script type="application/json" data-variants>{{ product.variants | json }}</script>
+    <script type="application/json" data-options>{{ product.options_with_values | json }}</script>
+  </bundle-picker-{{ ai_gen_id }}>
+
+  <script>
+    (function() {
+      class BundlePicker{{ ai_gen_id }} extends HTMLElement {
+        connectedCallback() {
+          this.variants = JSON.parse(this.querySelector('[data-variants]').textContent);
+          this.options = JSON.parse(this.querySelector('[data-options]').textContent);
+          this.rows = this.querySelector('.ai-bundle-{{ ai_gen_id }}__rows');
+          this.message = this.querySelector('.ai-bundle-{{ ai_gen_id }}__message');
+          this.total = this.querySelector('[data-total]');
+          this.submit = this.querySelector('[data-submit]');
+          this.count = 2;
+          this.colorIndex = this.options.findIndex(o => /color|colour|لون/i.test(o.name));
+          this.sizeIndex = this.options.findIndex(o => /size|مقاس|حجم/i.test(o.name));
+          if (this.colorIndex < 0) this.colorIndex = 0;
+          if (this.sizeIndex < 0) this.sizeIndex = this.options.length > 1 ? 1 : 0;
+          this.bind(); this.render();
+        }
+        bind() {
+          this.querySelectorAll('[data-count]').forEach(button => button.addEventListener('click', () => { this.count = Number(button.dataset.count); this.querySelectorAll('[data-count]').forEach(b => b.setAttribute('aria-pressed', b === button)); this.render(); }));
+          this.submit.addEventListener('click', () => this.addBundle());
+        }
+        values(index) { return [...new Set(this.variants.filter(v => v.available).map(v => v.options[index]).filter(Boolean))]; }
+        render() {
+          this.rows.innerHTML = '';
+          for (let i = 0; i < this.count; i++) {
+            const row = document.createElement('div'); row.className = 'ai-bundle-{{ ai_gen_id }}__row';
+            row.innerHTML = '<span class="ai-bundle-{{ ai_gen_id }}__label">{{ block.settings.piece_label }} ' + (i + 1) + '</span><select data-color aria-label="{{ block.settings.color_label }}"></select><select data-size aria-label="{{ block.settings.size_label }}"></select>';
+            this.fill(row.querySelector('[data-color]'), this.values(this.colorIndex), '{{ block.settings.color_placeholder }}');
+            this.fill(row.querySelector('[data-size]'), this.values(this.sizeIndex), '{{ block.settings.size_placeholder }}');
+            row.querySelectorAll('select').forEach(select => select.addEventListener('change', () => { this.updateRow(row); this.updateTotal(); }));
+            this.rows.appendChild(row); this.updateRow(row);
+          }
+          this.updateTotal();
+        }
+        fill(select, values, placeholder) { select.innerHTML = '<option value="">' + placeholder + '</option>'; values.forEach(value => select.insertAdjacentHTML('beforeend', '<option value="' + this.escape(value) + '">' + this.escape(value) + '</option>')); }
+        updateRow(row) {
+          const color = row.querySelector('[data-color]').value, size = row.querySelector('[data-size]').value;
+          const sizeSelect = row.querySelector('[data-size]');
+          const allowed = this.variants.filter(v => v.available && (!color || v.options[this.colorIndex] === color)).map(v => v.options[this.sizeIndex]);
+          [...sizeSelect.options].forEach(option => { option.disabled = option.value !== '' && !allowed.includes(option.value); });
+          if (size && !allowed.includes(size)) sizeSelect.value = '';
+        }
+        selected() { return [...this.rows.querySelectorAll('.ai-bundle-{{ ai_gen_id }}__row')].map(row => { const color = row.querySelector('[data-color]').value, size = row.querySelector('[data-size]').value; return this.variants.find(v => v.available && v.options[this.colorIndex] === color && v.options[this.sizeIndex] === size); }); }
+        updateTotal() { const items = this.selected(); this.total.textContent = items.every(Boolean) ? items.reduce((sum, v) => sum + v.price, 0).toLocaleString('{{ shop.locale }}', { style: 'currency', currency: this.dataset.currency || '{{ cart.currency.iso_code }}' }) : '—'; }
+        async addBundle() {
+          const items = this.selected(); this.message.textContent = ''; this.message.dataset.state = '';
+          if (items.some(item => !item)) { this.message.textContent = '{{ block.settings.incomplete_message }}'; this.message.dataset.state = 'error'; return; }
+          this.submit.disabled = true; this.submit.textContent = '{{ block.settings.loading_label }}';
+          try {
+            const response = await fetch('/cart/add.js', { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify({ items: items.map(item => ({ id: item.id, quantity: 1 })) }) });
+            if (!response.ok) throw new Error('cart');
+            const cart = await fetch('/cart.js').then(r => r.json());
+            document.dispatchEvent(new CustomEvent('cart:refresh', { detail: { cart } }));
+            document.dispatchEvent(new CustomEvent('cart:updated', { detail: { cart } }));
+            this.message.textContent = '{{ block.settings.success_message }}'; this.message.dataset.state = 'success';
+            const drawer = document.querySelector('cart-drawer');
+            if (drawer && typeof drawer.open === 'function') drawer.open(); else if (window.Shopify && Shopify.theme && Shopify.theme.cartDrawer) Shopify.theme.cartDrawer.open(); else window.location.href = '/cart';
+          } catch (error) { this.message.textContent = '{{ block.settings.error_message }}'; this.message.dataset.state = 'error'; } finally { this.submit.disabled = false; this.submit.textContent = '{{ block.settings.button_label }}'; }
+        }
+        escape(value) { return String(value).replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c])); }
+      }
+      customElements.define('bundle-picker-{{ ai_gen_id }}', BundlePicker{{ ai_gen_id }});
+    })();
+  </script>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Arabic product bundle",
+  "settings": [
+    {"type":"header","content":"Content"},
+    {"type":"text","id":"heading","label":"Heading","default":"اختاري باندلك"},
+    {"type":"textarea","id":"description","label":"Description","default":"اختاري عدد القطع ثم اللون والمقاس لكل قطعة."},
+    {"type":"text","id":"bundle_label","label":"Bundle selector label","default":"عدد القطع"},
+    {"type":"text","id":"piece_word","label":"Piece word","default":"قطع"},
+    {"type":"text","id":"piece_label","label":"Piece label","default":"القطعة"},
+    {"type":"text","id":"color_label","label":"Color label","default":"اللون"},
+    {"type":"text","id":"size_label","label":"Size label","default":"المقاس"},
+    {"type":"text","id":"color_placeholder","label":"Color placeholder","default":"اختاري اللون"},
+    {"type":"text","id":"size_placeholder","label":"Size placeholder","default":"اختاري المقاس"},
+    {"type":"text","id":"total_label","label":"Total label","default":"الإجمالي"},
+    {"type":"text","id":"button_label","label":"Button label","default":"أضيفي الباندل للسلة"},
+    {"type":"text","id":"loading_label","label":"Loading label","default":"جارٍ الإضافة..."},
+    {"type":"text","id":"incomplete_message","label":"Incomplete message","default":"يرجى اختيار اللون والمقاس لكل قطعة."},
+    {"type":"text","id":"success_message","label":"Success message","default":"تمت إضافة الباندل إلى السلة."},
+    {"type":"text","id":"error_message","label":"Error message","default":"تعذر إضافة الباندل. تحققي من توفر الخيارات وحاولي مرة أخرى."},
+    {"type":"header","content":"Style"},
+    {"type":"range","id":"desktop_width_percent","label":"Desktop width","min":50,"max":100,"step":5,"unit":"%","default":100},
+    {"type":"font_picker","id":"body_font","label":"Font","default":"sans-serif"},
+    {"type":"color","id":"text_color","label":"Text","default":"#000000"},
+    {"type":"color","id":"muted_text_color","label":"Muted text","default":"#545454"},
+    {"type":"color","id":"background_color","label":"Background","default":"#ffffff"},
+    {"type":"color","id":"input_background","label":"Input background","default":"#ffffff"},
+    {"type":"color","id":"border_color","label":"Border","default":"#d9d9d9"},
+    {"type":"color","id":"button_color","label":"Button","default":"#3a3b3d"},
+    {"type":"color","id":"button_text_color","label":"Button text","default":"#ffffff"},
+    {"type":"color","id":"error_color","label":"Error","default":"#9b1c1c"},
+    {"type":"color","id":"success_color","label":"Success","default":"#216e39"},
+    {"type":"range","id":"border_radius","label":"Block radius","min":0,"max":40,"step":1,"unit":"px","default":6},
+    {"type":"range","id":"input_radius","label":"Input radius","min":0,"max":20,"step":1,"unit":"px","default":5},
+    {"type":"range","id":"button_radius","label":"Button radius","min":0,"max":20,"step":1,"unit":"px","default":5}
+  ],
+  "presets":[{"name":"Arabic product bundle"}],
+  "tag":null,
+  "class":"arabic-product-bundle"
+}
+{% endschema %}

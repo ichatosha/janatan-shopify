@@ -1,0 +1,152 @@
+<!doctype html>
+  {%- liquid
+    assign iso_code  = request.locale.iso_code
+    assign config_rtl  = settings.right_to_left | default: 'enable-with-list'
+    assign is_rtl = false
+    assign dir = 'ltr'
+    if config_rtl == 'enable-with-list'
+      assign iso_code_ck = iso_code | split: '-' | first | append: ';' | prepend: ';'
+      assign lis_rtl = ';ae;ar;arc;bqi;ckb;dv;fa;glk;ha;he;kwh;ks;ku;mzn;nqo;pnb;ps;sd;ug;ur;yi;'
+      if lis_rtl contains iso_code_ck
+        assign is_rtl = true
+        assign dir = 'rtl'
+      endif
+    elsif config_rtl == 'enable'
+      assign is_rtl = true
+      assign dir = 'rtl'
+    endif
+  -%}
+<html class="no-js hdt-pr-img__effect-{{ settings.effect_secondary_image }} hdt-badge__shape-{{ settings.badge_shape }} dir--{{ dir }}{% if request.design_mode %} shopify-design-mode{% endif %}{% if settings.minimal_products %} hdt-minimal-products{% endif %}{% if settings.hidden_badges %} hdt-hidden-pr-badges{% endif %}{% if settings.hidden_quickview %} hdt-hidden-products-quickview{% endif %}{% if settings.hidden_wishlist %} hdt-hidden-products-wishlist{% endif %}{% if settings.hidden_compare %} hdt-hidden-products-compare{% endif %}{% if settings.uppercase_title %} hdt-pr-uppercase_title{% endif %}" lang="{{ request.locale.iso_code }}" dir="{{ dir }}">
+  <head>
+    <meta name="facebook-domain-verification" content="2fdnjaedxcenkjmrljbosp8jbhr240" />
+<!-- Meta Pixel Code -->
+
+<!-- End Meta Pixel Code -->
+
+    {%- unless template == 'product.only_config' and request.design_mode == false -%}
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="theme-color" content="">
+    <link rel="canonical" href="{{ canonical_url }}">
+
+    {%- if settings.favicon != blank -%}
+      <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
+      <link rel="apple-touch-icon" href="{{ settings.favicon | image_url: width: 48, height: 48 }}">
+    {%- endif -%}
+    {%- if settings.library_font == "shopify" -%}
+      {%- unless settings.type_header_font.system? and settings.type_body_font.system? -%}
+        <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
+      {%- endunless -%}
+    {%- endif -%}
+
+    <title>
+      {{ page_title }}
+      {%- if current_tags %} &ndash; {{ 'general.meta.tag' | t }} "{{ current_tags | join: ', ' }}"{% endif -%}
+      {%- if current_page != 1 %} &ndash; {{ 'general.meta.page' | t }} {{ current_page }}{% endif -%}
+      {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
+    </title>
+
+    {%- if page_description %}<meta name="description" content="{{ page_description | escape }}">{% endif %}
+
+    {%- liquid
+      render 'social-meta-tags'
+      render 'css-variables', is_rtl: is_rtl
+      echo 'theme.css' | asset_url | stylesheet_tag
+      if request.page_type == "policy"
+      echo 'hdt-policy.css' | asset_url | stylesheet_tag
+      endif
+      render 'js-head'
+    -%}
+    {{ content_for_header }}
+    {%- endunless -%}
+
+  </head>
+  <body class="hdt-page-type-{{ request.page_type }}{% if settings.animations_hover_elements != 'none' %} animate--hover-{{ settings.animations_hover_elements }}{% endif %} template-{{ template.name }}">
+    {%- render 'js-variables' -%}
+    {%- unless template == 'product.only_config' and request.design_mode == false -%}
+    {%- if request.page_type == "index" or request.page_type == "policy" -%}
+    <h1 class="hdt-hidden">{{ page_title | default: shop.name }}</h1>
+    {%- endif -%}
+    {%- render 's-dom-temp' -%}
+    <a class="skip-to-content-link button sr-only" href="#MainContent">{{ 'accessibility.skip_to_text' | t }}</a>
+    {%- sections 'header-group' -%}
+    {%- endunless -%}
+    <main id="MainContent" class="content-for-layout focus-none" role="main" tabindex="-1">
+      {%- if request.page_type == "policy" -%}
+        {%- section 'main-heading' -%}
+      {%- endif -%}
+      {{ content_for_layout }}
+    </main>
+
+    {%- unless template == 'product.only_config' and request.design_mode == false -%}
+    {%- sections 'footer-group' -%}
+
+    {%- liquid
+      sections 'system-group'
+      if settings.enable_compare_popup
+        render 'compare-offcanvas'
+      endif
+      # theme-check-disable NestedSnippet
+      render 'system-bottom'
+      # theme-check-enable NestedSnippet
+      render 'structured-data'
+    -%}
+    {%- endunless -%}
+<script>
+(function () {
+  async function hdtRefreshCartSection() {
+    // Only on cart page
+    if (window.location.pathname !== '/cart') return;
+
+    const cartForm = document.querySelector('form[will-change-cart][section-id]') || document.querySelector('form[section-id]');
+    if (!cartForm) return;
+
+    const sectionId = cartForm.getAttribute('section-id');
+    if (!sectionId) return;
+
+    const sectionRoot = document.getElementById(`shopify-section-${sectionId}`);
+    if (!sectionRoot) return;
+
+    const res = await fetch(`${window.location.pathname}?sections=${encodeURIComponent(sectionId)}`, {
+      credentials: 'same-origin',
+      headers: { 'X-Requested-With': 'XMLHttpRequest' }
+    });
+
+    const json = await res.json();
+    const newHtml = json[sectionId];
+    if (!newHtml) return;
+
+    const tmp = document.createElement('div');
+    tmp.innerHTML = newHtml;
+
+    const freshSection = tmp.querySelector(`#shopify-section-${CSS.escape(sectionId)}`);
+    if (freshSection) sectionRoot.replaceWith(freshSection);
+  }
+
+  // Hook fetch: refresh cart section after any cart AJAX mutation
+  const _fetch = window.fetch;
+  window.fetch = async function () {
+    const res = await _fetch.apply(this, arguments);
+
+    try {
+      const url = (arguments[0] && arguments[0].url) ? arguments[0].url : String(arguments[0] || '');
+      const isCartMutation =
+        url.includes('/cart/add') ||
+        url.includes('/cart/change') ||
+        url.includes('/cart/update') ||
+        url.includes('/cart/clear');
+
+      if (isCartMutation) {
+        // small delay to allow theme to finish its own DOM work
+        setTimeout(() => { hdtRefreshCartSection().catch(console.error); }, 150);
+      }
+    } catch (e) {}
+
+    return res;
+  };
+})();
+</script>
+
+  </body>
+</html>

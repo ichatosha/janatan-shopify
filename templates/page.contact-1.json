@@ -1,0 +1,93 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "heading": {
+      "type": "main-heading",
+      "blocks": {
+        "5ecb9555-19e4-433b-8817-1ccaa3a41384": {
+          "type": "1",
+          "settings": {
+            "heading": "أتصل بنا",
+            "heading_size": "h3"
+          }
+        }
+      },
+      "block_order": [
+        "5ecb9555-19e4-433b-8817-1ccaa3a41384"
+      ],
+      "settings": {
+        "color_scheme": "",
+        "spacing_hd": 0,
+        "padding_top": 45,
+        "padding_bottom": 45,
+        "padding_rate": 75
+      }
+    },
+    "4c7802be-2c9d-4177-ac7f-fa5aaa9d9e9e": {
+      "type": "form_contact-with-text",
+      "blocks": {
+        "5de1751e-cd5c-426a-a203-c9b35a45262f": {
+          "type": "heading",
+          "settings": {
+            "heading": "معلومات الاتصال"
+          }
+        },
+        "568490b0-65b7-47fa-a348-41c08177abff": {
+          "type": "text",
+          "disabled": true,
+          "settings": {
+            "text": "<p><strong>WhatsApp: </strong>01003139753</p>"
+          }
+        },
+        "8e05fb1c-5303-4879-a0cc-0ca953b314b6": {
+          "type": "text",
+          "disabled": true,
+          "settings": {
+            "text": ""
+          }
+        },
+        "d6a7c3b7-0737-4c13-a011-7aab813cf9c3": {
+          "type": "socials",
+          "settings": {
+            "socials_style": "simple",
+            "socials_size": "large"
+          }
+        }
+      },
+      "block_order": [
+        "5de1751e-cd5c-426a-a203-c9b35a45262f",
+        "568490b0-65b7-47fa-a348-41c08177abff",
+        "8e05fb1c-5303-4879-a0cc-0ca953b314b6",
+        "d6a7c3b7-0737-4c13-a011-7aab813cf9c3"
+      ],
+      "settings": {
+        "color_scheme": "scheme-1",
+        "heading": "دعنا تحدث",
+        "sub_heading": "إذا كانت لديكِ منتجات مميزة تقومين بتصنيعها، أو ترغبين في العمل معنا، فلا تترددي في التواصل معنا.",
+        "btn_full": true,
+        "padding_top": 15,
+        "padding_bottom": 45,
+        "padding_rate": 75
+      }
+    },
+    "17659846232a1f3ebc": {
+      "type": "apps",
+      "settings": {
+        "include_margins": true
+      }
+    }
+  },
+  "order": [
+    "heading",
+    "4c7802be-2c9d-4177-ac7f-fa5aaa9d9e9e",
+    "17659846232a1f3ebc"
+  ]
+}

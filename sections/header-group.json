@@ -1,0 +1,103 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "type": "header",
+  "name": "Header Group",
+  "sections": {
+    "top_bar_pYkJVG": {
+      "type": "top-bar",
+      "blocks": {
+        "socials_MPLLDA": {
+          "type": "socials",
+          "settings": {
+            "socials_style": "default",
+            "hide": true
+          }
+        },
+        "text_dq4Fia": {
+          "type": "text",
+          "settings": {
+            "text1": "<strong>أهلا بيكم في جنتان ... للملابس المحتشمة</strong>",
+            "text2": "<strong>معاينة و دفع عند الأستلام ...  أتسبدال خلال 48 ساعة</strong>",
+            "text3": "",
+            "adding_border": false,
+            "au_time": 4,
+            "pause_when_hover": false,
+            "hide": false
+          }
+        },
+        "cur_CxyhrY": {
+          "type": "cur",
+          "settings": {
+            "html": "",
+            "show_currency": false,
+            "show_language": true,
+            "hide": true
+          }
+        }
+      },
+      "block_order": [
+        "socials_MPLLDA",
+        "text_dq4Fia",
+        "cur_CxyhrY"
+      ],
+      "custom_css": [
+        ".hdt-top-bar__linklist a.hdt-link-active {color: white;}"
+      ],
+      "name": "Top bar",
+      "settings": {
+        "color_scheme": "scheme-67a7ca9f-3333-4245-b79f-2e9849d7e615",
+        "show_line_separator": false,
+        "fullwidth": true
+      }
+    },
+    "header": {
+      "type": "header-inline",
+      "settings": {
+        "header_layout": "logo_left",
+        "header_fullwidth": true,
+        "header_height": 60,
+        "logo": "shopify://shop_images/199f73ac65becf2903a732b5c81d486a.png",
+        "logo_width": 80,
+        "header_colors": "scheme-1",
+        "main_menu": "main-menu",
+        "lazy_mn": true,
+        "menu_position": "center",
+        "menu_size": "lg",
+        "menu_weight": "medium",
+        "text_transform": true,
+        "dropdown_arrow": true,
+        "active_link": true,
+        "spacing_nav": 32,
+        "open_event": "hover",
+        "header_menu_colors": "scheme-1",
+        "enabled_user": true,
+        "enabled_compare": false,
+        "enabled_wishlist": true,
+        "header_height_mb": 64,
+        "logo_mobile": "shopify://shop_images/199f73ac65becf2903a732b5c81d486a.png",
+        "logo_width_mb": 94,
+        "main_menu_mobile": "main-menu",
+        "lazy_mn_mb": true,
+        "only_click_icon": false,
+        "header_mobile_colors": "scheme-1",
+        "note_mobile": "",
+        "header_transparent": false,
+        "header_transparent_colors": "scheme-1",
+        "sticky_type": "on_scroll_up",
+        "sticky_glass": true
+      }
+    }
+  },
+  "order": [
+    "top_bar_pYkJVG",
+    "header"
+  ]
+}
