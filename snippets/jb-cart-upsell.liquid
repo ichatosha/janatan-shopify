@@ -1,0 +1,147 @@
+{%- comment -%}
+  Renders "you may also like" products inside the cart drawer. The products come from
+  Shopify's recommendations for the first cart item, minus what is already in the cart.
+
+  Usage:
+  {% render 'jb-cart-upsell' %}
+{%- endcomment -%}
+
+{%- if cart.item_count > 0 -%}
+<jb-cart-upsell class="jb-upsell" hidden
+  data-product-id="{{ cart.items.first.product_id }}"
+  data-in-cart="{{ cart.items | map: 'product_id' | join: ',' }}"
+  data-url="{{ routes.product_recommendations_url }}"
+  data-add-url="{{ routes.cart_add_url }}"
+  data-money-format="{{ shop.money_format | escape }}">
+  <p class="jb-upsell__heading">قد يعجبك أيضاً</p>
+  <div class="jb-upsell__list"></div>
+</jb-cart-upsell>
+
+<style>
+  .jb-upsell { display: block; margin: 16px 0 8px; padding-top: 14px; border-top: 1px solid rgba(58, 59, 61, .18); color: #000; text-align: start; }
+  .jb-upsell[hidden] { display: none; }
+  .jb-upsell__heading { margin: 0 0 10px; font-weight: 700; font-size: 15px; }
+  .jb-upsell__list { display: flex; gap: 10px; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 8px; -webkit-overflow-scrolling: touch; }
+  .jb-upsell__card { flex: 0 0 min(280px, 82%); scroll-snap-align: start; display: grid; grid-template-columns: 76px 1fr; gap: 10px; padding: 8px; border: 1px solid rgba(58, 59, 61, .18); border-radius: 6px; background: #fff; }
+  .jb-upsell__image { display: block; aspect-ratio: 3 / 4; border-radius: 4px; overflow: hidden; background: #f2f2f2; }
+  .jb-upsell__image img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .jb-upsell__body { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+  .jb-upsell__title { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; font-size: 13px; line-height: 1.4; color: inherit; text-decoration: none; }
+  .jb-upsell__price { font-size: 14px; font-weight: 700; }
+  .jb-upsell__price s { margin-inline-start: 8px; font-size: 12px; font-weight: 400; color: #545454; }
+  .jb-upsell__actions { display: flex; gap: 6px; margin-top: auto; }
+  .jb-upsell__select { flex: 1 1 auto; min-width: 0; min-height: 36px; padding: 4px 6px; border: 1px solid rgba(58, 59, 61, .35); border-radius: 5px; background: #fff; color: #000; font: inherit; font-size: 12px; }
+  .jb-upsell__add { flex: 0 0 auto; min-height: 36px; padding: 4px 12px; border: 1px solid #3a3b3d; border-radius: 5px; background: #3a3b3d; color: #fff; font: inherit; font-size: 13px; font-weight: 600; cursor: pointer; }
+  .jb-upsell__actions > .jb-upsell__add:only-child { flex: 1 1 auto; }
+  .jb-upsell__add:focus-visible, .jb-upsell__select:focus-visible { outline: 2px solid #3a3b3d; outline-offset: 2px; }
+  .jb-upsell__add[disabled] { opacity: .6; pointer-events: none; }
+</style>
+
+<script>
+  if (!customElements.get('jb-cart-upsell')) {
+    const upsellCache = {};
+    customElements.define('jb-cart-upsell', class extends HTMLElement {
+      async connectedCallback() {
+        this.list = this.querySelector('.jb-upsell__list');
+        const productId = this.dataset.productId;
+        if (!upsellCache[productId]) {
+          upsellCache[productId] = fetch(this.dataset.url + '.json?product_id=' + productId + '&limit=10&intent=related')
+            .then((response) => response.json())
+            .then((result) => result.products || [])
+            .catch(() => []);
+        }
+        const inCart = this.dataset.inCart.split(',');
+        const products = (await upsellCache[productId])
+          .filter((product) => product.available && inCart.indexOf(String(product.id)) === -1)
+          .slice(0, 6);
+        if (!products.length) return;
+        products.forEach((product) => this.list.appendChild(this.card(product)));
+        this.hidden = false;
+      }
+
+      money(cents) {
+        const whole = Math.floor(cents / 100).toString();
+        const fraction = cents % 100 ? (cents % 100).toString().padStart(2, '0') : '';
+        return this.dataset.moneyFormat.replace(/\{\{\s*(\w+)\s*\}\}/, (match, key) => {
+          const comma = key.indexOf('comma_separator') > -1;
+          const decimals = fraction && key.indexOf('no_decimals') === -1 ? (comma ? ',' : '.') + fraction : '';
+          return whole.replace(/\B(?=(\d{3})+$)/g, comma ? '.' : ',') + decimals;
+        });
+      }
+
+      card(product) {
+        const card = document.createElement('div');
+        card.className = 'jb-upsell__card';
+
+        const image = document.createElement('a');
+        image.className = 'jb-upsell__image';
+        image.href = product.url;
+        if (product.featured_image) {
+          const img = document.createElement('img');
+          img.src = product.featured_image + (product.featured_image.indexOf('?') > -1 ? '&' : '?') + 'width=300';
+          img.alt = product.title;
+          img.loading = 'lazy';
+          image.appendChild(img);
+        }
+
+        const title = document.createElement('a');
+        title.className = 'jb-upsell__title';
+        title.href = product.url;
+        title.textContent = product.title;
+
+        const price = document.createElement('div');
+        price.className = 'jb-upsell__price';
+        price.innerHTML = this.money(product.price);
+        if (product.compare_at_price > product.price) {
+          const compare = document.createElement('s');
+          compare.innerHTML = this.money(product.compare_at_price);
+          price.appendChild(compare);
+        }
+
+        const variants = product.variants.filter((variant) => variant.available);
+        const select = document.createElement('select');
+        select.className = 'jb-upsell__select';
+        select.setAttribute('aria-label', 'اختاري اللون والمقاس');
+        variants.forEach((variant) => {
+          const option = document.createElement('option');
+          option.value = variant.id;
+          option.textContent = variant.public_title || variant.title;
+          select.appendChild(option);
+        });
+
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'jb-upsell__add';
+        button.textContent = 'أضيفي';
+        button.addEventListener('click', () => this.add(select.value, button));
+
+        const actions = document.createElement('div');
+        actions.className = 'jb-upsell__actions';
+        if (variants.length > 1) actions.appendChild(select);
+        actions.appendChild(button);
+
+        const body = document.createElement('div');
+        body.className = 'jb-upsell__body';
+        body.append(title, price, actions);
+        card.append(image, body);
+        return card;
+      }
+
+      async add(variantId, button) {
+        button.disabled = true;
+        try {
+          const response = await fetch(this.dataset.addUrl + '.js', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+            body: JSON.stringify({ items: [{ id: Number(variantId), quantity: 1 }] })
+          });
+          if (!response.ok) throw new Error();
+          document.dispatchEvent(new CustomEvent('cart:refresh'));
+        } catch (error) {
+          button.textContent = 'غير متاح الآن';
+        }
+      }
+    });
+  }
+</script>
+{%- endif -%}

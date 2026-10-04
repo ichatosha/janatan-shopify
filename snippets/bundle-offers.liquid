@@ -358,6 +358,18 @@
         } catch (error) {}
       }
 
+      /* Opens the cart drawer with the fresh cart; goes to the cart page when the theme has no drawer. */
+      showCart() {
+        const drawer = document.querySelector('hdt-cart-drawer');
+        if (!drawer || typeof drawer.openDialog !== 'function') {
+          window.location.href = this.dataset.cartUrl;
+          return;
+        }
+        document.dispatchEvent(new CustomEvent('cart:refresh'));
+        drawer.openDialog();
+        this.submitBtn.disabled = false;
+      }
+
       async addToCart() {
         const quantities = {};
         this.pieces.slice(0, this.count).forEach((piece) => {
@@ -376,7 +388,7 @@
           const result = await response.json();
           if (!response.ok) throw new Error(result.description || result.message);
           await this.applyCode();
-          window.location.href = this.dataset.cartUrl;
+          this.showCart();
         } catch (error) {
           this.errorEl.textContent = error.message || 'تعذّرت الإضافة للسلة، حاولي مرة أخرى.';
           this.errorEl.hidden = false;

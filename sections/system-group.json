@@ -25,7 +25,7 @@
         "54f7a627-75c8-4b50-8c43-45e4be386afb": {
           "type": "bnt_cart_checkout",
           "settings": {
-            "enable_btn_cart": true,
+            "enable_btn_cart": false,
             "btn_style_cart": "outline",
             "btn_fw_cart": "semibold",
             "btn_icon_cart": "none",
@@ -44,9 +44,14 @@
             "svg": "visa,paypal,master,american_express,amazon_payments",
             "height": 25
           }
+        },
+        "discount_code": {
+          "type": "discount_code",
+          "settings": {}
         }
       },
       "block_order": [
+        "discount_code",
         "ca4a9586-08fd-471b-a5a7-11e1ffc068a4",
         "f932f430-a2c4-4a2f-a3d6-d2f099407d44",
         "54f7a627-75c8-4b50-8c43-45e4be386afb",

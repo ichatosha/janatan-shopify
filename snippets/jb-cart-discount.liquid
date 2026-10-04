@@ -68,7 +68,8 @@
           const updated = await this.update(current.concat(code));
           const applied = (updated.discount_codes || []).find((item) => item.code.toLowerCase() === code.toLowerCase());
           if (applied && applied.applicable) {
-            window.location.reload();
+            if (this.closest('hdt-cart-drawer')) document.dispatchEvent(new CustomEvent('cart:refresh'));
+            else window.location.reload();
             return;
           }
           await this.update(current);
