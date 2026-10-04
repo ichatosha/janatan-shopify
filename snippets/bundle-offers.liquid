@@ -28,16 +28,20 @@
   assign code_2 = block.settings.code_2
   assign code_3 = block.settings.code_3
   assign alt_collection = block.settings.alt_collection
-  if alt_collection != blank
-    for bundle_c in product.collections
-      if bundle_c.handle == alt_collection.handle
-        assign off_2 = block.settings.alt_off_2 | times: 100
-        assign off_3 = block.settings.alt_off_3 | times: 100
-        assign code_2 = block.settings.alt_code_2
-        assign code_3 = block.settings.alt_code_3
-      endif
-    endfor
-  endif
+  assign alt2_collection = block.settings.alt2_collection
+  for bundle_c in product.collections
+    if alt_collection != blank and bundle_c.handle == alt_collection.handle
+      assign off_2 = block.settings.alt_off_2 | times: 100
+      assign off_3 = block.settings.alt_off_3 | times: 100
+      assign code_2 = block.settings.alt_code_2
+      assign code_3 = block.settings.alt_code_3
+    elsif alt2_collection != blank and bundle_c.handle == alt2_collection.handle
+      assign off_2 = block.settings.alt2_off_2 | times: 100
+      assign off_3 = block.settings.alt2_off_3 | times: 100
+      assign code_2 = block.settings.alt2_code_2
+      assign code_3 = block.settings.alt2_code_3
+    endif
+  endfor
 
   assign unit_price = product.price
   assign full_2 = unit_price | times: 2
@@ -63,6 +67,9 @@
         <span class="jb-bundle__radio"></span>
         <span class="jb-bundle__info">
           <span class="jb-bundle__title">قطعة واحدة</span>
+          {%- if product.compare_at_price > unit_price -%}
+            <span class="jb-bundle__each"><b class="jb-bundle__save">وفّري {{ product.compare_at_price | minus: unit_price | money_without_trailing_zeros }}</b></span>
+          {%- endif -%}
         </span>
         <span class="jb-bundle__prices">
           <span class="jb-bundle__total">{{ unit_price | money_without_trailing_zeros }}</span>
@@ -136,7 +143,7 @@
   .jb-bundle__info { flex: 1 1 auto; display: grid; gap: 2px; min-width: 0; }
   .jb-bundle__title { font-weight: 700; font-size: 16px; line-height: 1.4; }
   .jb-bundle__each { display: flex; flex-wrap: wrap; column-gap: 8px; font-size: 13px; line-height: 1.5; color: #545454; }
-  .jb-bundle__save { font-weight: 700; color: var(--jb-brand); white-space: nowrap; }
+  .jb-bundle__save { font-weight: 700; font-size: 14px; color: #db1215; white-space: nowrap; }
   .jb-bundle__prices { display: grid; justify-items: end; gap: 0; white-space: nowrap; }
   .jb-bundle__total { font-weight: 700; font-size: 17px; line-height: 1.4; }
   .jb-bundle__compare { font-size: 13px; color: #545454; }
@@ -287,9 +294,9 @@
         });
       }
 
-      /* The cart price follows the discount code of the chosen offer. */
+      /* Both offer codes go to the cart, so the price follows the piece count when the cart changes. */
       async applyCode() {
-        const code = this.data.codes[this.count];
+        const code = [this.data.codes[3], this.data.codes[2]].filter(Boolean).join(',');
         if (!code) return;
         try {
           await fetch(this.dataset.updateUrl + '.js', {

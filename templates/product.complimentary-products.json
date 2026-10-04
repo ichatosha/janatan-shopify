@@ -130,7 +130,8 @@
         "bundle_offers": {
           "type": "bundle_offers",
           "settings": {
-            "alt_collection": "denim"
+            "alt_collection": "denim",
+            "alt2_collection": "جيب-بنطلون-مشجر"
           }
         }
       },
