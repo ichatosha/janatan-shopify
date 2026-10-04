@@ -71,7 +71,7 @@
       "settings": {
         "color_scheme": "scheme-1",
         "show_cart_note": false,
-        "show_free_shipping_bar": false,
+        "show_free_shipping_bar": true,
         "padding_top": 50,
         "padding_bottom": 50,
         "padding_rate": 50

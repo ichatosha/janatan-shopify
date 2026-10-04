@@ -9,7 +9,7 @@
 {%- endcomment -%}
 
 {%- liquid
-  assign calculated_total_price = cart.items | where: "requires_shipping", true | sum: 'final_line_price' | minus: cart.total_discount
+  assign calculated_total_price = cart.total_price
   if settings.currency_code_enabled
     assign money_need_add = shipping_amount | minus: calculated_total_price | money_with_currency
   else
