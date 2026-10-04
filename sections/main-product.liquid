@@ -169,7 +169,6 @@
               </countdown-timer>
 
             {%- when 'bundle_offers' -%}
-              {%- render 'jb-size-finder', product: product -%}
               {%- render 'bundle-offers', product: product, block: block -%}
 
             {%- when 'quantity_selector' -%}
@@ -183,13 +182,8 @@
               </div>
 
             {%- when 'variant_picker' -%}
-              {%- liquid
-                assign block_types = section.blocks | map: 'type'
-                unless block_types contains 'bundle_offers'
-                  render 'jb-size-finder', product: product
-                endunless
-              -%}
               <div class="hdt-product-info__item hdt-product__variant-picker" data-type="{{ block.type }}" {{ block.shopify_attributes }}>{%- render 'variant-picker', product: product, block: block, product_form_id: product_form_id, update_url: update_url, selected_variant: selected_variant, un_no_pick: un_no_pick -%}</div>
+              {%- render 'jb-size-finder', product: product -%}
 
             {%- when 'buy_buttons' -%}
               {%- assign has_form_atc = true -%}

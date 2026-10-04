@@ -247,12 +247,23 @@
         if (match) this.pieces[pieceIndex] = match.o.slice();
       }
 
+      /* The size finder sits under the sizes: in the bundle panel while an offer is open, under the theme picker otherwise. */
+      placeFinder(active) {
+        const parent = this.closest('.jb-bundle-item').parentElement;
+        const finder = parent.querySelector('.jb-finder-item') || this.querySelector('.jb-finder-item');
+        const picker = parent.querySelector(':scope > [data-type="variant_picker"]');
+        if (!finder || !picker) return;
+        if (active) this.piecesEl.after(finder);
+        else picker.after(finder);
+      }
+
       setCount(count) {
         this.count = count;
         const active = count > 1;
         this.closest('.jb-bundle-item').parentElement.classList.toggle('jb-bundle-active', active);
         document.documentElement.classList.toggle('jb-bundle-on', active);
         this.panel.hidden = !active;
+        this.placeFinder(active);
         while (this.pieces.length < count) {
           this.pieces.push(this.firstAvailable());
           this.applyPreferred(this.pieces.length - 1);
