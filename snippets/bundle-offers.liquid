@@ -277,17 +277,14 @@
       }
 
       formatMoney(cents) {
-        const withDecimals = (cents / 100).toFixed(2);
-        const noDecimals = Math.round(cents / 100).toString();
-        const group = (amount, separator) => amount.replace(/\B(?=(\d{3})+(?!\d))/g, separator);
+        const whole = Math.floor(cents / 100).toString();
+        const fraction = cents % 100 ? (cents % 100).toString().padStart(2, '0') : '';
+        const group = (separator) => whole.replace(/\B(?=(\d{3})+$)/g, separator);
         return this.data.moneyFormat.replace(/\{\{\s*(\w+)\s*\}\}/, (match, key) => {
-          switch (key) {
-            case 'amount_no_decimals': return group(noDecimals, ',');
-            case 'amount_with_comma_separator': return group(withDecimals.replace('.', ','), '.');
-            case 'amount_no_decimals_with_comma_separator': return group(noDecimals, '.');
-            default: return group(withDecimals, ',');
-          }
-        }).replace(/[.,]00(?!d)/, '');
+          const comma = key.indexOf('comma_separator') > -1;
+          const decimals = fraction && key.indexOf('no_decimals') === -1 ? (comma ? ',' : '.') + fraction : '';
+          return group(comma ? '.' : ',') + decimals;
+        });
       }
 
       /* The cart price follows the discount code of the chosen offer. */
