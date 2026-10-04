@@ -139,13 +139,13 @@
         "review_stars": {
           "type": "review_stars",
           "settings": {
-            "show_sample": true
+            "show_sample": false
           }
         },
         "reviews": {
           "type": "reviews",
           "settings": {
-            "show_sample": true
+            "show_sample": false
           }
         }
       },
