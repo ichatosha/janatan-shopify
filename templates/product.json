@@ -188,14 +188,6 @@
             "title": "الوصف"
           }
         },
-        "tab_html_dXVmPy": {
-          "type": "tab_html",
-          "settings": {
-            "title": "Size Chart",
-            "content": "",
-            "page": "{{ product.metafields.custom.size_chart_page.value }}"
-          }
-        },
         "tab_liquid_DyAeHn": {
           "type": "tab_liquid",
           "disabled": true,
@@ -208,7 +200,6 @@
       },
       "block_order": [
         "76effdab-2914-4a34-a303-417cde99ff0a",
-        "tab_html_dXVmPy",
         "tab_liquid_DyAeHn"
       ],
       "settings": {
