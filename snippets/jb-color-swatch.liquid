@@ -1,0 +1,93 @@
+{%- comment -%}
+  Outputs the CSS background of a colour option value, or nothing when the option
+  is not a colour or the value is unknown and has no variant image.
+  Accepts:
+  - option_name: {String} option name.
+  - option_position: {Number} option position (1-3).
+  - value: {String} option value.
+  - product: {Object} product object.
+
+  Usage:
+  {%- capture swatch -%}{%- render 'jb-color-swatch', option_name: option.name, option_position: option.position, value: value, product: product -%}{%- endcapture -%}
+{%- endcomment -%}
+{%- liquid
+  assign jb_option = option_name | downcase | strip
+  assign jb_is_color = false
+  case jb_option
+    when 'color', 'colour', 'colors', 'لون', 'اللون', 'ألوان', 'الألوان', 'الوان'
+      assign jb_is_color = true
+  endcase
+
+  assign jb_bg = ''
+  if jb_is_color
+    assign jb_value = value | append: '' | downcase | strip
+    case jb_value
+      when 'أبيض', 'ابيض', 'white'
+        assign jb_bg = '#ffffff'
+      when 'أسود', 'اسود', 'black'
+        assign jb_bg = '#111111'
+      when 'رصاصي', 'رمادي'
+        assign jb_bg = '#8a8d91'
+      when 'رمادي فاتح'
+        assign jb_bg = '#c9cbcd'
+      when 'رمادي غامق'
+        assign jb_bg = '#55585c'
+      when 'بيج'
+        assign jb_bg = '#d9c7a8'
+      when 'كافية بيج', 'كافيه بيج'
+        assign jb_bg = '#c8a988'
+      when 'كافية', 'كافيه'
+        assign jb_bg = '#a67b5b'
+      when 'بني هافان'
+        assign jb_bg = '#9a6a43'
+      when 'بني فاتح'
+        assign jb_bg = '#b08560'
+      when 'بني غامق', 'بني'
+        assign jb_bg = '#4e3524'
+      when 'نبيتي', 'نبيتي(البرجندي)', 'برجندي'
+        assign jb_bg = '#6d1a2b'
+      when 'كحلي'
+        assign jb_bg = '#1c2a4a'
+      when 'أزرق', 'ازرق'
+        assign jb_bg = '#2f5fa8'
+      when 'أزرق أيس', 'ازرق ايس'
+        assign jb_bg = '#b7d7ea'
+      when 'بيبي بلو'
+        assign jb_bg = '#a9cfee'
+      when 'زيتي'
+        assign jb_bg = '#5b6236'
+      when 'زيتوني'
+        assign jb_bg = '#7d8450'
+      when 'أخضر', 'اخضر'
+        assign jb_bg = '#2f7d4f'
+      when 'فستقي'
+        assign jb_bg = '#b5c98a'
+      when 'كيوي'
+        assign jb_bg = '#9bc53d'
+      when 'أصفر', 'اصفر'
+        assign jb_bg = '#f2d544'
+      when 'وردي', 'بينك', 'pink'
+        assign jb_bg = '#f29bb5'
+      when 'وردي فاتح'
+        assign jb_bg = '#f9cdd8'
+      when 'فوشيا', 'فوشيا2'
+        assign jb_bg = '#d6247e'
+      when 'بنفسجي', 'موف', 'موڤ'
+        assign jb_bg = '#7b4fa3'
+      when 'موف فاتح', 'موڤ فاتح'
+        assign jb_bg = '#cdb4e6'
+    endcase
+
+    if jb_bg == blank
+      assign jb_key = 'option' | append: option_position
+      assign jb_variants = product.variants | where: jb_key, value
+      for jb_variant in jb_variants
+        if jb_variant.featured_image
+          assign jb_bg = jb_variant.featured_image | image_url: width: 80 | prepend: 'url(' | append: ') center / cover'
+          break
+        endif
+      endfor
+    endif
+  endif
+-%}
+{{- jb_bg -}}

@@ -135,6 +135,9 @@
       <input {% if value.product_url != nil %}data-product-url="{{ value.product_url }}" {% endif %}autocomplete="off" is-value type="radio" id="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}" name="{{ option.name | escape }}" value="{{ value | escape }}" form="{{ product_form_id }}"{% if selected_value == value and un_no_pick %} checked{% endif %} class="sr-only {% if option_unavailable %}is-unavailable{% elsif option_soldout %}is-disabled{% endif %}">
       <label for="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}" class="hdt-product-form_value  is-type-block">
         {%- unless hide_sold_out %}<span class="sr-only">{{ 'products.product.variant_sold_out' | t }}</span>{% endunless -%}
+        {%- capture jb_swatch -%}{%- render 'jb-color-swatch', option_name: option.name, option_position: option.position, value: value, product: product -%}{%- endcapture -%}
+        {%- assign jb_swatch = jb_swatch | strip -%}
+        {%- if jb_swatch != blank -%}<span style="display:inline-block;width:20px;height:20px;margin-inline-end:8px;vertical-align:middle;border-radius:4px;border:1px solid #fff;box-shadow:0 0 0 1px rgba(0,0,0,.25);background:{{ jb_swatch }}"></span>{%- endif -%}
         {{- value | escape -}}
       </label>
     {%- endif -%}

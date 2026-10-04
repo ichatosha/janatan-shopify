@@ -44,10 +44,16 @@
   endfor
 
   assign unit_price = product.price
-  assign full_2 = unit_price | times: 2
-  assign full_3 = unit_price | times: 3
-  assign total_2 = full_2 | minus: off_2
-  assign total_3 = full_3 | minus: off_3
+  assign total_2 = unit_price | times: 2 | minus: off_2
+  assign total_3 = unit_price | times: 3 | minus: off_3
+  assign base_price = unit_price
+  if product.compare_at_price > unit_price
+    assign base_price = product.compare_at_price
+  endif
+  assign full_2 = base_price | times: 2
+  assign full_3 = base_price | times: 3
+  assign save_2 = full_2 | minus: total_2
+  assign save_3 = full_3 | minus: total_3
 -%}
 
 {%- if bundle_show -%}
@@ -80,11 +86,11 @@
         <span class="jb-bundle__radio"></span>
         <span class="jb-bundle__info">
           <span class="jb-bundle__title">قطعتين</span>
-          <span class="jb-bundle__each">{%- if off_2 > 0 %} <b class="jb-bundle__save">وفّري {{ off_2 | money_without_trailing_zeros }}</b>{% endif -%}</span>
+          <span class="jb-bundle__each">{%- if save_2 > 0 -%}<b class="jb-bundle__save">وفّري {{ save_2 | money_without_trailing_zeros }}</b>{%- endif -%}</span>
         </span>
         <span class="jb-bundle__prices">
           <span class="jb-bundle__total">{{ total_2 | money_without_trailing_zeros }}</span>
-          {%- if off_2 > 0 -%}<s class="jb-bundle__compare">{{ full_2 | money_without_trailing_zeros }}</s>{%- endif -%}
+          {%- if save_2 > 0 -%}<s class="jb-bundle__compare">{{ full_2 | money_without_trailing_zeros }}</s>{%- endif -%}
         </span>
       </label>
 
@@ -94,11 +100,11 @@
         <span class="jb-bundle__radio"></span>
         <span class="jb-bundle__info">
           <span class="jb-bundle__title">3 قطع</span>
-          <span class="jb-bundle__each">{%- if off_3 > 0 %} <b class="jb-bundle__save">وفّري {{ off_3 | money_without_trailing_zeros }}</b>{% endif -%}</span>
+          <span class="jb-bundle__each">{%- if save_3 > 0 -%}<b class="jb-bundle__save">وفّري {{ save_3 | money_without_trailing_zeros }}</b>{%- endif -%}</span>
         </span>
         <span class="jb-bundle__prices">
           <span class="jb-bundle__total">{{ total_3 | money_without_trailing_zeros }}</span>
-          {%- if off_3 > 0 -%}<s class="jb-bundle__compare">{{ full_3 | money_without_trailing_zeros }}</s>{%- endif -%}
+          {%- if save_3 > 0 -%}<s class="jb-bundle__compare">{{ full_3 | money_without_trailing_zeros }}</s>{%- endif -%}
         </span>
       </label>
     </div>
@@ -117,7 +123,7 @@
         "moneyFormat": {{ shop.money_format | json }},
         "off": { "2": {{ off_2 }}, "3": {{ off_3 }} },
         "codes": { "2": {{ code_2 | json }}, "3": {{ code_3 | json }} },
-        "options": [{%- unless product.has_only_default_variant -%}{%- for option in product.options_with_values -%}{ "name": {{ option.name | json }}, "values": {{ option.values | json }} }{%- unless forloop.last -%},{%- endunless -%}{%- endfor -%}{%- endunless -%}],
+        "options": [{%- unless product.has_only_default_variant -%}{%- for option in product.options_with_values -%}{ "name": {{ option.name | json }}, "values": {{ option.values | json }}, "swatches": { {%- for value in option.values -%}{%- capture swatch -%}{%- render 'jb-color-swatch', option_name: option.name, option_position: option.position, value: value, product: product -%}{%- endcapture -%}{{ value | append: '' | json }}: {{ swatch | strip | json }}{%- unless forloop.last -%},{%- endunless -%}{%- endfor -%} } }{%- unless forloop.last -%},{%- endunless -%}{%- endfor -%}{%- endunless -%}],
         "variants": [{%- for variant in product.variants -%}{ "id": {{ variant.id }}, "o": {{ variant.options | json }}, "a": {{ variant.available | json }}, "p": {{ variant.price }} }{%- unless forloop.last -%},{%- endunless -%}{%- endfor -%}]
       }
     </script>
@@ -154,7 +160,8 @@
   .jb-bundle__option-name { font-size: 13px; color: #545454; margin-bottom: 6px; }
   .jb-bundle__option-name b { color: #000; }
   .jb-bundle__values { display: flex; flex-wrap: wrap; gap: 8px; }
-  .jb-bundle__value { min-height: 44px; min-width: 48px; padding: 6px 14px; border: 1px solid var(--jb-line); border-radius: 5px; background: #fff; color: #000; font: inherit; font-size: 14px; cursor: pointer; transition: border-color .15s ease, background-color .15s ease, color .15s ease; }
+  .jb-bundle__swatch { flex: 0 0 20px; width: 20px; height: 20px; border-radius: 4px; border: 1px solid #fff; box-shadow: 0 0 0 1px rgba(0, 0, 0, .25); }
+  .jb-bundle__value { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; min-width: 48px; padding: 6px 14px; border: 1px solid var(--jb-line); border-radius: 5px; background: #fff; color: #000; font: inherit; font-size: 14px; cursor: pointer; transition: border-color .15s ease, background-color .15s ease, color .15s ease; }
   .jb-bundle__value[aria-pressed="true"] { border-color: var(--jb-ink); background: var(--jb-ink); color: #fff; }
   .jb-bundle__value:focus-visible { outline: 2px solid var(--jb-ink); outline-offset: 2px; }
   .jb-bundle__value:disabled { color: #8a8a8a; background: var(--jb-soft); text-decoration: line-through; cursor: not-allowed; }
@@ -260,7 +267,13 @@
                 const button = document.createElement('button');
                 button.type = 'button';
                 button.className = 'jb-bundle__value';
-                button.textContent = value;
+                if (option.swatches[value]) {
+                  const swatch = document.createElement('span');
+                  swatch.className = 'jb-bundle__swatch';
+                  swatch.style.background = option.swatches[value];
+                  button.appendChild(swatch);
+                }
+                button.append(value);
                 button.dataset.piece = pieceIndex;
                 button.dataset.option = optionIndex;
                 button.dataset.value = value;
