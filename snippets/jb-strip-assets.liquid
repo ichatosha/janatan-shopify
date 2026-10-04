@@ -43,6 +43,11 @@
   if (!customElements.get('jb-strip')) {
     customElements.define('jb-strip', class extends HTMLElement {
       connectedCallback() {
+        if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', () => this.init(), { once: true });
+        else this.init();
+      }
+
+      init() {
         this.track = this.querySelector('.jb-strip__track');
         this.prev = this.querySelector('[data-strip="prev"]');
         this.next = this.querySelector('[data-strip="next"]');

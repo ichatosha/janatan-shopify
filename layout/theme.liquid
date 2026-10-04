@@ -61,7 +61,15 @@
     {{ content_for_header }}
     {%- endunless -%}
 
-  </head>
+    <style>
+    /* Product cards: price centred, sale price in red, old price struck through. */
+    .hdt-card-product .hdt-price__list, .jb-pcard .hdt-price__list { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: center; gap: 2px 8px; }
+    .hdt-card-product hdt-compare-at-price, .hdt-card-product hdt-compare-at-price .hdt-money,
+    .jb-pcard hdt-compare-at-price, .jb-pcard hdt-compare-at-price .hdt-money { color: #545454; font-size: 13px; font-weight: 400; text-decoration: line-through; }
+    .hdt-card-product hdt-compare-at-price + hdt-price, .hdt-card-product hdt-compare-at-price + hdt-price .hdt-money,
+    .jb-pcard hdt-compare-at-price + hdt-price, .jb-pcard hdt-compare-at-price + hdt-price .hdt-money { color: #db1215; }
+  </style>
+</head>
   <body class="hdt-page-type-{{ request.page_type }}{% if settings.animations_hover_elements != 'none' %} animate--hover-{{ settings.animations_hover_elements }}{% endif %} template-{{ template.name }}">
     {%- render 'js-variables' -%}
     {%- unless template == 'product.only_config' and request.design_mode == false -%}

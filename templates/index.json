@@ -37,7 +37,7 @@
             "target": false,
             "btn_size": "lg",
             "btn_style": "solid",
-            "btn_fw": "normal",
+            "btn_fw": "semibold",
             "btn_icon": "1"
           }
         }
