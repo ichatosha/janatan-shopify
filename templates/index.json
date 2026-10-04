@@ -285,7 +285,8 @@
         "padding_top": 30,
         "padding_bottom": 50,
         "padding_rate": 75
-      }
+      },
+      "disabled": true
     },
     "featured_collection_carousel_EdHcY8": {
       "type": "featured-collection-carousel",
@@ -337,7 +338,8 @@
         "padding_top": 40,
         "padding_bottom": 45,
         "padding_rate": 75
-      }
+      },
+      "disabled": true
     },
     "collections_list_WxfThg": {
       "type": "collections-list",
@@ -761,13 +763,130 @@
     "1789906693f84fa543": {
       "type": "_blocks",
       "settings": {}
+    },
+    "jb_best": {
+      "type": "jb-product-strip",
+      "settings": {
+        "heading": "الأكثر مبيعاً",
+        "collection": "best-seller",
+        "limit": 10,
+        "show_all": true
+      }
+    },
+    "jb_cats": {
+      "type": "jb-category-strip",
+      "blocks": {
+        "cat_0": {
+          "type": "category",
+          "settings": {
+            "collection": "rosalyn-pants",
+            "title": "روزالين"
+          }
+        },
+        "cat_1": {
+          "type": "category",
+          "settings": {
+            "collection": "linin-pants",
+            "title": "كتان"
+          }
+        },
+        "cat_2": {
+          "type": "category",
+          "settings": {
+            "collection": "جيب-بنطلون-مشجر",
+            "title": "مشجر"
+          }
+        },
+        "cat_3": {
+          "type": "category",
+          "settings": {
+            "collection": "denim",
+            "title": "جينز"
+          }
+        },
+        "cat_4": {
+          "type": "category",
+          "settings": {
+            "collection": "shirt",
+            "title": "شميز"
+          }
+        },
+        "cat_5": {
+          "type": "category",
+          "settings": {
+            "collection": "dresses",
+            "title": "فساتين"
+          }
+        },
+        "cat_6": {
+          "type": "category",
+          "settings": {
+            "collection": "50-تخفيضات",
+            "title": "أطقم"
+          }
+        }
+      },
+      "block_order": [
+        "cat_0",
+        "cat_1",
+        "cat_2",
+        "cat_3",
+        "cat_4",
+        "cat_5",
+        "cat_6"
+      ],
+      "settings": {
+        "heading": "تسوّقي حسب الفئة"
+      }
+    },
+    "jb_new": {
+      "type": "jb-product-strip",
+      "settings": {
+        "heading": "وصل حديثاً",
+        "collection": "new-arrivals",
+        "limit": 10,
+        "show_all": true
+      }
+    },
+    "jb_pants": {
+      "type": "jb-product-strip",
+      "settings": {
+        "heading": "بناطيل مشجرة",
+        "collection": "جيب-بنطلون-مشجر",
+        "limit": 12,
+        "show_all": true
+      }
+    },
+    "jb_dresses": {
+      "type": "jb-product-strip",
+      "settings": {
+        "heading": "فساتين",
+        "collection": "dresses",
+        "limit": 12,
+        "show_all": true
+      }
+    },
+    "jb_shirts": {
+      "type": "jb-product-strip",
+      "settings": {
+        "heading": "شميز",
+        "collection": "shirt",
+        "limit": 12,
+        "show_all": true
+      }
     }
   },
   "order": [
     "hero_image_BMBMk7",
+    "jb_best",
+    "jb_cats",
+    "jb_new",
     "collections_list_8JJ78c",
     "custom_line_LgBipG",
     "25d95633-b21f-43fa-90ad-eef09163772b",
+    "jb_pants",
+    "jb_dresses",
+    "jb_shirts",
     "featured_collection_grid_BRhWyQ",
     "featured_collection_carousel_EdHcY8",
     "collections_list_WxfThg",

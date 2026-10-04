@@ -1,6 +1,6 @@
 {%- comment -%}
   Renders a weight based size finder. The weight ranges come from the product's own
-  size option values, so it only shows when a size carries a weight.
+  size option values. It only shows when the product has more than one size to pick from.
   Accepts:
   - product: {Object} product object.
   - with_chart: {Boolean} also renders the size chart button in the row (optional).
@@ -26,7 +26,7 @@
   endfor
 -%}
 
-{%- if finder_count > 0 and product.available -%}
+{%- if finder_count > 1 and product.available -%}
 <div class="hdt-product-info__item jb-finder-item" data-type="size_finder">
   <jb-size-finder class="jb-finder">
     <label class="jb-finder__label" for="jb-finder-weight-{{ product.id }}">اعرفي مقاسك من وزنك</label>

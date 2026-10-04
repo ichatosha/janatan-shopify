@@ -108,6 +108,7 @@
   </div>
   {%- if show_badges %}{% render 'badges', product: product, use_variant: use_variant %}{% endif -%}
 </div>
+{%- render 'jb-card-extras', product: product -%}
 {%- if show_volume_note and product.quantity_price_breaks_configured? -%}
   <div class="hdt-volume-pricing-note">{{ 'products.product.volume_pricing.note' | t }}</div>
 {%- endif -%}

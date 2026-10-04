@@ -1,0 +1,69 @@
+{%- comment -%}
+  Styles and behaviour shared by the horizontal scroll strips (jb-product-strip and
+  jb-category-strip sections).
+
+  Usage:
+  {% render 'jb-strip-assets' %}
+{%- endcomment -%}
+
+<style>
+  .jb-strip { display: block; color: #000; }
+  .jb-strip__head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
+  .jb-strip__heading { margin: 0; font-size: 20px; font-weight: 700; line-height: 1.4; }
+  .jb-strip__tools { display: flex; align-items: center; gap: 8px; }
+  .jb-strip__all { font-size: 14px; font-weight: 600; color: #3a3b3d; text-decoration: underline; text-underline-offset: 3px; white-space: nowrap; }
+  .jb-strip__arrow { display: none; width: 40px; height: 40px; border: 1px solid rgba(58, 59, 61, .3); border-radius: 50%; background: #fff; color: #3a3b3d; font-size: 18px; line-height: 1; cursor: pointer; }
+  .jb-strip__arrow:focus-visible, .jb-strip__all:focus-visible, .jb-strip a:focus-visible { outline: 2px solid #3a3b3d; outline-offset: 2px; }
+  .jb-strip__arrow[disabled] { opacity: .35; cursor: default; }
+  .jb-strip__track { position: relative; display: flex; gap: 12px; margin: 0; padding: 2px 2px 10px; list-style: none; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+  .jb-strip__track::-webkit-scrollbar { display: none; }
+  .jb-strip__item { position: relative; flex: 0 0 44%; scroll-snap-align: start; min-width: 0; }
+  .jb-strip--categories .jb-strip__item { flex-basis: 30%; }
+  @media (min-width: 768px) {
+    .jb-strip__heading { font-size: 26px; }
+    .jb-strip__arrow { display: inline-grid; place-items: center; }
+    .jb-strip__item { flex-basis: 23%; }
+    .jb-strip--categories .jb-strip__item { flex-basis: 15%; }
+  }
+  @media (prefers-reduced-motion: reduce) { .jb-strip__track { scroll-behavior: auto; } }
+
+  .jb-pcard { display: block; color: inherit; text-decoration: none; text-align: center; }
+  .jb-pcard__media { position: relative; display: block; aspect-ratio: 3 / 4; border-radius: 5px; overflow: hidden; background: #f2f2f2; }
+  .jb-pcard__media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .jb-pcard__tag { position: absolute; top: 8px; inset-inline-start: 8px; padding: 2px 10px; border-radius: 40px; background: #7a0908; color: #fff; font-size: 12px; font-weight: 600; line-height: 1.6; }
+  .jb-pcard__title { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin: 10px 0 4px; font-size: 14px; line-height: 1.5; min-height: 3em; }
+
+  .jb-ccard { display: block; color: inherit; text-decoration: none; text-align: center; }
+  .jb-ccard__media { display: block; aspect-ratio: 1; border-radius: 50%; overflow: hidden; background: #f2f2f2; border: 1px solid rgba(58, 59, 61, .15); }
+  .jb-ccard__media img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
+  .jb-ccard__title { display: block; margin-top: 8px; font-size: 14px; font-weight: 600; line-height: 1.4; }
+</style>
+
+<script>
+  if (!customElements.get('jb-strip')) {
+    customElements.define('jb-strip', class extends HTMLElement {
+      connectedCallback() {
+        this.track = this.querySelector('.jb-strip__track');
+        this.prev = this.querySelector('[data-strip="prev"]');
+        this.next = this.querySelector('[data-strip="next"]');
+        if (!this.prev || !this.next) return;
+        this.direction = getComputedStyle(this.track).direction === 'rtl' ? -1 : 1;
+        this.prev.addEventListener('click', () => this.move(-1));
+        this.next.addEventListener('click', () => this.move(1));
+        this.track.addEventListener('scroll', () => this.update(), { passive: true });
+        this.update();
+      }
+
+      move(step) {
+        this.track.scrollBy({ left: step * this.direction * this.track.clientWidth * 0.8 });
+      }
+
+      update() {
+        const scrolled = Math.abs(this.track.scrollLeft);
+        const max = this.track.scrollWidth - this.track.clientWidth;
+        this.prev.disabled = scrolled < 4;
+        this.next.disabled = scrolled > max - 4;
+      }
+    });
+  }
+</script>
