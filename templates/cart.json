@@ -56,9 +56,14 @@
             "svg": "visa,paypal,master,american_express,amazon_payments",
             "height": 25
           }
+        },
+        "discount_code": {
+          "type": "discount_code",
+          "settings": {}
         }
       },
       "block_order": [
+        "discount_code",
         "8eba6407-c676-48f8-9fed-a654dce877d4",
         "478bc31f-ca91-4017-a20e-8d0731d43ed8",
         "a64b78c2-f247-45ae-8c41-a282ec84c580"

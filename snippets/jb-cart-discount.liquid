@@ -1,0 +1,83 @@
+{%- comment -%}
+  Renders a discount code field for the cart page. The code is added to the cart's
+  own discount codes, so it carries over to checkout together with any offer codes.
+  Accepts:
+  - block: {Object} passing the block information.
+
+  Usage:
+  {% render 'jb-cart-discount', block: block %}
+{%- endcomment -%}
+
+<jb-cart-discount class="jb-discount" data-cart-url="{{ routes.cart_url }}" data-update-url="{{ routes.cart_update_url }}" {{ block.shopify_attributes }}>
+  <label class="jb-discount__label" for="jb-discount-{{ block.id }}">{{ block.settings.heading }}</label>
+  <div class="jb-discount__row">
+    <input class="jb-discount__input" id="jb-discount-{{ block.id }}" type="text" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="اكتبي الكود هنا">
+    <button type="button" class="jb-discount__button">تطبيق</button>
+  </div>
+  <p class="jb-discount__message" role="status" hidden></p>
+</jb-cart-discount>
+
+<style>
+  .jb-discount { display: block; margin: 0 0 16px; color: #000; text-align: start; }
+  .jb-discount__label { display: block; margin: 0 0 8px; font-weight: 600; font-size: 14px; }
+  .jb-discount__row { display: flex; gap: 8px; }
+  .jb-discount__input { flex: 1 1 auto; min-width: 0; min-height: 44px; padding: 6px 12px; border: 1px solid rgba(58, 59, 61, .35); border-radius: 5px; background: #fff; color: #000; font: inherit; font-size: 16px; }
+  .jb-discount__input:focus-visible, .jb-discount__button:focus-visible { outline: 2px solid #3a3b3d; outline-offset: 2px; }
+  .jb-discount__button { flex: 0 0 auto; min-height: 44px; padding: 6px 18px; border: 1px solid #3a3b3d; border-radius: 5px; background: #3a3b3d; color: #fff; font: inherit; font-size: 14px; font-weight: 600; cursor: pointer; }
+  .jb-discount__button[disabled] { opacity: .6; pointer-events: none; }
+  .jb-discount__message { margin: 8px 0 0; font-size: 13px; color: #7a0908; }
+</style>
+
+<script>
+  if (!customElements.get('jb-cart-discount')) {
+    customElements.define('jb-cart-discount', class extends HTMLElement {
+      connectedCallback() {
+        this.input = this.querySelector('.jb-discount__input');
+        this.button = this.querySelector('.jb-discount__button');
+        this.message = this.querySelector('.jb-discount__message');
+        this.button.addEventListener('click', () => this.apply());
+        this.input.addEventListener('keydown', (event) => {
+          if (event.key !== 'Enter') return;
+          event.preventDefault();
+          this.apply();
+        });
+      }
+
+      async update(codes) {
+        const response = await fetch(this.dataset.updateUrl + '.js', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify({ discount: codes.join(',') })
+        });
+        return response.json();
+      }
+
+      show(text) {
+        this.message.textContent = text;
+        this.message.hidden = false;
+      }
+
+      async apply() {
+        const code = this.input.value.trim();
+        this.message.hidden = true;
+        if (!code) return this.show('اكتبي كود الخصم أولاً.');
+        this.button.disabled = true;
+        try {
+          const cart = await (await fetch(this.dataset.cartUrl + '.js', { headers: { Accept: 'application/json' } })).json();
+          const current = (cart.discount_codes || []).map((item) => item.code).filter((item) => item.toLowerCase() !== code.toLowerCase());
+          const updated = await this.update(current.concat(code));
+          const applied = (updated.discount_codes || []).find((item) => item.code.toLowerCase() === code.toLowerCase());
+          if (applied && applied.applicable) {
+            window.location.reload();
+            return;
+          }
+          await this.update(current);
+          this.show('الكود غير صحيح، أو لا ينطبق على منتجات السلة، أو يوجد خصم أفضل مطبّق بالفعل.');
+        } catch (error) {
+          this.show('تعذّر تطبيق الكود، حاولي مرة أخرى.');
+        }
+        this.button.disabled = false;
+      }
+    });
+  }
+</script>
