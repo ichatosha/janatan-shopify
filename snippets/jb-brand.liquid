@@ -100,6 +100,13 @@
   .jb-desc li { margin: 0; padding: 9px 12px; border-radius: 6px; background: var(--jb-ivory); list-style: none; }
   .jb-desc li::before, .jb-desc li::marker { content: none; }
 
+  /* Product page: the secure checkout line and the payment badge share one row. */
+  .hdt-product__trust-seal { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 16px; }
+  .hdt-product__trust-seal .hdt-product__trust-mess { margin: 0; }
+  .hdt-product__trust-seal .hdt-product__trust-mess p { margin: 0; }
+  .hdt-product__trust-seal .hdt-img__trust-image { display: block; flex: 0 0 auto; width: 72px; max-width: 72px !important; margin: 0; }
+  .hdt-product__trust-seal .hdt-img__trust-image img { display: block; width: 100%; height: auto; }
+
   /* Size chips: four in a row on phones. */
   @media (max-width: 767px) {
     .hdt-product-form__values:has(.jb-size-chip), .jb-bundle__values:has(.jb-bundle__size) { display: grid !important; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
