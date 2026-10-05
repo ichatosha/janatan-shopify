@@ -561,7 +561,17 @@
         "heading": "الأكثر مبيعاً",
         "collection": "best-seller",
         "limit": 10,
-        "show_all": true
+        "show_all": true,
+        "products": [
+          "womenwidepants",
+          "meltonpants",
+          "linen-pants-black",
+          "denim-pants-blue",
+          "patternpants",
+          "tonic4color",
+          "galaxy9colors",
+          "shemiz4color"
+        ]
       }
     },
     "jb_cats": {
@@ -621,8 +631,8 @@
     "jb_pants": {
       "type": "jb-product-strip",
       "settings": {
-        "heading": "بناطيل مشجرة",
-        "collection": "جيب-بنطلون-مشجر",
+        "heading": "بناطيل",
+        "collection": "pants",
         "limit": 12,
         "show_all": true
       }
@@ -769,9 +779,9 @@
     "jb_hero",
     "hero_image_BMBMk7",
     "25d95633-b21f-43fa-90ad-eef09163772b",
-    "jb_cats",
     "jb_best",
     "jb_videos",
+    "jb_cats",
     "jb_story",
     "jb_new",
     "jb_look",

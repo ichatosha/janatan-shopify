@@ -12,21 +12,29 @@
   endcapture
 -%}
 
-{%- if strip_collection != blank and strip_collection.products_count > 0 -%}
+{%- liquid
+  assign strip_products = strip_collection.products
+  assign strip_all_url = strip_collection.url
+  if section.settings.products != blank
+    assign strip_products = section.settings.products
+  endif
+-%}
+
+{%- if strip_products.size > 0 -%}
 {%- render 'jb-strip-assets' -%}
 <div class="hdt-container" style="padding-top:{{ section.settings.padding_top }}px;padding-bottom:{{ section.settings.padding_bottom }}px">
   <jb-strip class="jb-strip">
     <div class="jb-strip__head">
       <h2 class="jb-strip__heading">{{ section.settings.heading | default: strip_collection.title }}</h2>
       <div class="jb-strip__tools">
-        {%- if section.settings.show_all -%}<a class="jb-strip__all" href="{{ strip_collection.url }}">عرض الكل</a>{%- endif -%}
+        {%- if section.settings.show_all and strip_all_url != blank -%}<a class="jb-strip__all" href="{{ strip_all_url }}">عرض الكل</a>{%- endif -%}
         <button type="button" dir="ltr" class="jb-strip__arrow" data-strip="prev" aria-label="السابق">&#8250;</button>
         <button type="button" dir="ltr" class="jb-strip__arrow" data-strip="next" aria-label="التالي">&#8249;</button>
       </div>
     </div>
 
     <ul class="jb-strip__track" role="list">
-      {%- for product in strip_collection.products limit: strip_limit -%}
+      {%- for product in strip_products limit: strip_limit -%}
         <li class="jb-strip__item">
           <div class="jb-pcard">
             <div class="jb-pcard__frame">
@@ -63,6 +71,7 @@
   "settings": [
     { "type": "text", "id": "heading", "label": "Heading", "info": "Leave empty to use the collection title." },
     { "type": "collection", "id": "collection", "label": "Collection" },
+    { "type": "product_list", "id": "products", "label": "Hand-picked products", "info": "Shown in this order instead of the collection's products. The collection is still used for the 'view all' link.", "limit": 20 },
     { "type": "range", "id": "limit", "label": "Products to show", "min": 4, "max": 20, "step": 1, "default": 10 },
     { "type": "checkbox", "id": "show_all", "label": "Show the 'view all' link", "default": true },
     { "type": "range", "id": "padding_top", "label": "Top spacing", "min": 0, "max": 80, "step": 4, "unit": "px", "default": 32 },
