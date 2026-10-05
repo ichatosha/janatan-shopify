@@ -283,102 +283,6 @@
         "padding_rate": 75
       }
     },
-    "feature_columns_6a3Yq9": {
-      "type": "feature_columns",
-      "blocks": {
-        "item_yYPXmh": {
-          "type": "item",
-          "settings": {
-            "image": "shopify://shop_images/WhatsApp_Image_2026-09-15_at_13.35.43_1.jpg",
-            "subtitle": "البنطلون الروزالين",
-            "title": "أراء العملاء",
-            "text": "",
-            "btn_label": "شوفي المنتج",
-            "btn_link": "shopify://products/womenwidepants",
-            "target": false,
-            "btn_style": "solid",
-            "btn_fw": "normal",
-            "btn_icon": "none"
-          }
-        },
-        "item_kzxp4C": {
-          "type": "item",
-          "settings": {
-            "image": "shopify://shop_images/WhatsApp_Image_2026-09-15_at_13.35.42.jpg",
-            "subtitle": "البنطلون الروزالين",
-            "title": "أراء العملاء",
-            "text": "",
-            "btn_label": "شوفي المنتج",
-            "btn_link": "shopify://products/womenwidepants",
-            "target": false,
-            "btn_style": "solid",
-            "btn_fw": "normal",
-            "btn_icon": "none"
-          }
-        },
-        "item_KmM3Rg": {
-          "type": "item",
-          "settings": {
-            "image": "shopify://shop_images/WhatsApp_Image_2026-09-15_at_13.35.42_1.jpg",
-            "subtitle": "البنطلون الروزالين",
-            "title": "أراء العملاء",
-            "text": "",
-            "btn_label": "شوفي المنتج",
-            "btn_link": "shopify://products/womenwidepants",
-            "target": false,
-            "btn_style": "solid",
-            "btn_fw": "normal",
-            "btn_icon": "none"
-          }
-        },
-        "item_CPAiVW": {
-          "type": "item",
-          "settings": {
-            "image": "shopify://shop_images/WhatsApp_Image_2026-09-15_at_13.35.43_3.jpg",
-            "subtitle": "البنطلون الروزالين",
-            "title": "أراء العملاء",
-            "text": "",
-            "btn_label": "شوفي المنتج",
-            "btn_link": "shopify://products/womenwidepants",
-            "target": true,
-            "btn_style": "solid",
-            "btn_fw": "normal",
-            "btn_icon": "none"
-          }
-        }
-      },
-      "block_order": [
-        "item_yYPXmh",
-        "item_kzxp4C",
-        "item_KmM3Rg",
-        "item_CPAiVW"
-      ],
-      "name": "t:sections.feature_columns.name",
-      "settings": {
-        "sec_heading": "",
-        "heading_align": "center",
-        "heading_tag": "h3",
-        "heading_size": "h4",
-        "sec_subheading": "",
-        "subheading_size": "lg",
-        "heading_reverse": false,
-        "heading_gap": 29,
-        "sec_heading_spacing": 30,
-        "col_dk": "3",
-        "col_tb": "3",
-        "col_mb": "1",
-        "image_ratio": "adapt_image",
-        "image_size": true,
-        "navUI": false,
-        "nav_des": "default",
-        "nav_pos": "middle_in",
-        "dotUI": false,
-        "color_scheme": "",
-        "padding_top": 36,
-        "padding_bottom": 36,
-        "padding_rate": 75
-      }
-    },
     "jb_videos": {
       "type": "jb-videos",
       "settings": {
@@ -397,7 +301,6 @@
     "jb_videos",
     "tabs",
     "related",
-    "recently",
-    "feature_columns_6a3Yq9"
+    "recently"
   ]
 }
