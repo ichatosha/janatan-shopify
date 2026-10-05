@@ -23,6 +23,8 @@
   {%- assign extras_average = extras_total | times: 1.0 | divided_by: extras_count | round: 1 -%}
   <div style="display:flex;align-items:center;justify-content:center;width:100%;margin-top:4px;font-size:12px;line-height:1.4;color:#545454">
     {%- render 'jb-stars', rating: extras_average, size: 13 -%}
+    {%- assign extras_score = extras_average | remove: '.0' -%}
+    <span class="jb-card-score" dir="ltr" aria-hidden="true" style="margin-inline-start:6px;font-size:12px;font-weight:700;line-height:1;color:#1c1b1a">{{ extras_score }}<span style="font-weight:400;color:#6b6b6b">/5</span></span>
   </div>
 {%- endif -%}
 
