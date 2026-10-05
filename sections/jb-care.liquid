@@ -60,19 +60,25 @@
 </div>
 
 <style>
-  .jb-care { padding: 28px 16px; border: 1px solid var(--jb-line); border-radius: 6px; background: var(--jb-ivory); color: var(--jb-ink); }
-  .jb-care .jb-heading { margin-bottom: 20px; }
-  .jb-care .jb-heading__title { font-size: 26px; }
-  .jb-care__list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px 8px; margin: 0; padding: 0; list-style: none; }
-  .jb-care__item { display: grid; gap: 8px; justify-items: center; text-align: center; }
-  .jb-care__icon { display: grid; place-items: center; width: 64px; height: 64px; border: 1px solid var(--jb-brand); border-radius: 50%; background: #fff; color: var(--jb-brand); }
-  .jb-care__text { font-size: 12px; font-weight: 600; line-height: 1.6; max-width: 16ch; }
-  .jb-care__note { margin: 20px 0 0; font-size: 12px; line-height: 1.7; color: #545454; text-align: center; }
+  .jb-care { padding: 14px 10px; border: 1px solid var(--jb-line); border-radius: 6px; background: var(--jb-ivory); color: var(--jb-ink); }
+  .jb-care .jb-heading { gap: 0; margin-bottom: 10px; }
+  .jb-care .jb-eyebrow { display: none; }
+  .jb-care .jb-heading__title { font-size: 20px; }
+  .jb-care__list { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 4px; margin: 0; padding: 0; list-style: none; }
+  .jb-care__item { display: grid; gap: 5px; justify-items: center; align-content: start; text-align: center; }
+  .jb-care__icon { display: grid; place-items: center; width: 40px; height: 40px; border: 1px solid var(--jb-brand); border-radius: 50%; background: #fff; color: var(--jb-brand); }
+  .jb-care__icon svg { width: 22px; height: 22px; }
+  .jb-care__text { font-size: 10px; font-weight: 600; line-height: 1.45; }
+  .jb-care__note { margin: 8px 0 0; font-size: 11px; line-height: 1.6; color: #545454; text-align: center; }
   @media (min-width: 768px) {
-    .jb-care { padding: 40px 32px; }
-    .jb-care__list { grid-template-columns: repeat(5, minmax(0, 1fr)); }
-    .jb-care__text { font-size: 13px; }
-    .jb-care .jb-heading__title { font-size: 32px; }
+    .jb-care { display: flex; align-items: center; gap: 32px; padding: 16px 28px; }
+    .jb-care .jb-heading { flex: 0 0 auto; margin: 0; }
+    .jb-care .jb-heading__title { font-size: 24px; }
+    .jb-care__list { flex: 1 1 auto; gap: 12px; }
+    .jb-care__item { grid-template-columns: 44px 1fr; align-items: center; justify-items: start; gap: 10px; text-align: start; }
+    .jb-care__icon { width: 44px; height: 44px; }
+    .jb-care__text { font-size: 12px; }
+    .jb-care__note { display: none; }
   }
 </style>
 {%- endif -%}
@@ -85,8 +91,8 @@
     { "type": "text", "id": "eyebrow", "label": "Small line above the heading", "default": "CARE GUIDE" },
     { "type": "text", "id": "heading", "label": "Heading", "default": "إرشادات العناية" },
     { "type": "text", "id": "note", "label": "Note under the symbols" },
-    { "type": "range", "id": "padding_top", "label": "Top spacing", "min": 0, "max": 100, "step": 4, "unit": "px", "default": 8 },
-    { "type": "range", "id": "padding_bottom", "label": "Bottom spacing", "min": 0, "max": 100, "step": 4, "unit": "px", "default": 40 }
+    { "type": "range", "id": "padding_top", "label": "Top spacing", "min": 0, "max": 100, "step": 4, "unit": "px", "default": 0 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom spacing", "min": 0, "max": 100, "step": 4, "unit": "px", "default": 24 }
   ],
   "blocks": [
     {
