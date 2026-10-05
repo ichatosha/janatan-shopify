@@ -91,9 +91,9 @@
             "show_icon": true,
             "mess": "إتمام شراء آمن 100%",
             "source": "1",
-            "image": "shopify://shop_images/payment-212.svg",
-            "wimg": 300,
-            "svg": "visa,master,apple_pay,meeza",
+            "image": "shopify://shop_images/jb-cod.png",
+            "wimg": 100,
+            "svg": "",
             "height": 30
           }
         },

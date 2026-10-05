@@ -40,9 +40,10 @@
           "settings": {
             "mess": "",
             "source": "1",
-            "wimg": 300,
-            "svg": "visa,paypal,master,american_express,amazon_payments",
-            "height": 25
+            "wimg": 100,
+            "svg": "",
+            "height": 25,
+            "image": "shopify://shop_images/jb-cod.png"
           }
         },
         "discount_code": {
