@@ -141,7 +141,7 @@
         {%- capture jb_size -%}{%- render 'jb-size-label', option_name: option.name, value: value -%}{%- endcapture -%}
         {%- assign jb_size = jb_size | strip | split: '|' -%}
         {%- if jb_size.size == 4 -%}
-          <span style="display:inline-grid;justify-items:center;line-height:1.25;vertical-align:middle"><span style="font-weight:600">{{ jb_size[0] | escape }}</span><span style="font-size:11px;opacity:.8">{{ jb_size[3] | escape }}</span></span>
+          <span class="jb-size-chip" style="display:inline-grid;justify-items:center;line-height:1.25;vertical-align:middle"><span style="font-weight:600">{{ jb_size[0] | escape }}</span><span style="font-size:11px;opacity:.8">{{ jb_size[3] | escape }}</span></span>
         {%- else -%}
           {{- value | escape -}}
         {%- endif -%}

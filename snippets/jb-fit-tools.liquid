@@ -1,0 +1,30 @@
+{%- comment -%}
+  Renders the row of fit helpers under the size picker: the weight based size finder
+  (when the product has more than one size) and the size chart, as two buttons.
+  Accepts:
+  - product: {Object} product object.
+
+  Usage:
+  {% render 'jb-fit-tools', product: product %}
+{%- endcomment -%}
+
+{%- capture fit_tools -%}
+  {%- render 'jb-size-finder', product: product -%}
+  {%- render 'jb-size-chart', product: product -%}
+{%- endcapture -%}
+
+{%- if fit_tools contains 'jb-fit-button' -%}
+<div class="hdt-product-info__item jb-finder-item jb-fit-row" data-type="size_finder">{{ fit_tools }}</div>
+
+<style>
+  .jb-fit-row { display: flex; gap: 8px; }
+  .jb-fit-button { flex: 1 1 0; display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 46px; padding: 6px 12px; border: 1px solid #7a0908; border-radius: 6px; background: #fbf3f3; color: #7a0908; font: inherit; font-size: 14px; font-weight: 700; line-height: 1.3; cursor: pointer; transition: background .2s ease, color .2s ease; }
+  .jb-fit-button--solid { background: #7a0908; color: #fff; }
+  .jb-fit-button:hover { background: #7a0908; color: #fff; }
+  .jb-fit-button--solid:hover { background: #5c0706; border-color: #5c0706; }
+  .jb-fit-button:focus-visible { outline: 2px solid #1c1b1a; outline-offset: 2px; }
+  .jb-fit-button svg { flex: 0 0 auto; }
+  .jb-bundle__panel .jb-fit-row { margin: 4px 0 12px; }
+  @media (prefers-reduced-motion: reduce) { .jb-fit-button { transition: none; } }
+</style>
+{%- endif -%}

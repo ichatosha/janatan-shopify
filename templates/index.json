@@ -492,7 +492,8 @@
         "padding_top": 20,
         "padding_bottom": 40,
         "padding_rate": 30
-      }
+      },
+      "disabled": true
     },
     "17661772600ecd4289": {
       "type": "apps",
@@ -746,7 +747,8 @@
         "padding_top": 25,
         "padding_bottom": 35,
         "padding_rate": 75
-      }
+      },
+      "disabled": true
     },
     "custom_liquid_x9pttz": {
       "type": "custom-liquid",
@@ -758,7 +760,8 @@
         "padding_top": 40,
         "padding_bottom": 40,
         "padding_rate": 75
-      }
+      },
+      "disabled": true
     },
     "1789906693f84fa543": {
       "type": "_blocks",
@@ -774,51 +777,30 @@
       }
     },
     "jb_cats": {
-      "type": "jb-category-strip",
+      "type": "jb-category-tiles",
       "blocks": {
         "cat_0": {
           "type": "category",
           "settings": {
-            "collection": "rosalyn-pants",
-            "title": "روزالين"
+            "collection": "pants",
+            "title": "بناطيل"
           }
         },
         "cat_1": {
-          "type": "category",
-          "settings": {
-            "collection": "linin-pants",
-            "title": "كتان"
-          }
-        },
-        "cat_2": {
-          "type": "category",
-          "settings": {
-            "collection": "جيب-بنطلون-مشجر",
-            "title": "مشجر"
-          }
-        },
-        "cat_3": {
-          "type": "category",
-          "settings": {
-            "collection": "denim",
-            "title": "جينز"
-          }
-        },
-        "cat_4": {
           "type": "category",
           "settings": {
             "collection": "shirt",
             "title": "شميز"
           }
         },
-        "cat_5": {
+        "cat_2": {
           "type": "category",
           "settings": {
             "collection": "dresses",
             "title": "فساتين"
           }
         },
-        "cat_6": {
+        "cat_3": {
           "type": "category",
           "settings": {
             "collection": "50-تخفيضات",
@@ -830,12 +812,10 @@
         "cat_0",
         "cat_1",
         "cat_2",
-        "cat_3",
-        "cat_4",
-        "cat_5",
-        "cat_6"
+        "cat_3"
       ],
       "settings": {
+        "eyebrow": "THE COLLECTIONS",
         "heading": "تسوّقي حسب الفئة"
       }
     },
@@ -874,19 +854,98 @@
         "limit": 12,
         "show_all": true
       }
+    },
+    "jb_story": {
+      "type": "jb-feature",
+      "settings": {
+        "image": "shopify://shop_images/9022a705161ff42b7879d88f1fd6d0e8.png",
+        "eyebrow": "MADE IN EGYPT",
+        "heading": "بين الذوق والالتزام.. تبدأ أناقتك مع جنتان",
+        "text": "<p>لسنا نقدّم ملابس إسلامية بنسبة 100% في الوقت الحالي، ولكننا نسعى جاهدين إلى الوصول إلى ذلك.</p><p>نحن حلقة وصل بين الانفتاح والالتزام، ونحرص على تقديم خيارات تجمع بين الاحتشام والذوق العصري.</p><p>نساند الفتيات في الانتقال تدريجيًا من الملابس الضيقة إلى الملابس الواسعة المحتشمة، وصولًا إلى النقاب لمن ترغب، بإذن الله.</p>",
+        "button_label": "اكتشفي منتجاتنا",
+        "button_link": "shopify://collections/all-products"
+      }
+    },
+    "jb_look": {
+      "type": "jb-lookbook",
+      "settings": {
+        "collection": "50-تخفيضات",
+        "eyebrow": "THE LOOKBOOK",
+        "heading": "تسوّقي الإطلالة",
+        "subheading": "قطع تتنسّق مع بعضها، جاهزة للخروج",
+        "show_all": true
+      }
+    },
+    "jb_statement": {
+      "type": "jb-statement",
+      "settings": {
+        "collection": "dresses",
+        "eyebrow": "JANATAN",
+        "heading": "احتشام • أناقة • جودة • تفاصيل",
+        "text": "تصاميم محتشمة تجمع بين الأناقة، الراحة والتفاصيل الراقية.",
+        "button_label": "تسوّقي المجموعة",
+        "button_link": "shopify://collections/all-products"
+      }
+    },
+    "jb_promise": {
+      "type": "jb-promise",
+      "blocks": {
+        "p_0": {
+          "type": "promise",
+          "settings": {
+            "icon": "delivery",
+            "title": "الشحن والتوصيل",
+            "text": "التوصيل خلال 3 إلى 7 أيام لجميع محافظات مصر"
+          }
+        },
+        "p_1": {
+          "type": "promise",
+          "settings": {
+            "icon": "return",
+            "title": "الاسترجاع والاستبدال",
+            "text": "استرجاع في وجود المندوب، واستبدال بعد الاستلام"
+          }
+        },
+        "p_2": {
+          "type": "promise",
+          "settings": {
+            "icon": "payment",
+            "title": "دفع سهل ومرن",
+            "text": "الدفع عند الاستلام أو أونلاين"
+          }
+        },
+        "p_3": {
+          "type": "promise",
+          "settings": {
+            "icon": "quality",
+            "title": "صُنع في مصر",
+            "text": "تصاميم محتشمة بخامات مريحة"
+          }
+        }
+      },
+      "block_order": [
+        "p_0",
+        "p_1",
+        "p_2",
+        "p_3"
+      ],
+      "settings": {}
     }
   },
   "order": [
     "hero_image_BMBMk7",
     "25d95633-b21f-43fa-90ad-eef09163772b",
-    "jb_best",
     "jb_cats",
+    "jb_best",
+    "jb_story",
     "jb_new",
-    "collections_list_8JJ78c",
-    "custom_line_LgBipG",
+    "jb_look",
     "jb_pants",
     "jb_dresses",
+    "jb_statement",
     "jb_shirts",
+    "collections_list_8JJ78c",
+    "custom_line_LgBipG",
     "featured_collection_grid_BRhWyQ",
     "featured_collection_carousel_EdHcY8",
     "collections_list_WxfThg",
@@ -897,6 +956,7 @@
     "1778444672ae19c5ed",
     "cef9818d-d174-4a85-935f-31cd9035f495",
     "custom_liquid_x9pttz",
-    "1789906693f84fa543"
+    "1789906693f84fa543",
+    "jb_promise"
   ]
 }

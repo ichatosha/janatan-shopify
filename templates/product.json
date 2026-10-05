@@ -42,12 +42,6 @@
           "type": "price",
           "settings": {}
         },
-        "custom_liquid_pJVgiR": {
-          "type": "custom_liquid",
-          "settings": {
-            "custom_liquid": "{% if product.metafields.custom.short_description != blank %}\n  <div class=\"short-description\">\n    {{ product.metafields.custom.short_description | metafield_tag }}\n  </div>\n{% endif %}"
-          }
-        },
         "1248e930-5734-45b4-a1d6-a814910fdb63": {
           "type": "variant_picker",
           "settings": {
@@ -107,7 +101,7 @@
           "type": "delivery_return",
           "settings": {
             "icon_delivery": "box",
-            "content_devivery": "<p>توصيل موثوق إلى جميع أنحاء مصر خلال 24–72 ساعة</p>",
+            "content_devivery": "<p>التوصيل خلال 3 إلى 7 أيام لجميع محافظات مصر</p>",
             "icon_return": "return2",
             "content_return": "<p>يمكن معاينة المنتج و أسترجاعة قبل استلامه من المندوب، كما يمكن الاستبدال خلال 48 ساعة </p>"
           }
@@ -137,7 +131,6 @@
         "83296f29-170d-4d7b-9291-c9b59bb98b32",
         "edac686e-a845-4ed7-9b50-51639a11cf56",
         "review_stars",
-        "custom_liquid_pJVgiR",
         "bundle_offers",
         "1248e930-5734-45b4-a1d6-a814910fdb63",
         "4fd6bfca-d3a3-432c-8392-a2d3cab423c4",

@@ -5,6 +5,11 @@
 {%- liquid
   assign strip_collection = section.settings.collection
   assign strip_limit = section.settings.limit
+  capture strip_wishlist
+    if settings.wishlist_mode != '0'
+      render 'btn-wishlist', class: 'jb-heart', placement: 'top'
+    endif
+  endcapture
 -%}
 
 {%- if strip_collection != blank and strip_collection.products_count > 0 -%}
@@ -23,21 +28,27 @@
     <ul class="jb-strip__track" role="list">
       {%- for product in strip_collection.products limit: strip_limit -%}
         <li class="jb-strip__item">
-          <a class="jb-pcard" href="{{ product.url }}">
-            <span class="jb-pcard__media">
-              {%- if product.featured_image -%}
-                {{ product.featured_image | image_url: width: 600 | image_tag: loading: 'lazy', sizes: '(min-width: 768px) 23vw, 44vw', widths: '240, 360, 480, 600', alt: product.title }}
-              {%- endif -%}
-              {%- if product.available == false -%}
-                <span class="jb-pcard__tag" style="background:#3a3b3d">نفذت الكمية</span>
-              {%- elsif product.compare_at_price > product.price -%}
-                {%- assign strip_saving = product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price -%}
-                <span class="jb-pcard__tag">خصم {{ strip_saving }}%</span>
-              {%- endif -%}
-            </span>
-            <span class="jb-pcard__title">{{ product.title }}</span>
+          <div class="jb-pcard">
+            <div class="jb-pcard__frame">
+              <a class="jb-pcard__media" href="{{ product.url }}" tabindex="-1" aria-hidden="true">
+                {%- if product.featured_image -%}
+                  {{ product.featured_image | image_url: width: 600 | image_tag: loading: 'lazy', sizes: '(min-width: 768px) 23vw, 44vw', widths: '240, 360, 480, 600', alt: '' }}
+                {%- endif -%}
+                {%- if product.available == false -%}
+                  <span class="jb-pcard__tag" style="background:#3a3b3d">نفذت الكمية</span>
+                {%- elsif product.compare_at_price > product.price -%}
+                  {%- assign strip_saving = product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price -%}
+                  <span class="jb-pcard__tag">خصم {{ strip_saving }}%</span>
+                {%- endif -%}
+              </a>
+              {{- strip_wishlist | replace_first: '19041994', product.id | replace_first: 'handle_nt_94', product.handle -}}
+            </div>
+            <a class="jb-pcard__title" href="{{ product.url }}">{{ product.title }}</a>
             {%- render 'card-price', product: product, price_class: 'hdt-text-base hdt-font-semibold' -%}
-          </a>
+            <div class="jb-pcard__cta">
+              {%- render 'btn-ultra', product: product, product_url: product.url, section_id: section.id, class: 'jb-pcard__add', disable_sr_only: true -%}
+            </div>
+          </div>
         </li>
       {%- endfor -%}
     </ul>

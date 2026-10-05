@@ -1,0 +1,79 @@
+{%- comment -%}
+  The store's service promises (delivery, returns, payment) in one quiet row.
+{%- endcomment -%}
+
+{%- if section.blocks.size > 0 -%}
+<div class="jb-promise" style="margin-top:{{ section.settings.padding_top }}px;margin-bottom:{{ section.settings.padding_bottom }}px">
+  <ul class="hdt-container jb-promise__list" role="list">
+    {%- for block in section.blocks -%}
+      <li class="jb-promise__item" {{ block.shopify_attributes }}>
+        <span class="jb-promise__icon" aria-hidden="true">
+          {%- case block.settings.icon -%}
+            {%- when 'delivery' -%}
+              <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7z"/><circle cx="7" cy="18" r="1.8"/><circle cx="17" cy="18" r="1.8"/></svg>
+            {%- when 'return' -%}
+              <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9h11a5 5 0 0 1 0 10H8"/><path d="M8 5 4 9l4 4"/></svg>
+            {%- when 'payment' -%}
+              <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M3 10h18M7 15h3"/></svg>
+            {%- else -%}
+              <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4 6v6c0 4.5 3.2 7.6 8 9 4.8-1.4 8-4.5 8-9V6z"/><path d="m9 12 2 2 4-4"/></svg>
+          {%- endcase -%}
+        </span>
+        <span class="jb-promise__title">{{ block.settings.title }}</span>
+        {%- if block.settings.text != blank -%}<span class="jb-promise__text">{{ block.settings.text }}</span>{%- endif -%}
+      </li>
+    {%- endfor -%}
+  </ul>
+</div>
+
+<style>
+  .jb-promise { background: var(--jb-ivory); color: var(--jb-ink); padding: 32px 0; }
+  .jb-promise__list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 12px; margin-block: 0; padding-block: 0; list-style: none; }
+  .jb-promise__item { display: grid; gap: 6px; justify-items: center; text-align: center; }
+  .jb-promise__icon { display: grid; place-items: center; width: 52px; height: 52px; border: 1px solid var(--jb-brand); border-radius: 50%; color: var(--jb-brand); }
+  .jb-promise__title { font-size: 15px; font-weight: 700; line-height: 1.5; }
+  .jb-promise__text { font-size: 13px; line-height: 1.7; color: #545454; max-width: 26ch; }
+  @media (min-width: 768px) {
+    .jb-promise { padding: 48px 0; }
+    .jb-promise__list { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .jb-promise__title { font-size: 16px; }
+  }
+</style>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Service promises",
+  "tag": "section",
+  "settings": [
+    { "type": "range", "id": "padding_top", "label": "Top spacing", "min": 0, "max": 100, "step": 4, "unit": "px", "default": 40 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom spacing", "min": 0, "max": 100, "step": 4, "unit": "px", "default": 0 }
+  ],
+  "blocks": [
+    {
+      "type": "promise",
+      "name": "Promise",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "delivery", "label": "Delivery" },
+            { "value": "return", "label": "Return" },
+            { "value": "payment", "label": "Payment" },
+            { "value": "quality", "label": "Quality" }
+          ],
+          "default": "delivery"
+        },
+        { "type": "text", "id": "title", "label": "Title", "default": "الشحن والتوصيل" },
+        { "type": "text", "id": "text", "label": "Text" }
+      ]
+    }
+  ],
+  "max_blocks": 4,
+  "presets": [
+    { "name": "Service promises" }
+  ]
+}
+{% endschema %}

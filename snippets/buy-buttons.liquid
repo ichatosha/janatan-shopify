@@ -65,7 +65,8 @@
     {%- endif -%}
     <div class="hdt-form__message-wrapper hdt-form-message--error" role="alert" hidden>{% render 'icon' with 'error' %} <span class="hdt-error-message"></span></div>
     <hdt-buy-buttons class="hdt-product-form__buttons" form="{{ product_form_id }}">
-      <div class="hdt-product-form__top-buttons hdt-flex">
+      <div class="hdt-product-form__top-buttons hdt-flex{% if quantity_html != blank %} jb-buy-row{% endif %}">
+        {%- if quantity_html != blank -%}<div class="jb-buy-row__qty">{{ quantity_html }}</div>{%- endif -%}
         <button type="submit" name="add" class="hdt-product-form__submit hdt-btn hdt-oh hdt-btn-solid hdt-font-semibold hdt-relative hdt-truncate hdt-btn-loading__svg"{% if selected_variant.available == false or quantity_rule_soldout or un_no_pick == false %} disabled="true"{% endif %}>
           <span class="hdt-btn-atc_text">{% if un_no_pick == false %}{{ 'products.product.choose_options' | t }}{% elsif is_pre_order %}{{ 'products.product.pre_order' | t }}{% elsif selected_variant.available == false or quantity_rule_soldout %}{{ 'products.product.sold_out' | t }}{% else %}{{ 'products.product.add_to_cart' | t }}{% endif %}</span>
           {%- if block.settings.show_price_variant -%}

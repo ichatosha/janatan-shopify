@@ -183,25 +183,17 @@
                   continue
                 endunless
               -%}
-              <div class="hdt-product-info__item jb-qty-row" data-type="{{ block.type }}" {{ block.shopify_attributes }}>
-              <div>{%- render 'product-qty-selector', block: block, selected_variant: selected_variant, product_form_id: product_form_id, product: product -%}</div>
-              {%- render 'jb-size-chart', product: product -%}
-              </div>
+              {%- capture jb_quantity -%}
+                {%- render 'product-qty-selector', block: block, selected_variant: selected_variant, product_form_id: product_form_id, product: product -%}
+              {%- endcapture -%}
 
             {%- when 'variant_picker' -%}
               <div class="hdt-product-info__item hdt-product__variant-picker" data-type="{{ block.type }}" {{ block.shopify_attributes }}>{%- render 'variant-picker', product: product, block: block, product_form_id: product_form_id, update_url: update_url, selected_variant: selected_variant, un_no_pick: un_no_pick -%}</div>
-              {%- liquid
-                assign block_types = section.blocks | map: 'type'
-                assign chart_in_finder = true
-                if block_types contains 'quantity_selector' and product.available
-                  assign chart_in_finder = false
-                endif
-                render 'jb-size-finder', product: product, with_chart: chart_in_finder
-              -%}
+              {%- render 'jb-fit-tools', product: product -%}
 
             {%- when 'buy_buttons' -%}
               {%- assign has_form_atc = true -%}
-              <div class="hdt-product-info__item hdt-product__buy-button" data-type="{{ block.type }}" {{ block.shopify_attributes }}>{%- render 'buy-buttons', product: product, block: block, product_form_id: product_form_id, use_variant: true, selected_variant: selected_variant, un_no_pick: un_no_pick -%}</div>
+              <div class="hdt-product-info__item hdt-product__buy-button" data-type="{{ block.type }}" {{ block.shopify_attributes }}>{%- render 'buy-buttons', product: product, block: block, product_form_id: product_form_id, use_variant: true, selected_variant: selected_variant, un_no_pick: un_no_pick, quantity_html: jb_quantity -%}</div>
 
             {%- when 'linked_products' -%}
               {%- if block.settings.option_name != blank and block.settings.product_list != blank -%}

@@ -1,0 +1,73 @@
+{%- comment -%}
+  A full width band of photographs with the brand's statement written over them.
+{%- endcomment -%}
+
+{%- assign statement_collection = section.settings.collection -%}
+
+<div class="jb-statement" style="margin-top:{{ section.settings.padding_top }}px;margin-bottom:{{ section.settings.padding_bottom }}px">
+  <div class="jb-statement__photos" aria-hidden="true">
+    {%- if section.settings.image != blank -%}
+      {{ section.settings.image | image_url: width: 2000 | image_tag: loading: 'lazy', sizes: '100vw', widths: '720, 1080, 1440, 2000', alt: '', class: 'jb-statement__single' }}
+    {%- elsif statement_collection != blank -%}
+      {%- assign statement_shown = 0 -%}
+      {%- for product in statement_collection.products limit: 16 -%}
+        {%- if product.featured_image == blank -%}{%- continue -%}{%- endif -%}
+        {%- if statement_shown == 5 -%}{%- break -%}{%- endif -%}
+        {%- assign statement_shown = statement_shown | plus: 1 -%}
+        {{ product.featured_image | image_url: width: 700 | image_tag: loading: 'lazy', sizes: '(min-width: 768px) 20vw, 34vw', widths: '240, 360, 480, 700', alt: '' }}
+      {%- endfor -%}
+    {%- endif -%}
+  </div>
+  <div class="jb-statement__body">
+    {%- if section.settings.eyebrow != blank -%}<p class="jb-eyebrow" dir="ltr">{{ section.settings.eyebrow }}</p>{%- endif -%}
+    <p class="jb-statement__title">{{ section.settings.heading }}</p>
+    {%- if section.settings.text != blank -%}<p class="jb-statement__text">{{ section.settings.text }}</p>{%- endif -%}
+    {%- if section.settings.button_label != blank -%}
+      <a class="jb-button" href="{{ section.settings.button_link | default: routes.all_products_collection_url }}">{{ section.settings.button_label }}</a>
+    {%- endif -%}
+  </div>
+</div>
+
+<style>
+  .jb-statement { position: relative; display: grid; min-height: 440px; overflow: hidden; background: var(--jb-ink); color: #fff; }
+  .jb-statement__photos { grid-area: 1 / 1; display: grid; grid-template-columns: repeat(3, 1fr); }
+  .jb-statement__photos img { width: 100%; height: 100%; min-height: 440px; object-fit: cover; object-position: top; display: block; }
+  .jb-statement__photos img:nth-child(n + 4) { display: none; }
+  .jb-statement__photos .jb-statement__single { grid-column: 1 / -1; display: block; }
+  .jb-statement::after { content: ""; grid-area: 1 / 1; background: rgba(20, 12, 10, .62); }
+  .jb-statement__body { grid-area: 1 / 1; z-index: 1; place-self: center; display: grid; gap: 14px; justify-items: center; max-width: 760px; padding: 40px 20px; text-align: center; }
+  .jb-statement .jb-eyebrow { color: #e9dfd3; }
+  .jb-statement .jb-eyebrow::before { background: #e9dfd3; }
+  .jb-statement__title { margin: 0; font-family: var(--jb-display); font-size: 34px; font-weight: 700; line-height: 1.5; color: #fff; }
+  .jb-statement__text { margin: 0; font-size: 15px; line-height: 1.9; opacity: .92; }
+  .jb-statement .jb-button { margin-top: 8px; background: #fff; border-color: #fff; color: var(--jb-ink); }
+  .jb-statement .jb-button:hover { background: var(--jb-brand); border-color: var(--jb-brand); color: #fff; }
+  @media (min-width: 768px) {
+    .jb-statement, .jb-statement__photos img { min-height: 520px; }
+    .jb-statement__photos { grid-template-columns: repeat(5, 1fr); }
+    .jb-statement__photos img:nth-child(n + 4) { display: block; }
+    .jb-statement__title { font-size: 52px; }
+    .jb-statement__text { font-size: 17px; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Brand statement",
+  "tag": "section",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Image", "info": "Leave empty to build the band from the collection's product photos." },
+    { "type": "collection", "id": "collection", "label": "Collection" },
+    { "type": "text", "id": "eyebrow", "label": "Small line above the statement", "default": "JANATAN" },
+    { "type": "text", "id": "heading", "label": "Statement", "default": "احتشام • أناقة • جودة • تفاصيل" },
+    { "type": "text", "id": "text", "label": "Text" },
+    { "type": "text", "id": "button_label", "label": "Button label" },
+    { "type": "url", "id": "button_link", "label": "Button link" },
+    { "type": "range", "id": "padding_top", "label": "Top spacing", "min": 0, "max": 100, "step": 4, "unit": "px", "default": 40 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom spacing", "min": 0, "max": 100, "step": 4, "unit": "px", "default": 0 }
+  ],
+  "presets": [
+    { "name": "Brand statement" }
+  ]
+}
+{% endschema %}

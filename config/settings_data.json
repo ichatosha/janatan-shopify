@@ -43,7 +43,7 @@
     "badge_shape": "round",
     "label_onsale_style": "percentage",
     "use_new_badge": false,
-    "wishlist_mode": "0",
+    "wishlist_mode": "1",
     "wis_atc_added": "2",
     "compare_mode": "0",
     "enable_compare_popup": false,

@@ -44,7 +44,10 @@
 
 {%- if chart_categories.size > 0 -%}
 <jb-size-chart class="jb-chart">
-  <button type="button" class="jb-chart__open">جدول المقاسات</button>
+  <button type="button" class="jb-fit-button jb-chart__open">
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="8" width="18" height="8" rx="1.5"/><path d="M7 8v3M11 8v4M15 8v3M19 8v2"/></svg>
+    <span>جدول المقاسات</span>
+  </button>
 
   <dialog class="jb-chart__dialog" aria-label="جدول المقاسات">
     <div class="jb-chart__head">
@@ -121,9 +124,7 @@
 </jb-size-chart>
 
 <style>
-  .jb-qty-row { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 8px 16px; }
-  .jb-chart { display: inline-block; }
-  .jb-chart__open { min-height: 44px; padding: 4px 14px; border: 1px solid rgba(58, 59, 61, .35); border-radius: 5px; background: #fff; color: #3a3b3d; font: inherit; font-size: 13px; font-weight: 600; cursor: pointer; }
+  .jb-chart { display: contents; }
   .jb-chart__open:focus-visible, .jb-chart__close:focus-visible { outline: 2px solid #3a3b3d; outline-offset: 2px; }
   .jb-chart__dialog { width: min(94vw, 560px); max-height: 88vh; padding: 16px; border: 0; border-radius: 8px; background: #fff; color: #000; overflow: auto; text-align: start; }
   .jb-chart__dialog::backdrop { background: rgba(0, 0, 0, .6); }
@@ -144,6 +145,8 @@
   if (!customElements.get('jb-size-chart')) {
     customElements.define('jb-size-chart', class extends HTMLElement {
       connectedCallback() {
+        if (this.ready) return;
+        this.ready = true;
         const dialog = this.querySelector('.jb-chart__dialog');
         this.querySelector('.jb-chart__open').addEventListener('click', () => dialog.showModal());
         dialog.addEventListener('click', (event) => {

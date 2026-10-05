@@ -67,7 +67,7 @@
       <hdt-tooltip placement="{{ placement | default: 'none' }}" class="hdt-ultra_btn_parent">
       <button type="submit" name="add" class="hdt-card-product__btn-ultra {{ class }}">
         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="16" viewBox="0 0 14 16" fill="currentColor"><use xlink:href="#hdt-icon-cart"></use></svg>
-        <span {% unless disable_sr_only %}class="sr-only"{% endunless %}>{{ 'products.product.add_to_cart' | t }}</span>
+        <span {% unless disable_sr_only %}class="sr-only"{% endunless %}>{{ 'products.product.quick_add' | t }}</span>
       </button>
       </hdt-tooltip>
     {%- endform -%}
