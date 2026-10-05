@@ -69,6 +69,9 @@
   .jb-buy-row > .shopify-payment-button { flex: 1 1 0; min-width: 0; margin: 0; }
   .jb-buy-row > .hdt-product-form__btn-wishlist, .jb-buy-row > hdt-tooltip { flex: 0 0 48px; order: 5; }
 
+  /* Product page: the current price in bold. */
+  .hdt-product__price hdt-price, .hdt-product__price hdt-price .hdt-money { font-weight: 700; }
+
   /* Size chips: four in a row on phones. */
   @media (max-width: 767px) {
     .hdt-product-form__values:has(.jb-size-chip), .jb-bundle__values:has(.jb-bundle__size) { display: grid !important; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
