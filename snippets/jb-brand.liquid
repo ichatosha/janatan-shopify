@@ -76,6 +76,9 @@
   /* Product page: the current price in bold. */
   .hdt-product__price hdt-price, .hdt-product__price hdt-price .hdt-money { font-weight: 700; }
 
+  /* Cart drawer: no empty tool bar over the suggested products. */
+  .hdt-mini-cart__tool:not(:has(button)) { display: none; }
+
   /* Size chips: four in a row on phones. */
   @media (max-width: 767px) {
     .hdt-product-form__values:has(.jb-size-chip), .jb-bundle__values:has(.jb-bundle__size) { display: grid !important; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
