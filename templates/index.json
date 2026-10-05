@@ -70,7 +70,8 @@
         "padding_top": 0,
         "padding_bottom": 0,
         "padding_rate": 0
-      }
+      },
+      "disabled": true
     },
     "collections_list_8JJ78c": {
       "type": "collections-list",
@@ -169,22 +170,6 @@
         "color_scheme": "",
         "padding_top": 35,
         "padding_bottom": 25,
-        "padding_rate": 75
-      }
-    },
-    "custom_line_LgBipG": {
-      "type": "custom-line",
-      "disabled": true,
-      "name": "Custom line",
-      "settings": {
-        "line_style": "solid",
-        "line_width": 100,
-        "line_height": 15,
-        "line_cl": "#000000",
-        "line_pos": "center",
-        "section_fullwidth": true,
-        "padding_top": 0,
-        "padding_bottom": 0,
         "padding_rate": 75
       }
     },
@@ -797,7 +782,8 @@
           "type": "category",
           "settings": {
             "collection": "dresses",
-            "title": "فساتين"
+            "title": "فساتين",
+            "product": "dressraonakblue"
           }
         },
         "cat_3": {
@@ -860,8 +846,8 @@
       "settings": {
         "image": "shopify://shop_images/9022a705161ff42b7879d88f1fd6d0e8.png",
         "eyebrow": "MADE IN EGYPT",
-        "heading": "بين الذوق والالتزام.. تبدأ أناقتك مع جنتان",
-        "text": "<p>لسنا نقدّم ملابس إسلامية بنسبة 100% في الوقت الحالي، ولكننا نسعى جاهدين إلى الوصول إلى ذلك.</p><p>نحن حلقة وصل بين الانفتاح والالتزام، ونحرص على تقديم خيارات تجمع بين الاحتشام والذوق العصري.</p><p>نساند الفتيات في الانتقال تدريجيًا من الملابس الضيقة إلى الملابس الواسعة المحتشمة، وصولًا إلى النقاب لمن ترغب، بإذن الله.</p>",
+        "heading": "أناقة هادئة.. تبدأ من راحتك",
+        "text": "<p>في جنتان نصمّم قطعاً واسعة ومحتشمة، بقصّات مريحة وتفاصيل راقية تليق بيومك كله.</p><p>اختاري ما يشبهك، والبسيه بثقة.</p>",
         "button_label": "اكتشفي منتجاتنا",
         "button_link": "shopify://collections/all-products"
       }
@@ -930,9 +916,20 @@
         "p_3"
       ],
       "settings": {}
+    },
+    "jb_hero": {
+      "type": "jb-hero",
+      "settings": {
+        "image": "shopify://shop_images/657b3dade5c80b9037a228d10873c4df.png",
+        "image_mobile": "shopify://shop_images/70e27a956c092f9c6bff8047c248f943.png",
+        "heading": "",
+        "button_label": "اكتشفي العروض",
+        "button_link": "shopify://collections/sale"
+      }
     }
   },
   "order": [
+    "jb_hero",
     "hero_image_BMBMk7",
     "25d95633-b21f-43fa-90ad-eef09163772b",
     "jb_cats",
@@ -945,7 +942,6 @@
     "jb_statement",
     "jb_shirts",
     "collections_list_8JJ78c",
-    "custom_line_LgBipG",
     "featured_collection_grid_BRhWyQ",
     "featured_collection_carousel_EdHcY8",
     "collections_list_WxfThg",

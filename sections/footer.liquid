@@ -115,6 +115,22 @@
     <div class="hdt-container {%- if section.settings.section_fullwidth -%}-full hdt-px-15{%- endif -%}">
       <div class="hdt-footer-content-bottom">
         <div class="hdt-row-grid {% if section.settings.text_copR != blank and section.settings.svg != blank or section.settings.text_copR != blank and section.settings.image-svg_list != blank  %}md:hdt-grid-cols-2 hdt-grid-cols-1 {% else %}  hdt-grid-cols-1 {% endif %} hdt-align-center hdt-footer-bt-bar">
+          <a dir="ltr" class="jb-credit" href="https://coden-eg.pages.dev" target="_blank" rel="noopener noreferrer" aria-label="Developed by CodeN [H∑], Code the Next — opens in a new tab">
+            <img class="jb-credit__logo" src="{{ 'coden-mark.png' | asset_url }}" alt="" width="24" height="24" loading="lazy">
+            <span class="jb-credit__text">
+              <span>Developed by CodeN [H∑]</span>
+              <span class="jb-credit__slogan">Code the Next</span>
+            </span>
+          </a>
+          <style>
+            .jb-credit { order: 9; grid-column: 1 / -1; justify-self: center; display: inline-flex; align-items: center; gap: 8px; margin: 4px 0 0; padding: 6px 8px; font: inherit; font-size: 12px; line-height: 1.35; color: inherit; text-decoration: none; opacity: .7; unicode-bidi: isolate; text-align: left; transition: color .15s ease, opacity .15s ease; }
+            .jb-credit__logo { flex: 0 0 24px; width: 24px; height: 24px; object-fit: contain; }
+            .jb-credit__text { display: grid; }
+            .jb-credit__slogan { font-size: .82em; letter-spacing: .04em; }
+            .jb-credit:hover, .jb-credit:focus-visible, .jb-credit:active { color: #8a0e19; opacity: 1; }
+            .jb-credit:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; border-radius: 2px; }
+            @media (prefers-reduced-motion: reduce) { .jb-credit { transition: none; } }
+          </style>
           {%- if section.settings.text_copR != blank -%}
             <div class=" hdt-footer-copyright hdt-flex hdt-flex-col {% if section.settings.text_copR != blank and section.settings.svg != blank or section.settings.text_copR != blank and section.settings.image-svg_list != blank %} md:hdt-align-start hdt-align-center hdt-align-start {% else %} hdt-justify-center hdt-align-center {% endif %} hdt-s-text2 {{ section.settings.text_size }}">
               <div class =" hdt-list-toleft hdt-flex hdt-flex-col hdt-text-center md:hdt-text-start">
@@ -122,24 +138,6 @@
                 <div class="hdt-coppy-right"> 
                     {{- section.settings.text_copR | replace: "[year]", now_y -}}
                 </div>
-                <div dir="ltr" class="jb-credit">
-                  <img class="jb-credit__logo" src="{{ 'coden-mark.png' | asset_url }}" alt="" width="24" height="24" loading="lazy">
-                  <span class="jb-credit__text">
-                    <span>Developed by <a href="https://coden-eg.pages.dev" target="_blank" rel="noopener noreferrer" aria-label="Developed by CodeN [H∑] — opens in a new tab">CodeN [H∑]</a></span>
-                    <span class="jb-credit__slogan">Code the Next</span>
-                  </span>
-                </div>
-                <style>
-                  .jb-credit { display: inline-flex; align-items: center; gap: 8px; margin: 8px 0 0; font: inherit; font-size: .85em; line-height: 1.35; color: inherit; opacity: .7; unicode-bidi: isolate; text-align: left; transition: color .15s ease, opacity .15s ease; }
-                  .jb-credit__logo { flex: 0 0 24px; width: 24px; height: 24px; object-fit: contain; }
-                  .jb-credit__text { display: grid; }
-                  .jb-credit__slogan { font-size: .82em; letter-spacing: .04em; }
-                  .jb-credit a { color: inherit; text-decoration: none; }
-                  .jb-credit:hover, .jb-credit:focus-within, .jb-credit:active { color: #8a0e19; opacity: 1; }
-                  .jb-credit a:hover { text-decoration: underline; }
-                  .jb-credit a:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; border-radius: 2px; }
-                  @media (prefers-reduced-motion: reduce) { .jb-credit { transition: none; } }
-                </style>
                 {%- if section.settings.show_policy == true -%}
                   <ul class="hdt-policies hdt-row-flex md:hdt-justify-start hdt-justify-center">
                     {%- for policy in shop.policies -%}

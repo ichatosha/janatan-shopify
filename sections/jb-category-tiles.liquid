@@ -17,7 +17,7 @@
           if tile_collection == blank or tile_collection.products_count == 0
             continue
           endif
-          assign tile_image = block.settings.image | default: tile_collection.featured_image | default: tile_collection.products.first.featured_image
+          assign tile_image = block.settings.image | default: block.settings.product.featured_image | default: tile_collection.featured_image | default: tile_collection.products.first.featured_image
         -%}
         <li {{ block.shopify_attributes }}>
           <a class="jb-tile" href="{{ tile_collection.url }}">
@@ -71,7 +71,8 @@
       "settings": [
         { "type": "collection", "id": "collection", "label": "Collection" },
         { "type": "text", "id": "title", "label": "Title", "info": "Leave empty to use the collection title." },
-        { "type": "image_picker", "id": "image", "label": "Image", "info": "Leave empty to use the collection image." }
+        { "type": "image_picker", "id": "image", "label": "Image", "info": "Leave empty to use the product or collection image." },
+        { "type": "product", "id": "product", "label": "Product photo", "info": "Its main photo is used when no image is picked." }
       ]
     }
   ],

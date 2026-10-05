@@ -1,0 +1,63 @@
+{%- comment -%}
+  The homepage hero. Phones get a tall image and desktops a wide one, each shown whole
+  at its own shape, with one call to action over it.
+{%- endcomment -%}
+
+{%- liquid
+  assign hero_desktop = section.settings.image
+  assign hero_mobile = section.settings.image_mobile | default: hero_desktop
+  assign hero_desktop = hero_desktop | default: hero_mobile
+  assign hero_link = section.settings.button_link | default: routes.all_products_collection_url
+-%}
+
+{%- if hero_desktop != blank -%}
+<div class="jb-hero">
+  <a class="jb-hero__media" href="{{ hero_link }}" tabindex="-1" aria-hidden="true">
+    <picture>
+      <source media="(min-width: 768px)" srcset="{{ hero_desktop | image_url: width: 1400 }} 1400w, {{ hero_desktop | image_url: width: 2000 }} 2000w, {{ hero_desktop | image_url: width: 2800 }} 2800w" sizes="100vw" width="{{ hero_desktop.width }}" height="{{ hero_desktop.height }}">
+      {{ hero_mobile | image_url: width: 1200 | image_tag: loading: 'eager', fetchpriority: 'high', sizes: '100vw', widths: '480, 720, 960, 1200', alt: '' }}
+    </picture>
+  </a>
+  {%- if section.settings.heading != blank or section.settings.button_label != blank -%}
+    <div class="jb-hero__body">
+      {%- if section.settings.heading != blank -%}<h1 class="jb-hero__title">{{ section.settings.heading }}</h1>{%- endif -%}
+      {%- if section.settings.button_label != blank -%}
+        <a class="jb-button jb-hero__button" href="{{ hero_link }}">{{ section.settings.button_label }}</a>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+</div>
+
+<style>
+  .jb-hero { position: relative; display: grid; overflow: hidden; background: var(--jb-ivory); }
+  .jb-hero__media { grid-area: 1 / 1; display: block; }
+  .jb-hero__media img { display: block; width: 100%; height: auto; }
+  .jb-hero__body { grid-area: 1 / 1; z-index: 1; align-self: end; justify-self: center; display: grid; gap: 12px; justify-items: center; padding: 0 16px 20px; text-align: center; pointer-events: none; }
+  .jb-hero__body > * { pointer-events: auto; }
+  .jb-hero__title { margin: 0; font-family: var(--jb-display); font-size: 30px; font-weight: 700; line-height: 1.35; color: #fff; text-shadow: 0 2px 14px rgba(20, 12, 10, .55); }
+  .jb-hero__button { min-width: 200px; background: var(--jb-brand); border-color: var(--jb-brand); box-shadow: 0 8px 22px rgba(20, 12, 10, .28); }
+  .jb-hero__button:hover { background: var(--jb-ink); border-color: var(--jb-ink); }
+  @media (min-width: 768px) {
+    .jb-hero__body { padding-bottom: 32px; }
+    .jb-hero__title { font-size: 48px; }
+    .jb-hero__button { min-width: 240px; min-height: 54px; font-size: 16px; }
+  }
+</style>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Hero",
+  "tag": "section",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Desktop image", "info": "Wide image, for example 2000 x 800." },
+    { "type": "image_picker", "id": "image_mobile", "label": "Mobile image", "info": "Tall image, for example 1080 x 1350." },
+    { "type": "text", "id": "heading", "label": "Heading", "info": "Leave empty when the image already carries the text." },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "اكتشفي العروض" },
+    { "type": "url", "id": "button_link", "label": "Button link" }
+  ],
+  "presets": [
+    { "name": "Hero" }
+  ]
+}
+{% endschema %}

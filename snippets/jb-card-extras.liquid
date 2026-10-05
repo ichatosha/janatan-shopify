@@ -21,7 +21,7 @@
 
 {%- if extras_count > 0 -%}
   {%- assign extras_average = extras_total | times: 1.0 | divided_by: extras_count | round: 1 -%}
-  <div style="margin-top:4px;font-size:12px;line-height:1.4;color:#545454">
+  <div style="display:flex;align-items:center;justify-content:center;width:100%;margin-top:4px;font-size:12px;line-height:1.4;color:#545454">
     {%- render 'jb-stars', rating: extras_average, size: 13 -%}
     <span style="margin-inline-start:4px">({{ extras_count }})</span>
   </div>
@@ -47,6 +47,6 @@
   {%- endcapture -%}
   {%- assign extras_dots = extras_dots | strip -%}
   {%- if extras_dots != blank -%}
-    <div role="img" aria-label="الألوان المتاحة" style="display:inline-flex;flex-wrap:wrap;align-items:center;gap:5px;margin-top:6px;padding:1px">{{ extras_dots }}</div>
+    <div role="img" aria-label="الألوان المتاحة" style="display:flex;flex-wrap:wrap;align-items:center;justify-content:center;width:100%;gap:5px;margin-top:6px;padding:1px">{{ extras_dots }}</div>
   {%- endif -%}
 {%- endfor -%}

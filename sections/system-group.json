@@ -74,18 +74,15 @@
         "7992c70e-320b-4406-9d5a-ca387c85cfa8": {
           "type": "shop",
           "settings": {
-            "title": "تسوق",
+            "title": "الفئات",
             "collection_list": [
-              "all-products"
+              "pants",
+              "shirt",
+              "dresses",
+              "50-تخفيضات"
             ],
             "menu_categories": "",
             "link": ""
-          }
-        },
-        "278a2b3b-9b25-4e46-bfeb-c2515ac171fd": {
-          "type": "account",
-          "settings": {
-            "title": "حسابي"
           }
         },
         "d7521907-d76e-490e-accf-d0e6504fc515": {
@@ -99,11 +96,17 @@
           "settings": {
             "title": "السلة"
           }
+        },
+        "jb_home": {
+          "type": "home",
+          "settings": {
+            "title": "الرئيسية"
+          }
         }
       },
       "block_order": [
+        "jb_home",
         "7992c70e-320b-4406-9d5a-ca387c85cfa8",
-        "278a2b3b-9b25-4e46-bfeb-c2515ac171fd",
         "d7521907-d76e-490e-accf-d0e6504fc515",
         "45c18f86-eb94-46bf-a2fb-83315d49e16a"
       ],
