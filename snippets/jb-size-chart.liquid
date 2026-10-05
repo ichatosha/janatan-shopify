@@ -15,6 +15,29 @@
   endcomment
   assign chart_draft = true
 
+  comment
+    Real measurements from the workshop, in centimetres with the garment laid flat.
+    Format: header cells, then one row per size, rows separated by ";".
+  endcomment
+  assign chart_real = ''
+  if product.title contains 'جلاكسي'
+    assign chart_real = 'المقاس|الكتف|الكم|الصدر|الوسط|الطول;مقاس واحد|25|44|59|65|88'
+  elsif product.title contains 'جومانا'
+    assign chart_real = 'المقاس|الكتف|الكم|الصدر|الوسط|الطول;مقاس القطعة|20|60|51|53|75'
+  elsif product.title contains 'ساتان' and product.title contains 'زخرف'
+    assign chart_real = 'المقاس|الكم|الصدر|الوسط|الطول;مقاس واحد|83|80|75|77'
+  elsif product.title contains 'رونق'
+    assign chart_real = 'المقاس|الكتف|الكم|الصدر|الوسط|الطول;سمول|15|58|39|47|136;ميديم|15|60|42|50|138'
+  elsif product.title contains 'تونيك'
+    assign chart_real = 'المقاس|الكتف|الكم|الصدر|الطول;مقاس واحد|23|53|50|107'
+  elsif product.title contains 'رام الله' or product.title contains 'بيسان'
+    assign chart_real = 'المقاس|الكتف|الكم|الصدر|الوسط|الطول;مقاس واحد|14|55|40|45|152'
+  endif
+  assign chart_real = chart_real | split: ';'
+  if chart_real.size > 0
+    assign chart_draft = false
+  endif
+
   assign chart_type = product.type | downcase | strip
   assign chart_categories = ''
   case chart_type
@@ -42,7 +65,7 @@
   assign chart_categories = chart_categories | split: ','
 -%}
 
-{%- if chart_categories.size > 0 -%}
+{%- if chart_categories.size > 0 or chart_real.size > 0 -%}
 <jb-size-chart class="jb-chart">
   <button type="button" class="jb-fit-button jb-chart__open">
     <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="8" width="18" height="8" rx="1.5"/><path d="M7 8v3M11 8v4M15 8v3M19 8v2"/></svg>
@@ -55,6 +78,26 @@
       <button type="button" class="jb-chart__close" aria-label="إغلاق">×</button>
     </div>
 
+    {%- if chart_real.size > 0 -%}
+      <div class="jb-chart__scroll">
+        <table class="jb-chart__table">
+          {%- for chart_line in chart_real -%}
+            {%- assign chart_cells = chart_line | split: '|' -%}
+            {%- if forloop.first -%}
+              <thead><tr>{%- for chart_cell in chart_cells -%}<th scope="col">{{ chart_cell }}</th>{%- endfor -%}</tr></thead>
+              <tbody>
+            {%- else -%}
+              <tr>
+                {%- for chart_cell in chart_cells -%}
+                  {%- if forloop.first -%}<th scope="row">{{ chart_cell }}</th>{%- else -%}<td dir="ltr">{{ chart_cell }}</td>{%- endif -%}
+                {%- endfor -%}
+              </tr>
+            {%- endif -%}
+          {%- endfor -%}
+          </tbody>
+        </table>
+      </div>
+    {%- else -%}
     {%- for chart_category in chart_categories -%}
       {%- liquid
         case chart_category
@@ -118,8 +161,9 @@
         </table>
       </div>
     {%- endfor -%}
+    {%- endif -%}
 
-    <p class="jb-chart__note">كل القياسات بالسنتيمتر، وقد تختلف 1 إلى 2 سم حسب الخامة.</p>
+    <p class="jb-chart__note">{% if chart_real.size > 0 %}كل القياسات بالسنتيمتر والقطعة مفرودة (العرض من الجنب للجنب)، وقد تختلف 1 إلى 2 سم.{% else %}كل القياسات بالسنتيمتر، وقد تختلف 1 إلى 2 سم حسب الخامة.{% endif %}</p>
   </dialog>
 </jb-size-chart>
 
