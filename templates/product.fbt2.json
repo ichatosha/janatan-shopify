@@ -293,6 +293,58 @@
         "padding_top": 32,
         "padding_bottom": 16
       }
+    },
+    "jb_care": {
+      "type": "jb-care",
+      "blocks": {
+        "c1": {
+          "type": "care",
+          "settings": {
+            "icon": "wash",
+            "text": "غسيل على 30 درجة"
+          }
+        },
+        "c2": {
+          "type": "care",
+          "settings": {
+            "icon": "bleach",
+            "text": "بدون مبيّض"
+          }
+        },
+        "c3": {
+          "type": "care",
+          "settings": {
+            "icon": "iron",
+            "text": "كيّ على حرارة منخفضة"
+          }
+        },
+        "c4": {
+          "type": "care",
+          "settings": {
+            "icon": "tumble",
+            "text": "بدون تنشيف آلي"
+          }
+        },
+        "c5": {
+          "type": "care",
+          "settings": {
+            "icon": "shade",
+            "text": "تجفيف في الظل"
+          }
+        }
+      },
+      "block_order": [
+        "c1",
+        "c2",
+        "c3",
+        "c4",
+        "c5"
+      ],
+      "settings": {
+        "eyebrow": "CARE GUIDE",
+        "heading": "إرشادات العناية",
+        "note": "اغسلي القطعة مقلوبة ومع ألوان مشابهة لتحافظ على لونها."
+      }
     }
   },
   "order": [
@@ -300,6 +352,7 @@
     "main",
     "jb_videos",
     "tabs",
+    "jb_care",
     "related",
     "recently"
   ]

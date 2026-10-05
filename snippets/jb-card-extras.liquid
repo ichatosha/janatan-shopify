@@ -16,7 +16,7 @@
     assign extras_count = extras_count | plus: 1
     assign extras_total = extras_total | plus: extras_review.rating.value
   endfor
-  assign extras_max = 6
+  assign extras_max = 4
 -%}
 
 {%- if extras_count > 0 -%}
@@ -27,6 +27,7 @@
 {%- endif -%}
 
 {%- for extras_option in product.options_with_values -%}
+  {%- assign extras_key = 'option' | append: extras_option.position -%}
   {%- capture extras_dots -%}
     {%- assign extras_shown = 0 -%}
     {%- assign extras_hidden = 0 -%}
@@ -37,15 +38,22 @@
       {%- if extras_bg == blank -%}{%- continue -%}{%- endif -%}
       {%- if extras_shown < extras_max -%}
         {%- assign extras_shown = extras_shown | plus: 1 -%}
-        <span title="{{ extras_value | escape }}" style="display:inline-block;width:14px;height:14px;border-radius:50%;border:1px solid #fff;box-shadow:0 0 0 1px rgba(0,0,0,.25);background:{{ extras_bg }}"></span>
+        {%- assign extras_variant = product.variants | where: extras_key, extras_value.name | first -%}
+        {%- if extras_variant.featured_image -%}
+          <a class="jb-thumb" href="{{ extras_variant.url }}" title="{{ extras_value | escape }}" aria-label="{{ extras_value | escape }}">
+            <img src="{{ extras_variant.featured_image | image_url: width: 96 }}" alt="" loading="lazy" width="32" height="42">
+          </a>
+        {%- else -%}
+          <span class="jb-thumb jb-thumb--dot" title="{{ extras_value | escape }}" style="background:{{ extras_bg }}"></span>
+        {%- endif -%}
       {%- else -%}
         {%- assign extras_hidden = extras_hidden | plus: 1 -%}
       {%- endif -%}
     {%- endfor -%}
-    {%- if extras_hidden > 0 -%}<span style="font-size:11px;line-height:14px;color:#545454">+{{ extras_hidden }}</span>{%- endif -%}
+    {%- if extras_hidden > 0 -%}<span class="jb-thumb__more">+{{ extras_hidden }}</span>{%- endif -%}
   {%- endcapture -%}
   {%- assign extras_dots = extras_dots | strip -%}
-  {%- if extras_dots != blank -%}
-    <div role="img" aria-label="الألوان المتاحة" style="display:flex;flex-wrap:wrap;align-items:center;justify-content:center;width:100%;gap:5px;margin-top:6px;padding:1px">{{ extras_dots }}</div>
+  {%- if extras_dots != blank and extras_option.values.size > 1 -%}
+    <div class="jb-thumbs" role="group" aria-label="الألوان المتاحة">{{ extras_dots }}</div>
   {%- endif -%}
 {%- endfor -%}
