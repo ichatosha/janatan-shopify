@@ -378,11 +378,23 @@
         "padding_bottom": 36,
         "padding_rate": 75
       }
+    },
+    "jb_videos": {
+      "type": "jb-videos",
+      "settings": {
+        "scope": "product",
+        "eyebrow": "REAL LOOKS",
+        "heading": "شوفيه على الطبيعة",
+        "subheading": "",
+        "padding_top": 32,
+        "padding_bottom": 16
+      }
     }
   },
   "order": [
     "breacrumb",
     "main",
+    "jb_videos",
     "tabs",
     "related",
     "recently",

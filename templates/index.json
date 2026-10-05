@@ -73,106 +73,6 @@
       },
       "disabled": true
     },
-    "collections_list_8JJ78c": {
-      "type": "collections-list",
-      "blocks": {
-        "collection_item_DyXCxJ": {
-          "type": "collection_item",
-          "settings": {
-            "collection": "evening-dresses",
-            "image": "{{ block.settings.collection.image }}",
-            "title": "{{ block.settings.collection.title }}",
-            "collection_link": "{{ block.settings.collection.url }}"
-          }
-        },
-        "collection_item_Yb3KgX": {
-          "type": "collection_item",
-          "settings": {
-            "collection": "elegant-blouses",
-            "image": "{{ block.settings.collection.image }}",
-            "title": "{{ block.settings.collection.title }}",
-            "collection_link": "{{ block.settings.collection.url }}"
-          }
-        },
-        "collection_item_drCYEK": {
-          "type": "collection_item",
-          "settings": {
-            "collection": "cardigans",
-            "image": "{{ block.settings.collection.image }}",
-            "title": "{{ block.settings.collection.title }}",
-            "collection_link": "{{ block.settings.collection.url }}"
-          }
-        },
-        "collection_item_w8xTrU": {
-          "type": "collection_item",
-          "settings": {
-            "collection": "satin-skirts",
-            "image": "{{ block.settings.collection.image }}",
-            "title": "{{ block.settings.collection.title }}",
-            "collection_link": "{{ block.settings.collection.url }}"
-          }
-        }
-      },
-      "block_order": [
-        "collection_item_DyXCxJ",
-        "collection_item_Yb3KgX",
-        "collection_item_drCYEK",
-        "collection_item_w8xTrU"
-      ],
-      "disabled": true,
-      "custom_css": [
-        "@media (max-width: 767px) {.hdt-slider__container {display: grid; grid-template-columns: repeat(2, 1fr); }}",
-        ".hdt-truncate {margin-bottom: 10px;}",
-        ".hdt-collection-count {display: none !important;}"
-      ],
-      "name": "t:sections.collection_list.name",
-      "settings": {
-        "heading_align": "center",
-        "sec_heading": "Collection",
-        "heading_tag": "h3",
-        "heading_size": "h3",
-        "sec_subheading": "",
-        "subheading_size": "lg",
-        "heading_reverse": false,
-        "btn_heading_collection": false,
-        "heading_gap": 18,
-        "sec_heading_spacing": 30,
-        "collection_list": [
-          "rosalyn-pants",
-          "soft-denim",
-          "denim",
-          "جيب-بنطلون-مشجر",
-          "linin-pants",
-          "dresses",
-          "shirt"
-        ],
-        "collection_des": "4",
-        "content_size": "xl",
-        "content_weight": "medium",
-        "text_transform": false,
-        "content_position": "center",
-        "content_padding": 30,
-        "image_ratio": "portrait",
-        "image_size": true,
-        "col_dk": "4",
-        "col_tb": "2",
-        "col_mb": "1",
-        "space_items": "5",
-        "half_item": false,
-        "navUI": false,
-        "nav_des": "default",
-        "nav_pos": "middle_in",
-        "dotUI": false,
-        "dots_pos": "default",
-        "section_fullwidth": false,
-        "boxed_fullwidth": false,
-        "boxed_content": false,
-        "color_scheme": "",
-        "padding_top": 35,
-        "padding_bottom": 25,
-        "padding_rate": 75
-      }
-    },
     "25d95633-b21f-43fa-90ad-eef09163772b": {
       "type": "marquee",
       "blocks": {
@@ -926,6 +826,15 @@
         "button_label": "اكتشفي العروض",
         "button_link": "shopify://collections/sale"
       }
+    },
+    "jb_videos": {
+      "type": "jb-videos",
+      "settings": {
+        "scope": "all",
+        "eyebrow": "REAL LOOKS",
+        "heading": "شوفيه على الطبيعة",
+        "subheading": "تنسيقات حقيقية بقطع جنتان"
+      }
     }
   },
   "order": [
@@ -937,11 +846,11 @@
     "jb_story",
     "jb_new",
     "jb_look",
+    "jb_videos",
     "jb_pants",
     "jb_dresses",
     "jb_statement",
     "jb_shirts",
-    "collections_list_8JJ78c",
     "featured_collection_grid_BRhWyQ",
     "featured_collection_carousel_EdHcY8",
     "collections_list_WxfThg",

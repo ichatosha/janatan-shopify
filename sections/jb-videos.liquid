@@ -1,0 +1,142 @@
+{%- comment -%}
+  Customer videos in one horizontal strip. The videos are "Customer video" entries
+  (Content > Metaobjects): each has the video file, the product it shows and its order.
+  On a product page the strip shows that product's videos only; elsewhere it shows all.
+{%- endcomment -%}
+
+{%- liquid
+  assign videos_all = shop.metaobjects.ugc_video.values | sort: 'position'
+  assign videos_only = false
+  if section.settings.scope == 'product' and product != blank
+    assign videos_only = true
+  endif
+  assign videos_count = 0
+  for entry in videos_all
+    if entry.video.value == blank
+      continue
+    endif
+    if videos_only and entry.product.value.id != product.id
+      continue
+    endif
+    assign videos_count = videos_count | plus: 1
+  endfor
+-%}
+
+{%- if videos_count > 0 -%}
+{%- render 'jb-strip-assets' -%}
+<div class="hdt-container" style="padding-top:{{ section.settings.padding_top }}px;padding-bottom:{{ section.settings.padding_bottom }}px">
+  <jb-strip class="jb-strip jb-videos">
+    <div class="jb-videos__head">
+      <div class="jb-heading">
+        {%- if section.settings.eyebrow != blank -%}<p class="jb-eyebrow" dir="ltr">{{ section.settings.eyebrow }}</p>{%- endif -%}
+        <h2 class="jb-heading__title">{{ section.settings.heading }}</h2>
+        {%- if section.settings.subheading != blank -%}<p class="jb-heading__sub">{{ section.settings.subheading }}</p>{%- endif -%}
+      </div>
+      <div class="jb-strip__tools">
+        <button type="button" dir="ltr" class="jb-strip__arrow" data-strip="prev" aria-label="السابق">&#8250;</button>
+        <button type="button" dir="ltr" class="jb-strip__arrow" data-strip="next" aria-label="التالي">&#8249;</button>
+      </div>
+    </div>
+
+    <ul class="jb-strip__track" role="list">
+      {%- for entry in videos_all -%}
+        {%- liquid
+          assign entry_video = entry.video.value
+          assign entry_product = entry.product.value
+          if entry_video == blank
+            continue
+          endif
+          if videos_only and entry_product.id != product.id
+            continue
+          endif
+          assign entry_label = entry_product.title | default: section.settings.heading
+        -%}
+        <li class="jb-strip__item jb-videos__item">
+          <jb-video class="jb-video">
+            <video class="jb-video__media" playsinline preload="none" poster="{{ entry_video.preview_image | image_url: width: 720 }}" aria-label="{{ entry_label | escape }}">
+              {%- for source in entry_video.sources -%}
+                {%- if source.format == 'mp4' -%}<source src="{{ source.url }}" type="{{ source.mime_type }}">{%- endif -%}
+              {%- endfor -%}
+            </video>
+            <button type="button" class="jb-video__play" aria-label="تشغيل الفيديو: {{ entry_label | escape }}">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg>
+            </button>
+          </jb-video>
+          {%- if videos_only == false and entry_product != blank -%}
+            <a class="jb-videos__product" href="{{ entry_product.url }}">
+              <span class="jb-videos__product-title">{{ entry_product.title }}</span>
+              <span class="jb-videos__product-link">تسوّقي المنتج</span>
+            </a>
+          {%- endif -%}
+        </li>
+      {%- endfor -%}
+    </ul>
+  </jb-strip>
+</div>
+
+<style>
+  .jb-videos__head { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; margin-bottom: 20px; }
+  .jb-videos__head .jb-heading { justify-items: start; margin-bottom: 0; text-align: start; }
+  .jb-videos .jb-videos__item { flex-basis: 62%; }
+  .jb-video { position: relative; display: block; aspect-ratio: 9 / 16; overflow: hidden; border-radius: 4px; background: var(--jb-ink); }
+  .jb-video__media { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .jb-video__play { position: absolute; inset: 0; display: grid; place-items: center; width: 100%; border: 0; background: linear-gradient(to top, rgba(20, 12, 10, .45), rgba(20, 12, 10, 0) 45%); color: #fff; cursor: pointer; }
+  .jb-video__play svg { box-sizing: content-box; padding: 16px; border: 1px solid rgba(255, 255, 255, .85); border-radius: 50%; background: rgba(20, 12, 10, .35); transition: background .2s ease, transform .2s ease; }
+  .jb-video__play:hover svg { background: var(--jb-brand); transform: scale(1.06); }
+  .jb-video__play:focus-visible { outline: 2px solid #fff; outline-offset: -4px; }
+  .jb-video.is-playing .jb-video__play { display: none; }
+  .jb-videos__product { display: grid; gap: 2px; margin-top: 10px; color: var(--jb-ink); text-decoration: none; }
+  .jb-videos__product-title { display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; font-size: 14px; line-height: 1.5; }
+  .jb-videos__product-link { justify-self: start; font-size: 12px; font-weight: 600; color: var(--jb-brand); border-bottom: 1px solid currentColor; }
+  @media (min-width: 768px) {
+    .jb-videos .jb-videos__item { flex-basis: calc(25% - 15px); }
+  }
+  @media (prefers-reduced-motion: reduce) { .jb-video__play svg { transition: none; } }
+</style>
+
+<script>
+  if (!customElements.get('jb-video')) {
+    customElements.define('jb-video', class extends HTMLElement {
+      connectedCallback() {
+        if (this.ready) return;
+        this.ready = true;
+        const video = this.querySelector('video');
+        this.querySelector('.jb-video__play').addEventListener('click', () => {
+          document.querySelectorAll('jb-video video').forEach((other) => { if (other !== video) other.pause(); });
+          video.controls = true;
+          video.play();
+        });
+        video.addEventListener('play', () => this.classList.add('is-playing'));
+        video.addEventListener('ended', () => { video.controls = false; this.classList.remove('is-playing'); });
+      }
+    });
+  }
+</script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Customer videos",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "select",
+      "id": "scope",
+      "label": "Videos to show",
+      "options": [
+        { "value": "all", "label": "All videos" },
+        { "value": "product", "label": "This product's videos (product pages)" }
+      ],
+      "default": "all"
+    },
+    { "type": "text", "id": "eyebrow", "label": "Small line above the heading", "default": "REAL LOOKS" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "شوفيه على الطبيعة" },
+    { "type": "text", "id": "subheading", "label": "Line under the heading" },
+    { "type": "range", "id": "padding_top", "label": "Top spacing", "min": 0, "max": 100, "step": 4, "unit": "px", "default": 48 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom spacing", "min": 0, "max": 100, "step": 4, "unit": "px", "default": 24 }
+  ],
+  "presets": [
+    { "name": "Customer videos" }
+  ]
+}
+{% endschema %}
