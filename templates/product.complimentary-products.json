@@ -101,10 +101,11 @@
           "type": "img_trust",
           "settings": {
             "show_icon": true,
-            "mess": "Guarantee Safe Checkout",
-            "source": "2",
-            "wimg": 350,
-            "svg": "visa,paypal,master,american_express,amazon_payments",
+            "mess": "إتمام شراء آمن 100%",
+            "source": "1",
+            "image": "shopify://shop_images/payment-212.svg",
+            "wimg": 300,
+            "svg": "visa,master,apple_pay,meeza",
             "height": 30
           }
         },
@@ -138,11 +139,11 @@
         "1248e930-5734-45b4-a1d6-a814910fdb63",
         "4fd6bfca-d3a3-432c-8392-a2d3cab423c4",
         "ad820e37-dee5-41f3-9692-bf46d9664103",
+        "9586d18a-306e-45c8-813c-3c4b0cc99315",
+        "e2b976ce-0ce6-460a-bc64-cea3ec87cb4b",
         "reviews",
         "c82992ea-b4e4-449e-81f4-95e1440436fd",
-        "complimentary_products_REqUGU",
-        "9586d18a-306e-45c8-813c-3c4b0cc99315",
-        "e2b976ce-0ce6-460a-bc64-cea3ec87cb4b"
+        "complimentary_products_REqUGU"
       ],
       "settings": {
         "space_content_media": true,
