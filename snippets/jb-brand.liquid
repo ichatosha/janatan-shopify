@@ -88,6 +88,18 @@
   /* Cart drawer: no empty tool bar over the suggested products. */
   .hdt-mini-cart__tool:not(:has(button)) { display: none; }
 
+  /* Product description: a lead line, then one point per row. */
+  .jb-desc { font-family: "Cairo", sans-serif; font-size: 15px; line-height: 1.9; color: var(--jb-ink); text-align: start; }
+  .jb-desc > p { margin: 0 0 12px; }
+  .jb-desc > p:first-child { padding-bottom: 12px; border-bottom: 1px solid var(--jb-line); font-size: 16px; }
+  .jb-desc > p:first-child strong { color: var(--jb-brand); }
+  .jb-desc > p:last-child { margin-bottom: 0; }
+  .jb-desc strong { font-weight: 700; }
+  .jb-desc ul { display: grid; gap: 8px; margin: 0 0 12px; padding: 0; list-style: none; }
+  .jb-desc ul:last-child { margin-bottom: 0; }
+  .jb-desc li { margin: 0; padding: 9px 12px; border-radius: 6px; background: var(--jb-ivory); list-style: none; }
+  .jb-desc li::before, .jb-desc li::marker { content: none; }
+
   /* Size chips: four in a row on phones. */
   @media (max-width: 767px) {
     .hdt-product-form__values:has(.jb-size-chip), .jb-bundle__values:has(.jb-bundle__size) { display: grid !important; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
