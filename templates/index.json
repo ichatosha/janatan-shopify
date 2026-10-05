@@ -674,7 +674,14 @@
         "heading": "احتشام • أناقة • جودة • تفاصيل",
         "text": "تصاميم محتشمة تجمع بين الأناقة، الراحة والتفاصيل الراقية.",
         "button_label": "تسوّقي المجموعة",
-        "button_link": "shopify://collections/all-products"
+        "button_link": "shopify://collections/all-products",
+        "products": [
+          "جيب-بنطلون-واسع-شميز-3",
+          "tonic4color",
+          "galaxy9colors",
+          "جيب-بنطلون-واسع-شميز",
+          "plain-satin-shirt-black"
+        ]
       }
     },
     "jb_promise": {
