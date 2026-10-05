@@ -23,7 +23,6 @@
   {%- assign extras_average = extras_total | times: 1.0 | divided_by: extras_count | round: 1 -%}
   <div style="display:flex;align-items:center;justify-content:center;width:100%;margin-top:4px;font-size:12px;line-height:1.4;color:#545454">
     {%- render 'jb-stars', rating: extras_average, size: 13 -%}
-    <span style="margin-inline-start:4px">({{ extras_count }})</span>
   </div>
 {%- endif -%}
 

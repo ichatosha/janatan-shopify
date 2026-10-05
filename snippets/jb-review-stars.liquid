@@ -28,10 +28,8 @@
 {%- if reviews_count > 0 -%}
   {%- assign reviews_average = reviews_total | times: 1.0 | divided_by: reviews_count | round: 1 -%}
   <div class="hdt-product-info__item" data-type="{{ block.type }}" {{ block.shopify_attributes }}>
-    <a href="#jb-reviews" style="display:inline-flex;align-items:center;gap:8px;color:inherit;text-decoration:none;font-size:14px">
+    <a href="#jb-reviews" aria-label="التقييم {{ reviews_average }} من 5" style="display:inline-flex;align-items:center;gap:8px;color:inherit;text-decoration:none;font-size:14px">
       {%- render 'jb-stars', rating: reviews_average, size: 18 -%}
-      <span style="font-weight:700">{{ reviews_average }}</span>
-      <span style="color:#545454;text-decoration:underline">({% if reviews_count == 1 %}رأي واحد{% elsif reviews_count == 2 %}رأيين{% elsif reviews_count > 10 %}{{ reviews_count }} رأي{% else %}{{ reviews_count }} آراء{% endif %})</span>
       {%- if reviews_sample -%}<span style="padding:1px 8px;border-radius:40px;background:#3a3b3d;color:#fff;font-size:11px">نموذج</span>{%- endif -%}
     </a>
   </div>
