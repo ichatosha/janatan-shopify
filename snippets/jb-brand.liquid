@@ -55,6 +55,7 @@
   .jb-thumb { display: block; width: 32px; height: 42px; border: 1px solid var(--jb-line); border-radius: 3px; overflow: hidden; background: var(--jb-ivory); transition: border-color .2s ease; }
   .jb-thumb img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top; }
   .jb-thumb:hover, .jb-thumb:focus-visible { border-color: var(--jb-brand); outline: none; }
+  .jb-thumb.is-active { border-color: var(--jb-ink); box-shadow: 0 0 0 1px var(--jb-ink); }
   .jb-thumb--dot { box-shadow: inset 0 0 0 2px #fff; }
   .jb-thumb__more { font-size: 12px; font-weight: 600; color: #545454; }
 
@@ -95,3 +96,26 @@
     .jb-size-chip span:last-child, .jb-bundle__size small { font-size: 10px !important; white-space: nowrap; }
   }
 </style>
+
+<script>
+  /* A colour photo on a product card shows that colour in the card instead of leaving the page. */
+  if (!window.jbThumbs) {
+    window.jbThumbs = true;
+    document.addEventListener('click', (event) => {
+      const thumb = event.target.closest('a.jb-thumb[data-image]');
+      if (!thumb) return;
+      const card = thumb.closest('.hdt-card-product, .jb-pcard');
+      const image = card && card.querySelector('.hdt-card-product__media--main, .jb-pcard__media img');
+      if (!image) return;
+      event.preventDefault();
+      image.removeAttribute('srcset');
+      image.removeAttribute('sizes');
+      image.src = thumb.dataset.image;
+      const hover = card.querySelector('.hdt-card-product__media--hover');
+      if (hover) hover.remove();
+      card.querySelectorAll('a[data-pr-url], a.jb-pcard__media, a.jb-pcard__title').forEach((link) => { link.href = thumb.href; });
+      card.querySelectorAll('.jb-thumb.is-active').forEach((other) => other.classList.remove('is-active'));
+      thumb.classList.add('is-active');
+    });
+  }
+</script>

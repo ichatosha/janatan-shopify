@@ -1,0 +1,98 @@
+{%- comment -%}
+  Customer reviews from the chosen products, in one horizontal strip. Each card shows the
+  stars, the customer's words, the chat screenshot and the product it is about.
+{%- endcomment -%}
+
+{%- liquid
+  assign strip_products = section.settings.products
+  assign strip_per = section.settings.per_product
+  assign strip_total = 0
+  for strip_product in strip_products
+    for review in strip_product.metafields.custom.reviews.value limit: strip_per
+      assign strip_total = strip_total | plus: 1
+    endfor
+  endfor
+-%}
+
+{%- if strip_total > 0 -%}
+{%- render 'jb-strip-assets' -%}
+<div class="jb-rstrip" style="margin-top:{{ section.settings.padding_top }}px;margin-bottom:{{ section.settings.padding_bottom }}px">
+  <div class="hdt-container">
+    <jb-strip class="jb-strip">
+      <div class="jb-rstrip__head">
+        <div class="jb-heading">
+          {%- if section.settings.eyebrow != blank -%}<p class="jb-eyebrow" dir="ltr">{{ section.settings.eyebrow }}</p>{%- endif -%}
+          <h2 class="jb-heading__title">{{ section.settings.heading }}</h2>
+        </div>
+        <div class="jb-strip__tools">
+          <button type="button" dir="ltr" class="jb-strip__arrow" data-strip="prev" aria-label="السابق">&#8250;</button>
+          <button type="button" dir="ltr" class="jb-strip__arrow" data-strip="next" aria-label="التالي">&#8249;</button>
+        </div>
+      </div>
+
+      <ul class="jb-strip__track" role="list">
+        {%- for strip_product in strip_products -%}
+          {%- for review in strip_product.metafields.custom.reviews.value limit: strip_per -%}
+            <li class="jb-strip__item jb-rstrip__item">
+              <article class="jb-rcard">
+                {%- if review.screenshot.value != blank -%}
+                  <div class="jb-rcard__shot">
+                    {{ review.screenshot.value | image_url: width: 720 | image_tag: loading: 'lazy', sizes: '(min-width: 768px) 30vw, 78vw', widths: '360, 540, 720', alt: 'صورة من محادثة العميلة' }}
+                  </div>
+                {%- endif -%}
+                <div class="jb-rcard__body">
+                  {%- render 'jb-stars', rating: review.rating.value, size: 15 -%}
+                  {%- if review.text.value != blank -%}<p class="jb-rcard__text">{{ review.text.value | escape }}</p>{%- endif -%}
+                  <p class="jb-rcard__meta">
+                    <span class="jb-rcard__name">{{ review.name.value | escape }}</span>
+                    <a class="jb-rcard__product" href="{{ strip_product.url }}">{{ strip_product.title }}</a>
+                  </p>
+                </div>
+              </article>
+            </li>
+          {%- endfor -%}
+        {%- endfor -%}
+      </ul>
+    </jb-strip>
+  </div>
+</div>
+
+<style>
+  .jb-rstrip { padding: 40px 0; background: var(--jb-ivory); color: var(--jb-ink); }
+  .jb-rstrip__head { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; margin-bottom: 20px; }
+  .jb-rstrip__head .jb-heading { justify-items: start; margin-bottom: 0; text-align: start; }
+  .jb-strip .jb-rstrip__item { flex-basis: 78%; }
+  .jb-rcard { display: flex; flex-direction: column; height: 100%; border: 1px solid var(--jb-line); border-radius: 6px; background: #fff; overflow: hidden; }
+  .jb-rcard__shot { height: 230px; padding: 10px; background: #fff; border-bottom: 1px solid var(--jb-line); }
+  .jb-rcard__shot img { display: block; width: 100%; height: 100%; object-fit: contain; object-position: center; }
+  .jb-rcard__body { display: grid; gap: 8px; align-content: start; padding: 14px 16px 16px; }
+  .jb-rcard__text { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; margin: 0; font-size: 14px; line-height: 1.8; }
+  .jb-rcard__meta { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 4px 10px; margin: 0; padding-top: 8px; border-top: 1px solid var(--jb-line); font-size: 12px; }
+  .jb-rcard__name { font-weight: 700; }
+  .jb-rcard__product { display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; max-width: 60%; color: var(--jb-brand); text-decoration: none; border-bottom: 1px solid transparent; }
+  .jb-rcard__product:hover { border-bottom-color: currentColor; }
+  @media (min-width: 768px) {
+    .jb-rstrip { padding: 56px 0; }
+    .jb-strip .jb-rstrip__item { flex-basis: calc(33.333% - 14px); }
+    .jb-rcard__shot { height: 260px; }
+  }
+</style>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Reviews strip",
+  "tag": "section",
+  "settings": [
+    { "type": "product_list", "id": "products", "label": "Products to take reviews from", "limit": 8 },
+    { "type": "range", "id": "per_product", "label": "Reviews per product", "min": 1, "max": 6, "step": 1, "default": 3 },
+    { "type": "text", "id": "eyebrow", "label": "Small line above the heading", "default": "REVIEWS" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "آراء عميلاتنا" },
+    { "type": "range", "id": "padding_top", "label": "Top spacing", "min": 0, "max": 100, "step": 4, "unit": "px", "default": 40 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom spacing", "min": 0, "max": 100, "step": 4, "unit": "px", "default": 0 }
+  ],
+  "presets": [
+    { "name": "Reviews strip" }
+  ]
+}
+{% endschema %}

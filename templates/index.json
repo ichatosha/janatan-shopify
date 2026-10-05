@@ -226,104 +226,6 @@
       },
       "disabled": true
     },
-    "collections_list_WxfThg": {
-      "type": "collections-list",
-      "blocks": {
-        "collection_item_T4aMA3": {
-          "type": "collection_item",
-          "settings": {
-            "collection": "rosalyn-pants",
-            "title": "جيب بنطلون روزالين",
-            "collection_link": ""
-          }
-        },
-        "collection_item_dEEExj": {
-          "type": "collection_item",
-          "settings": {
-            "collection": "dresses",
-            "title": "فساتين",
-            "collection_link": ""
-          }
-        },
-        "collection_item_mykfkW": {
-          "type": "collection_item",
-          "settings": {
-            "collection": "shirt",
-            "image": "{{ block.settings.collection.image }}",
-            "title": "{{ block.settings.collection.title }}",
-            "collection_link": "{{ block.settings.collection.url }}"
-          }
-        },
-        "collection_item_eaALiW": {
-          "type": "collection_item",
-          "settings": {
-            "collection": "denim",
-            "image": "{{ block.settings.collection.image }}",
-            "title": "{{ block.settings.collection.title }}",
-            "collection_link": "{{ block.settings.collection.url }}"
-          }
-        }
-      },
-      "block_order": [
-        "collection_item_T4aMA3",
-        "collection_item_dEEExj",
-        "collection_item_mykfkW",
-        "collection_item_eaALiW"
-      ],
-      "disabled": true,
-      "custom_css": [
-        "@media (max-width: 767px) {.hdt-slider__container {display: grid; grid-template-columns: repeat(2, 1fr); }}",
-        ".hdt-truncate {margin-bottom: 10px;}",
-        ".hdt-collection-count {display: none !important;}"
-      ],
-      "name": "t:sections.collection_list.name",
-      "settings": {
-        "heading_align": "center",
-        "sec_heading": "مجموعات جنتان",
-        "heading_tag": "h2",
-        "heading_size": "h3",
-        "sec_subheading": "<p>منتجات جنتان المختلفة </p>",
-        "subheading_size": "lg",
-        "heading_reverse": false,
-        "btn_heading_collection": false,
-        "heading_gap": 18,
-        "sec_heading_spacing": 30,
-        "collection_list": [
-          "rosalyn-pants",
-          "denim",
-          "soft-denim",
-          "جيب-بنطلون-مشجر",
-          "shirt",
-          "dresses",
-          "linin-pants"
-        ],
-        "collection_des": "8",
-        "content_size": "2xl",
-        "content_weight": "medium",
-        "text_transform": false,
-        "content_position": "center",
-        "content_padding": 30,
-        "image_ratio": "portrait",
-        "image_size": true,
-        "col_dk": "6",
-        "col_tb": "4",
-        "col_mb": "1",
-        "space_items": "5",
-        "half_item": false,
-        "navUI": false,
-        "nav_des": "default",
-        "nav_pos": "middle_in",
-        "dotUI": false,
-        "dots_pos": "default",
-        "section_fullwidth": false,
-        "boxed_fullwidth": false,
-        "boxed_content": false,
-        "color_scheme": "",
-        "padding_top": 10,
-        "padding_bottom": 10,
-        "padding_rate": 75
-      }
-    },
     "slideshow_split_mXtW8n": {
       "type": "slideshow-split",
       "blocks": {
@@ -539,7 +441,8 @@
         "padding_top": 30,
         "padding_bottom": 30,
         "padding_rate": 75
-      }
+      },
+      "disabled": true
     },
     "1778444672ae19c5ed": {
       "type": "apps",
@@ -766,7 +669,7 @@
     "jb_statement": {
       "type": "jb-statement",
       "settings": {
-        "collection": "dresses",
+        "collection": "all-products",
         "eyebrow": "JANATAN",
         "heading": "احتشام • أناقة • جودة • تفاصيل",
         "text": "تصاميم محتشمة تجمع بين الأناقة، الراحة والتفاصيل الراقية.",
@@ -836,6 +739,23 @@
         "heading": "شوفيه على الطبيعة",
         "subheading": "تنسيقات حقيقية بقطع جنتان"
       }
+    },
+    "jb_reviews": {
+      "type": "jb-reviews-strip",
+      "settings": {
+        "products": [
+          "womenwidepants",
+          "meltonpants",
+          "linen-pants-black",
+          "denim-pants-blue",
+          "patternpants",
+          "tonic4color",
+          "galaxy9colors"
+        ],
+        "per_product": 2,
+        "eyebrow": "REVIEWS",
+        "heading": "آراء عميلاتنا"
+      }
     }
   },
   "order": [
@@ -854,10 +774,10 @@
     "jb_shirts",
     "featured_collection_grid_BRhWyQ",
     "featured_collection_carousel_EdHcY8",
-    "collections_list_WxfThg",
     "slideshow_split_mXtW8n",
     "17661772600ecd4289",
     "image_gallery_BV7FCe",
+    "jb_reviews",
     "testimonials_9Qrpab",
     "1778444672ae19c5ed",
     "cef9818d-d174-4a85-935f-31cd9035f495",

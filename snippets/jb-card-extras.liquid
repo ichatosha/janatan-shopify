@@ -40,7 +40,7 @@
         {%- assign extras_shown = extras_shown | plus: 1 -%}
         {%- assign extras_variant = product.variants | where: extras_key, extras_value.name | first -%}
         {%- if extras_variant.featured_image -%}
-          <a class="jb-thumb" href="{{ extras_variant.url }}" title="{{ extras_value | escape }}" aria-label="{{ extras_value | escape }}">
+          <a class="jb-thumb" href="{{ extras_variant.url }}" data-image="{{ extras_variant.featured_image | image_url: width: 800 }}" title="{{ extras_value | escape }}" aria-label="عرض لون {{ extras_value | escape }}">
             <img src="{{ extras_variant.featured_image | image_url: width: 96 }}" alt="" loading="lazy" width="32" height="42">
           </a>
         {%- else -%}
