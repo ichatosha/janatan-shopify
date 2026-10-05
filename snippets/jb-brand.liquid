@@ -38,6 +38,10 @@
   }
   @media (prefers-reduced-motion: reduce) { .jb-button { transition: none; } }
 
+  /* Header menu in the display face, like the section headings. */
+  .hdt-nav__ul > .hdt-menu-item > .hdt-menu-link, .hdt-nav__ul > .hdt-menu-item > hdt-header-menu > details > .hdt-menu-link,
+  .hdt-nav__ul-mb > .hdt-menu-item > .hdt-menu-link, .hdt-nav__ul-mb > .hdt-menu-item > hdt-accordion > details > .hdt-menu-link { font-family: var(--jb-display); font-size: 19px; font-weight: 700; }
+
   /* Product cards: price centred, sale price in red, old price struck through. */
   .hdt-card-product .hdt-price__list, .jb-pcard .hdt-price__list { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: center; gap: 2px 8px; }
   .hdt-card-product hdt-compare-at-price, .hdt-card-product hdt-compare-at-price .hdt-money,
