@@ -1,0 +1,41 @@
+{%- comment -%}
+  Renders one laundry symbol.
+  Accepts:
+  - icon: {String} wash30, wash40, wash (30), hand, bleach, iron1, iron2, iron3, iron (1 dot),
+    tumble (do not), tumblelow, line, shade.
+
+  Usage:
+  {% render 'jb-care-icon', icon: 'wash30' %}
+{%- endcomment -%}
+
+<svg viewBox="0 0 48 48" width="34" height="34" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+  {%- case icon -%}
+    {%- when 'wash', 'wash30', 'wash40' -%}
+      <path d="M6 14l4 22h28l4-22"/><path d="M6 14c3-3 6 3 9 0s6 3 9 0 6 3 9 0 6 3 9 0"/>
+      <text x="24" y="31" text-anchor="middle" font-size="11" font-family="Poppins, sans-serif" fill="currentColor" stroke="none">{% if icon == 'wash40' %}40{% else %}30{% endif %}</text>
+    {%- when 'hand' -%}
+      <path d="M6 16l4 20h28l4-20"/><path d="M6 16c3-3 6 3 9 0s6 3 9 0 6 3 9 0 6 3 9 0"/>
+      <path d="M19 30v-8a2 2 0 014 0v5m0-2a2 2 0 014 0v3m0-1a2 2 0 014 0v4"/>
+    {%- when 'bleach' -%}
+      <path d="M24 8L42 38H6z"/><path d="M12 12l24 28M36 12L12 40"/>
+    {%- when 'iron', 'iron1', 'iron2', 'iron3' -%}
+      <path d="M8 34h34c0-9-6-15-16-15H14"/><path d="M8 34l4-11"/>
+      {%- if icon == 'iron2' -%}
+        <circle cx="22" cy="28" r="1.4" fill="currentColor" stroke="none"/><circle cx="28" cy="28" r="1.4" fill="currentColor" stroke="none"/>
+      {%- elsif icon == 'iron3' -%}
+        <circle cx="19" cy="28" r="1.4" fill="currentColor" stroke="none"/><circle cx="25" cy="28" r="1.4" fill="currentColor" stroke="none"/><circle cx="31" cy="28" r="1.4" fill="currentColor" stroke="none"/>
+      {%- else -%}
+        <circle cx="25" cy="28" r="1.4" fill="currentColor" stroke="none"/>
+      {%- endif -%}
+    {%- when 'tumble' -%}
+      <rect x="8" y="8" width="32" height="32" rx="2"/><circle cx="24" cy="24" r="11"/><path d="M8 8l32 32M40 8L8 40"/>
+    {%- when 'tumblelow' -%}
+      <rect x="8" y="8" width="32" height="32" rx="2"/><circle cx="24" cy="24" r="11"/><circle cx="24" cy="24" r="1.6" fill="currentColor" stroke="none"/>
+    {%- when 'line' -%}
+      <rect x="8" y="8" width="32" height="32" rx="2"/><path d="M8 8c5 9 27 9 32 0"/>
+    {%- when 'shade' -%}
+      <rect x="8" y="8" width="32" height="32" rx="2"/><path d="M8 18l10-10M8 26L26 8"/><path d="M16 22h16M16 30h16"/>
+    {%- else -%}
+      <rect x="8" y="8" width="32" height="32" rx="2"/>
+  {%- endcase -%}
+</svg>

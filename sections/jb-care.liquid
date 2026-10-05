@@ -2,7 +2,35 @@
   Care instructions as a row of laundry symbols with a short line under each.
 {%- endcomment -%}
 
-{%- if section.blocks.size > 0 -%}
+{%- liquid
+  comment
+    Care lines per fabric, picked from the product's name. Format: symbol|text, lines separated by ";".
+    Products whose fabric is not recognised fall back to the blocks set in the theme editor.
+  endcomment
+  assign care_fabric = ''
+  assign care_lines = ''
+  if product != blank
+    if product.title contains 'ساتان' or product.description contains 'شميز ستان'
+      assign care_fabric = 'ساتان'
+      assign care_lines = 'hand|غسيل يدوي أو دورة هادئة بماء بارد;bleach|بدون مبيّض;iron1|كيّ من الظهر على حرارة منخفضة;tumble|بدون تنشيف آلي;line|تجفيف على الشماعة'
+    elsif product.title contains 'جينز'
+      assign care_fabric = 'جينز'
+      assign care_lines = 'wash30|غسيل بماء بارد والقطعة مقلوبة;bleach|بدون مبيّض;iron2|كيّ من الظهر على حرارة متوسطة;tumblelow|تنشيف آلي على حرارة متوسطة;line|أو تجفيف على الحبل'
+    elsif product.title contains 'كتان'
+      assign care_fabric = 'كتان'
+      assign care_lines = 'wash30|غسيل بماء بارد;bleach|بدون مبيّض;iron3|كيّ على حرارة عالية والقطعة رطبة;tumblelow|تنشيف آلي على حرارة منخفضة;line|أو تجفيف على الحبل'
+    elsif product.title contains 'بوبلين'
+      assign care_fabric = 'بوبلين قطن'
+      assign care_lines = 'wash30|غسيل بماء بارد على دورة هادئة;bleach|بدون مبيّض;iron2|كيّ من الظهر على حرارة متوسطة;tumblelow|تنشيف آلي على حرارة منخفضة;line|أو تجفيف على الحبل'
+    elsif product.title contains 'روزالين' or product.title contains 'سوفت'
+      assign care_fabric = 'بوليستر'
+      assign care_lines = 'wash40|غسيل على 40 درجة;bleach|بدون مبيّض;iron1|كيّ على حرارة منخفضة;tumblelow|تنشيف آلي على حرارة منخفضة;line|أو تجفيف على الحبل'
+    endif
+  endif
+  assign care_lines = care_lines | split: ';'
+-%}
+
+{%- if section.blocks.size > 0 or care_lines.size > 0 -%}
 <div class="hdt-container" style="padding-top:{{ section.settings.padding_top }}px;padding-bottom:{{ section.settings.padding_bottom }}px">
   <div class="jb-care">
     <div class="jb-heading">
@@ -10,34 +38,22 @@
       <h2 class="jb-heading__title">{{ section.settings.heading }}</h2>
     </div>
     <ul class="jb-care__list" role="list">
-      {%- for block in section.blocks -%}
-        <li class="jb-care__item" {{ block.shopify_attributes }}>
-          <span class="jb-care__icon" aria-hidden="true">
-            <svg viewBox="0 0 48 48" width="34" height="34" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-              {%- case block.settings.icon -%}
-                {%- when 'wash' -%}
-                  <path d="M6 14l4 22h28l4-22"/><path d="M6 14c3-3 6 3 9 0s6 3 9 0 6 3 9 0 6 3 9 0"/>
-                  <text x="24" y="31" text-anchor="middle" font-size="11" font-family="Poppins, sans-serif" fill="currentColor" stroke="none">30</text>
-                {%- when 'hand' -%}
-                  <path d="M6 16l4 20h28l4-20"/><path d="M6 16c3-3 6 3 9 0s6 3 9 0 6 3 9 0 6 3 9 0"/>
-                  <path d="M19 30v-8a2 2 0 014 0v5m0-2a2 2 0 014 0v3m0-1a2 2 0 014 0v4"/>
-                {%- when 'bleach' -%}
-                  <path d="M24 8L42 38H6z"/><path d="M12 12l24 28M36 12L12 40"/>
-                {%- when 'iron' -%}
-                  <path d="M8 34h34c0-9-6-15-16-15H14"/><path d="M8 34l4-11"/>
-                  <circle cx="25" cy="28" r="1.4" fill="currentColor" stroke="none"/>
-                {%- when 'tumble' -%}
-                  <rect x="8" y="8" width="32" height="32" rx="2"/><circle cx="24" cy="24" r="11"/><path d="M8 8l32 32M40 8L8 40"/>
-                {%- when 'shade' -%}
-                  <rect x="8" y="8" width="32" height="32" rx="2"/><path d="M8 18l10-10M8 26L26 8"/><path d="M16 22h16M16 30h16"/>
-                {%- else -%}
-                  <rect x="8" y="8" width="32" height="32" rx="2"/><path d="M14 8c0 6 20 6 20 0"/>
-              {%- endcase -%}
-            </svg>
-          </span>
-          <span class="jb-care__text">{{ block.settings.text }}</span>
-        </li>
-      {%- endfor -%}
+      {%- if care_lines.size > 0 -%}
+        {%- for care_line in care_lines -%}
+          {%- assign care_parts = care_line | split: '|' -%}
+          <li class="jb-care__item">
+            <span class="jb-care__icon" aria-hidden="true">{%- render 'jb-care-icon', icon: care_parts[0] -%}</span>
+            <span class="jb-care__text">{{ care_parts[1] }}</span>
+          </li>
+        {%- endfor -%}
+      {%- else -%}
+        {%- for block in section.blocks -%}
+          <li class="jb-care__item" {{ block.shopify_attributes }}>
+            <span class="jb-care__icon" aria-hidden="true">{%- render 'jb-care-icon', icon: block.settings.icon -%}</span>
+            <span class="jb-care__text">{{ block.settings.text }}</span>
+          </li>
+        {%- endfor -%}
+      {%- endif -%}
     </ul>
     {%- if section.settings.note != blank -%}<p class="jb-care__note">{{ section.settings.note }}</p>{%- endif -%}
   </div>
